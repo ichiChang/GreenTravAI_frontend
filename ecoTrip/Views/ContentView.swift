@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = TravelPlanViewModel()
+    @State var showChatView = false
 
     var body: some View {
         NavigationView {
@@ -30,13 +31,42 @@ struct ContentView: View {
                     }) {
                         Image(systemName: "plus")
                     }
+                   
                 }
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showChatView.toggle()
+                    } label: {
+                        Image(.customerService)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 50)
+                    }
+                    .padding(.trailing)
+                   
+                   
+                }
+                
+                }
+                .padding(20)
+
             }
             .onAppear {
                 viewModel.fetchTravelPlans()
             }
+            .sheet(isPresented: $showChatView){
+                ChatView()
+            }
+           
         }
     }
+
+
+#Preview {
+    ContentView()
 }
 
 

@@ -22,6 +22,8 @@
 		10C55ED52BF0A09C000751EE /* ecoTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55ED42BF0A09C000751EE /* ecoTripTests.swift */; };
 		10C55EDF2BF0A09C000751EE /* ecoTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */; };
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
+		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
+		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		10C55EDA2BF0A09C000751EE /* ecoTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecoTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITests.swift; sourceTree = "<group>"; };
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 				105E35B62C00CB0A0047E2F1 /* TravelPlan.swift */,
 				105E35B82C00CB520047E2F1 /* Day.swift */,
 				105E35BA2C00CB640047E2F1 /* Place.swift */,
+				FD8C9E4D2C03281400C5BBF0 /* File.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -113,6 +118,7 @@
 				10A8558A2C00CCD4004F0207 /* ContentView.swift */,
 				10A8558C2C00CD13004F0207 /* StopListView.swift */,
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
+				FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -306,9 +312,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
+				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
+				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
 				10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */,
 				10A8558F2C00CDA5004F0207 /* DayListView.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,

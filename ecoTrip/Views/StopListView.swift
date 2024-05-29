@@ -40,6 +40,6 @@ struct StopListView: View {
     }
 }
 
-#Preview {
-    StopListView()
-}
+//#Preview {
+//    StopListView()
+//}
