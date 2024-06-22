@@ -24,6 +24,10 @@
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
 		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
+		FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297712C1EFCAE00FE09FC /* LandingView.swift */; };
+		FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297732C1F1A9500FE09FC /* LoginView.swift */; };
+		FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297752C1F1AA300FE09FC /* SignupView.swift */; };
+		FDE297782C26646800FE09FC /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297772C26646800FE09FC /* MenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,10 @@
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		FDE297712C1EFCAE00FE09FC /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
+		FDE297732C1F1A9500FE09FC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		FDE297752C1F1AA300FE09FC /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		FDE297772C26646800FE09FC /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +127,10 @@
 				10A8558C2C00CD13004F0207 /* StopListView.swift */,
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
 				FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */,
+				FDE297712C1EFCAE00FE09FC /* LandingView.swift */,
+				FDE297732C1F1A9500FE09FC /* LoginView.swift */,
+				FDE297752C1F1AA300FE09FC /* SignupView.swift */,
+				FDE297772C26646800FE09FC /* MenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,8 +331,12 @@
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
 				10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */,
 				10A8558F2C00CDA5004F0207 /* DayListView.swift in Sources */,
+				FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */,
+				FDE297782C26646800FE09FC /* MenuView.swift in Sources */,
+				FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
+				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
 			);

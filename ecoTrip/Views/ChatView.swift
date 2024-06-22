@@ -37,8 +37,8 @@ struct ChatView: View {
                     
                     Image(systemName: "chevron.down")  
                     // 使用透明的假按钮保持平衡
-                          .opacity(0)  // 使其透明
-                          .font(.system(size: 30))
+                      .opacity(0)  // 使其透明
+                      .font(.system(size: 30))
 
                        
                         
