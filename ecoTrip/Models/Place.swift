@@ -7,14 +7,24 @@
 
 import Foundation
 
-struct Place: Identifiable, Codable, Hashable {
-    var id: Int
-    var name: String
-    var openingTime: String?
+struct Place: Codable, Identifiable, Hashable {
+    var id: String {
+        return _id["$oid"] ?? UUID().uuidString
+    }
     var address: String
-    var long: String
+    var image: String
     var lat: String
-    var rating: Float
+    var long: String
     var lowCarbon: Bool
+    var openingTime: String
+    var placename: String
+    var rating: Float
+    
+    private var _id: [String: String]
+
+    enum CodingKeys: String, CodingKey {
+        case _id, address, image, lat, long, lowCarbon, openingTime, placename , rating
+    }
 }
+
 
