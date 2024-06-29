@@ -12,6 +12,8 @@
 		105E35BB2C00CB640047E2F1 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105E35BA2C00CB640047E2F1 /* Place.swift */; };
 		105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105E35BC2C00CB8F0047E2F1 /* Transportation.swift */; };
 		106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EA1E72BF6F76100DC5661 /* Stop.swift */; };
+		1092160B2C2EAF4C0038DD61 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092160A2C2EAF4C0038DD61 /* AuthViewModel.swift */; };
+		1092160D2C2EAFD20038DD61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092160C2C2EAFD20038DD61 /* User.swift */; };
 		10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A855872C00CC9A004F0207 /* TravelPlenViewModel.swift */; };
 		10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A8558A2C00CCD4004F0207 /* ContentView.swift */; };
 		10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A8558C2C00CD13004F0207 /* StopListView.swift */; };
@@ -24,6 +26,7 @@
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
 		FD70906D2C296E6800209E72 /* AgentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD70906C2C296E6800209E72 /* AgentView.swift */; };
 		FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7090702C2F00E500209E72 /* SiteInfoView.swift */; };
+		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
 		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
 		FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297712C1EFCAE00FE09FC /* LandingView.swift */; };
@@ -55,6 +58,8 @@
 		105E35BA2C00CB640047E2F1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		105E35BC2C00CB8F0047E2F1 /* Transportation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transportation.swift; sourceTree = "<group>"; };
 		106EA1E72BF6F76100DC5661 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		1092160A2C2EAF4C0038DD61 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		1092160C2C2EAFD20038DD61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		10A855872C00CC9A004F0207 /* TravelPlenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlenViewModel.swift; sourceTree = "<group>"; };
 		10A8558A2C00CCD4004F0207 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		10A8558C2C00CD13004F0207 /* StopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopListView.swift; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD70906C2C296E6800209E72 /* AgentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentView.swift; sourceTree = "<group>"; };
 		FD7090702C2F00E500209E72 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
+		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		FDE297712C1EFCAE00FE09FC /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
@@ -107,6 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				10A855872C00CC9A004F0207 /* TravelPlenViewModel.swift */,
+				10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */,
+				1092160A2C2EAF4C0038DD61 /* AuthViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -120,6 +128,7 @@
 				105E35B82C00CB520047E2F1 /* Day.swift */,
 				105E35BA2C00CB640047E2F1 /* Place.swift */,
 				FD8C9E4D2C03281400C5BBF0 /* File.swift */,
+				1092160C2C2EAFD20038DD61 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -338,13 +347,16 @@
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
 				FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */,
 				10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */,
+				1092160B2C2EAF4C0038DD61 /* AuthViewModel.swift in Sources */,
 				10A8558F2C00CDA5004F0207 /* DayListView.swift in Sources */,
 				FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */,
 				FDE297782C26646800FE09FC /* MenuView.swift in Sources */,
 				FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
+				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
+				10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
 			);

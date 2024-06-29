@@ -17,7 +17,7 @@ class TravelPlanViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
 
     func fetchTravelPlans() {
-        guard let url = URL(string: "http://your-api-url/travelplans") else { return }
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans") else { return }
         URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .decode(type: [TravelPlan].self, decoder: JSONDecoder())
