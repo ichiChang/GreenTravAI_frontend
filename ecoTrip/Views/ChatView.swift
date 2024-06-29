@@ -135,6 +135,7 @@ struct MessageCell: View {
             .cornerRadius(10)
     }
 }
+
 extension Color {
     static let cloloABC = Color(hex: "#FFFFFF", alpha: 0.5)
 

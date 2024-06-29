@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  LandingView.swift
 //  ecoTrip
 //
 //  Created by 陳萭鍒 on 2024/6/16.

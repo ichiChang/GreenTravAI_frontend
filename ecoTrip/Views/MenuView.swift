@@ -55,8 +55,8 @@ struct MenuView: View {
                     }
                     .padding(10)
                     .frame(width: 90, height: 41)
-                    .background(Color.white) // 確保背景顏色與邊框顏色一致
-                    .cornerRadius(10) // 設置圓角半徑
+                    .background(Color.white)
+                    .cornerRadius(10)
                     .overlay(
                        RoundedRectangle(cornerRadius: 5)
                            .stroke(Color.black, lineWidth: 3)
@@ -184,11 +184,8 @@ struct MenuView: View {
             CustomTabs()
 
         }
-  
             
         }
-    
-
 
     }
 
@@ -202,6 +199,7 @@ struct MenuView_Previews: PreviewProvider {
 struct CustomTabs : View{
     var body: some View{
         HStack(alignment: .bottom, spacing: 10){
+            
             Button(action: {}, label: {
                 Image(.searchGreen)
                     .resizable()
@@ -218,9 +216,7 @@ struct CustomTabs : View{
                     .padding(10)
             })
             
-            
-
-            
+        
     
             Button(action: {},label: {
                 
@@ -231,12 +227,9 @@ struct CustomTabs : View{
                     .padding(10)
             })
               
-         
-            
-            
-            
-            
-            Button(action: {}, label: {
+            Button(action: {
+                
+            }, label: {
                 Image(.agent)
                     .resizable()
                     .frame(width:40,height: 40)
