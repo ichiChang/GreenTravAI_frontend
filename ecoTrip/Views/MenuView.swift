@@ -177,10 +177,10 @@ struct MenuView: View {
             
             Spacer()
             
-            Circle()
-                .frame(width: 105)
-                .offset(y: 90)
-                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+//            Circle()
+//                .frame(width: 105)
+//                .offset(y: 90)
+//                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
             
             CustomTabs()
         }

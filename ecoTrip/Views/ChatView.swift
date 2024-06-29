@@ -28,13 +28,7 @@ struct ChatView: View {
                     }
                     Spacer()
                 
-                    
-                    Text("Travel Agent")
-                        .font(.title)
-                        .foregroundStyle(.white)
-                        .bold()
-                    Spacer()
-                    
+                   
                     Image(systemName: "chevron.down")  
                     // 使用透明的假按钮保持平衡
                       .opacity(0)  // 使其透明
@@ -107,9 +101,9 @@ struct MessageView : View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             if !currentMessage.isCurrentUser {
-                Image(.customerService)
+                Image(.travelAgent)
                     .resizable()
-                    .frame(width: 50, height: 50, alignment: .center)
+                    .frame(width: 30, height: 30, alignment: .center)
                     .cornerRadius(20)
                     
             } else {
