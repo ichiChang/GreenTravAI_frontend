@@ -76,6 +76,7 @@ struct SiteInfoView: View {
                 Image(.garden)
                     .resizable()
                     .scaledToFit()
+                    .ignoresSafeArea()
              
         }
         

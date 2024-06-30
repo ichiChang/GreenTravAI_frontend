@@ -32,6 +32,7 @@ struct LoginView: View {
             }
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             .background(Color.init(hex: "F5EFCF", alpha: 0.5))
+            .padding(.bottom)
      
             
 
