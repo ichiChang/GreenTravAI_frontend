@@ -8,20 +8,25 @@ import SwiftUI
 
 struct MenuView: View {
     @State var index = 0
+    @State var index1 = 0
     @State var showChatView = false
 
     
     var body: some View {
-        VStack(spacing: 0) {
-        
+        VStack {
+            SearchView(index1: $index1)
             
-            SearchView()
+                
             CustomTabs(index: $index, showChatView: $showChatView)
-              
-        } 
+
+        }
         .sheet(isPresented: $showChatView) {
             ChatView()
-        }
+        }        
+
+
+
+
        
     }
 }
@@ -32,6 +37,8 @@ struct CustomTabs: View {
     @Binding var showChatView: Bool
     
     var body: some View {
+        
+        Spacer()
         HStack(alignment: .bottom, spacing: 10) {
             Button(action: {
                 self.index = 0
