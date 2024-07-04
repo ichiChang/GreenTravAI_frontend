@@ -13,10 +13,12 @@ struct SearchView: View{
     @FocusState private var focus: Bool
     @Binding var index1: Int
     
+    @State private var navigateToSiteInfo = false
+    
     
     
     var body: some View{
- 
+        NavigationView  {
             VStack(alignment: .center) {
                 
                 // Search bar
@@ -123,13 +125,12 @@ struct SearchView: View{
                 .padding(10)
                 
                 // Display places
+                
                 ScrollView {
                     ForEach(placeViewModel.places) { place in
                         VStack(spacing: 0) {
-                            ZStack(alignment: .topLeading) {
-                                Button(action: {
-                                    // 按鈕動作
-                                }) {
+                            VStack(spacing: 0) {
+                                ZStack(alignment: .topLeading) {
                                     if place.lowCarbon {
                                         Image(.greenlabel2)
                                             .resizable()
@@ -138,66 +139,70 @@ struct SearchView: View{
                                             .padding(10)
                                             .zIndex(1)
                                     }
+                                    NavigationLink(destination: SiteInfoView()) {
+                                        AsyncImage(url: URL(string: place.image)) { phase in
+                                            if let image = phase.image {
+                                                image.resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 320, height: 150)
+                                                    .clipped()
+                                            } else if phase.error != nil {
+                                                Color.red // Indicates an error.
+                                                    .frame(width: 320, height: 150)
+                                            } else {
+                                                Color.gray // Acts as a placeholder.
+                                                    .frame(width: 320, height: 150)
+                                            }
+                                        }}
                                 }
-                                .zIndex(1)
                                 
-                                AsyncImage(url: URL(string: place.image)) { phase in
-                                    if let image = phase.image {
-                                        image.resizable()
-                                            .scaledToFill()
-                                            .frame(width: 320, height: 150)
-                                            .clipped()
-                                    } else if phase.error != nil {
-                                        Color.red // Indicates an error.
-                                            .frame(width: 320, height: 150)
-                                    } else {
-                                        Color.gray // Acts as a placeholder.
-                                            .frame(width: 320, height: 150)
+                                
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(place.placename).bold()
+                                            .font(.title2)
+                                            .padding(.top, 10)
+                                            .padding(.leading, 10)
+                                            .padding(.bottom, 5)
+                                        
+                                        Text(place.address)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                            .padding(.leading, 10)
+                                            .padding(.bottom, 10)
+                                    }
+                                    
+                                    Spacer()
+                                        .frame(minWidth: 30, maxWidth: 70)
+                                    Button(action: {
+                                        // 按鈕動作
+                                    }) {
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(.black)
+                                            .padding(10)
                                     }
                                 }
+                                .frame(width: 320, height: 80, alignment: .leading)
+                                .background(Color.white)
                             }
-                            
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(place.placename).bold()
-                                        .font(.title2)
-                                        .padding(.top, 10)
-                                        .padding(.leading, 10)
-                                        .padding(.bottom, 5)
-                                    
-                                    Text(place.address)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                        .padding(.leading, 10)
-                                        .padding(.bottom, 10)
-                                }
-                                
-                                Spacer()
-                                    .frame(minWidth: 30, maxWidth: 70)
-                                Button(action: {
-                                    // 按鈕動作
-                                }) {
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 18, height: 18)
-                                        .foregroundColor(.black)
-                                        .padding(10)
-                                }
-                            }
-                            .frame(width: 320, height: 80, alignment: .leading)
-                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(radius: 5)
+                            .padding(20)
                         }
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
-                        .padding(20)
                     }
                 }
-                
-       
+                .navigationDestination(isPresented: $navigateToSiteInfo) {
+                    SiteInfoView()
+                }
             }
-
         }
     }
+}
+
+        
+    
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {

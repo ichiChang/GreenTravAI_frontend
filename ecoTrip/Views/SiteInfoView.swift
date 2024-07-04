@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SiteInfoView: View {
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         VStack(spacing:0){
   
@@ -16,6 +18,7 @@ struct SiteInfoView: View {
                     
                     Button(action: {
                         // 按鈕動作
+                        dismiss()
                     }) {
                         ZStack{
                             Circle()
@@ -184,6 +187,7 @@ struct SiteInfoView: View {
             
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
        
     }
 }

@@ -11,129 +11,99 @@ struct PlanView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var indexd: Int
     
+    
+    
+    // Array to hold the days
+    @State var days = ["7/1", "7/2", "7/3"]
+    
     var body: some View {
         VStack {
+            // Top bar with back button
             HStack {
-                Button{
+                Button(action: {
                     dismiss()
-                }label: {
+                }, label: {
                     Image(systemName: "chevron.down")
                         .foregroundStyle(.white)
                         .font(.system(size: 30))
-                    
-                }
+                })
+                .padding()
+                
                 Spacer()
                 
-                
                 Image(systemName: "chevron.down")
-                // 使用透明的假按钮保持平衡
-                    .opacity(0)  // 使其透明
+                    .opacity(0)
                     .font(.system(size: 30))
-                
-                
-                
             }
             .frame(maxWidth: .infinity)
-            .padding(20)
             .background(Color.init(hex: "5E845B", alpha: 1.0))
             
-
-            
-            // Day section
-            HStack(alignment:.bottom, spacing:0) {
-                // Day1
-                Button(action: {
-                    self.indexd = 0
-                    
-                }, label: {
-                    HStack {
-                        
-                        Text("7/1")
-                            .font(.title3)
-                            .foregroundColor(indexd == 0 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                        
+            // Days section
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .bottom, spacing: 0) {
+                    ForEach(Array(days.enumerated()), id: \.element) { index, day in
+                        Button(action: {
+                            self.indexd = index
+                        }, label: {
+                            Text(day)
+                                .bold()
+                                .font(.system(size: 20))
+                                .foregroundColor(indexd == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+                                .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 50)
+                                .background(indexd == index ? .white : Color.init(hex: "F5EFCF", alpha: 1.0))
+                            
+                        })
                     }
-                    .frame(width: 90, height: 50)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(indexd == 0 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                    )
-                })
-           
-                
-                // 餐廳 button
-                Button(action: {
-                    self.indexd = 1
-                }, label: {
-                    HStack {
-                        Text("7/2")
-                            .foregroundColor(indexd == 1 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                    }
-       
-                    .frame(width: 90, height: 41)
-                    .background(Color.init(hex: "F5EFCF", alpha: 1.0))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(indexd == 1 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                    )
-                })
-    
-                
-                // 住宿 button
-                Button(action: {
-                    self.indexd = 2
                     
-                }, label: {
-                    HStack {
-                        Text("7/3")
-                            .foregroundColor(indexd == 2 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                    }
-             
-                    .frame(width: 90, height: 41)
-                    .background(Color.init(hex: "F5EFCF", alpha: 1.0))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(indexd == 2 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                    )
-                })
-         
-                
-                Button(action: {
-                    self.indexd = 2
-                    
-                }, label: {
-                    HStack {
+                    // Add day button
+                    Button(action: {
+                        let nextDay = "7/\(days.count + 1)"
+                        days.append(nextDay)
+                    }, label: {
                         Image(systemName: "plus")
                             .foregroundColor(.white)
-                            .frame(width: 21, height: 21)
-                  
-                    }
+                            .frame(width: 30, height: 30)
+                    })
                     .padding(10)
-                    .frame(width: 45, height: 41)
+                    .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 50)
                     .background(Color.init(hex: "D1CECE", alpha: 1.0))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(indexd == 2 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                    )
-                })
-                
-            Spacer()
-          
+                }
             }
-            .padding(.top)
-            .padding(.trailing)
-            .padding(.bottom)
+ 
             
-            Spacer()
-        }
-    }
-}
+          
+        
 
-#Preview {
-    PlanView( indexd: .constant(0))
+            
+            PlaceListView()
+            
+            // 新增行程 button
+            Button(action: {
+               
+
+            }, label: {
+                Text("新增行程")
+                    .bold()
+                    .font(.system(size: 25))
+                    .foregroundColor(.white)
+            })
+            .frame(width: 300, height: 42)
+            .background(Color.init(hex: "5E845B", alpha: 1.0))
+            .cornerRadius(10)
+            .padding()
+                Spacer()
+            }
+            
+         
+  
+       
+        }
+     
+    }
+
+// Preview
+struct PlanView_Previews: PreviewProvider {
+    static var previews: some View {
+        PlanView(indexd: .constant(0))
+    }
 }

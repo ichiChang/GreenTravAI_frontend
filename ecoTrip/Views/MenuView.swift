@@ -9,23 +9,34 @@ import SwiftUI
 struct MenuView: View {
     @State var index = 0
     @State var index1 = 0
+    @State var indexd = 0
     @State var showChatView = false
+    @State var showPlanView = false
+  
 
     
     var body: some View {
-        VStack {
-            SearchView(index1: $index1)
-            
+            VStack {
+                SearchView(index1: $index1)
                 
-            CustomTabs(index: $index, showChatView: $showChatView)
-
-        }
-        .sheet(isPresented: $showChatView) {
-            ChatView()
-        }        
-
-
-
+                
+                CustomTabs(index: $index,
+                           showChatView: $showChatView, showPlanView: $showPlanView
+                )
+                
+                
+                
+            }
+            .sheet(isPresented: $showChatView) {
+                ChatView()
+            }
+            .sheet(isPresented: $showPlanView) {
+                PlanView(indexd: $indexd)
+            }
+            
+            
+            
+        
 
        
     }
@@ -35,6 +46,7 @@ struct MenuView: View {
 struct CustomTabs: View {
     @Binding var index: Int
     @Binding var showChatView: Bool
+    @Binding var showPlanView: Bool
     
     var body: some View {
         
@@ -60,6 +72,7 @@ struct CustomTabs: View {
             
             Button(action: {
                 self.index = 2
+                showPlanView.toggle()
             }, label: {
                 ZStack {
                     Circle()
@@ -99,6 +112,8 @@ struct CustomTabs: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color(hex: "5E845B"))
+        .navigationBarBackButtonHidden(true)
+
     }
 }
 

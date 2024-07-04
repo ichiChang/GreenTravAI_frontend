@@ -25,6 +25,9 @@
 		10C55EDF2BF0A09C000751EE /* ecoTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */; };
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
+		FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD47687E2C3533B900C01DA6 /* PlaceView.swift */; };
+		FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768802C35355800C01DA6 /* PlaceListView.swift */; };
+		FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */; };
 		FD601C242C3298D1000443BE /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD601C232C3298D1000443BE /* PlanView.swift */; };
 		FD70906D2C296E6800209E72 /* AgentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD70906C2C296E6800209E72 /* AgentView.swift */; };
 		FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7090702C2F00E500209E72 /* SiteInfoView.swift */; };
@@ -76,6 +79,9 @@
 		10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITests.swift; sourceTree = "<group>"; };
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
+		FD47687E2C3533B900C01DA6 /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
+		FD4768802C35355800C01DA6 /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
+		FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		FD601C232C3298D1000443BE /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FD70906C2C296E6800209E72 /* AgentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentView.swift; sourceTree = "<group>"; };
 		FD7090702C2F00E500209E72 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 				105E35BA2C00CB640047E2F1 /* Place.swift */,
 				FD8C9E4D2C03281400C5BBF0 /* File.swift */,
 				1092160C2C2EAFD20038DD61 /* User.swift */,
+				FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,6 +159,8 @@
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
 				FD601C232C3298D1000443BE /* PlanView.swift */,
+				FD47687E2C3533B900C01DA6 /* PlaceView.swift */,
+				FD4768802C35355800C01DA6 /* PlaceListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -350,9 +359,11 @@
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
+				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
 				FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */,
 				10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */,
+				FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */,
 				1092160B2C2EAF4C0038DD61 /* AuthViewModel.swift in Sources */,
 				FDA587832C3190F1000EFB2C /* SearchView.swift in Sources */,
 				10A8558F2C00CDA5004F0207 /* DayListView.swift in Sources */,
@@ -362,6 +373,7 @@
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
 				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
+				FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
 				10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
