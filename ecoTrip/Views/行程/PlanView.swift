@@ -10,6 +10,8 @@ import SwiftUI
 struct PlanView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var indexd: Int
+    @State var showNewPlan = false
+
     
     
     
@@ -17,7 +19,7 @@ struct PlanView: View {
     @State var days = ["7/1", "7/2", "7/3"]
     
     var body: some View {
-        VStack {
+        VStack(spacing:0) {
             // Top bar with back button
             HStack {
                 Button(action: {
@@ -64,7 +66,6 @@ struct PlanView: View {
                             .foregroundColor(.white)
                             .frame(width: 30, height: 30)
                     })
-                    .padding(10)
                     .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 50)
                     .background(Color.init(hex: "D1CECE", alpha: 1.0))
                 }
@@ -80,6 +81,7 @@ struct PlanView: View {
             // 新增行程 button
             Button(action: {
                
+                showNewPlan.toggle()
 
             }, label: {
                 Text("新增行程")
@@ -91,13 +93,20 @@ struct PlanView: View {
             .background(Color.init(hex: "5E845B", alpha: 1.0))
             .cornerRadius(10)
             .padding()
-                Spacer()
+            
+            Spacer()
+            }
+            .sheet(isPresented: $showNewPlan) {
+                NewPlan()
+                .presentationDetents([.height(650)])
+
             }
             
          
   
        
         }
+      
      
     }
 
