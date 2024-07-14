@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlaceChoice: View {
     @State private var textInput = ""
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         VStack{
@@ -24,20 +25,37 @@ struct PlaceChoice: View {
         
             Spacer()
             
-            Button(action: {
-               
+            HStack{
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Text("返回")
+                        .bold()
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                })
+                .frame(width: 120, height: 42)
+                .background(Color.init(hex: "5E845B", alpha: 1.0))
+                .cornerRadius(10)
+                .padding()
         
-
-            }, label: {
-                Text("確定")
-                    .bold()
-                    .font(.system(size: 25))
-                    .foregroundColor(.white)
-            })
-            .frame(width: 300, height: 42)
-            .background(Color.init(hex: "5E845B", alpha: 1.0))
-            .cornerRadius(10)
-            .padding()
+                
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Text("確定")
+                        .bold()
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                })
+                .frame(width: 120, height: 42)
+                .background(Color.init(hex: "5E845B", alpha: 1.0))
+                .cornerRadius(10)
+                .padding()
+      
+                
+            }
+            
         }
         .navigationBarBackButtonHidden(true)
 

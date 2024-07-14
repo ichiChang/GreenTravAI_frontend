@@ -16,7 +16,7 @@ struct PlanView: View {
     
     
     // Array to hold the days
-    @State var days = ["7/1", "7/2", "7/3"]
+    @State var days = ["8/1", "8/2", "8/3"]
     
     var body: some View {
         VStack(spacing:0) {
@@ -25,7 +25,7 @@ struct PlanView: View {
                 Button(action: {
                     dismiss()
                 }, label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "chevron.left")
                         .foregroundStyle(.white)
                         .font(.system(size: 30))
                 })
@@ -50,16 +50,16 @@ struct PlanView: View {
                             Text(day)
                                 .bold()
                                 .font(.system(size: 20))
-                                .foregroundColor(indexd == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+                                .foregroundColor(indexd == index ? .black : .white)
                                 .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 50)
-                                .background(indexd == index ? .white : Color.init(hex: "F5EFCF", alpha: 1.0))
+                                .background(indexd == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
                             
                         })
                     }
                     
                     // Add day button
                     Button(action: {
-                        let nextDay = "7/\(days.count + 1)"
+                        let nextDay = "8/\(days.count + 1)"
                         days.append(nextDay)
                     }, label: {
                         Image(systemName: "plus")
@@ -67,7 +67,7 @@ struct PlanView: View {
                             .frame(width: 30, height: 30)
                     })
                     .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 50)
-                    .background(Color.init(hex: "D1CECE", alpha: 1.0))
+                    .background(Color.init(hex: "999999", alpha: 1.0))
                 }
             }
  
@@ -75,8 +75,9 @@ struct PlanView: View {
           
         
 
+         
+//            PlaceListView()
             
-            PlaceListView()
             
             // 新增行程 button
             Button(action: {
@@ -92,7 +93,7 @@ struct PlanView: View {
             .frame(width: 300, height: 42)
             .background(Color.init(hex: "5E845B", alpha: 1.0))
             .cornerRadius(10)
-            .padding()
+            .padding(30)
             
             Spacer()
             }
@@ -101,11 +102,14 @@ struct PlanView: View {
                 .presentationDetents([.height(650)])
 
             }
+            .navigationBarBackButtonHidden(true)
+
             
          
   
        
         }
+      
       
      
     }
