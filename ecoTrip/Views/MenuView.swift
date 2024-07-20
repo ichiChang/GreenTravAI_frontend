@@ -31,7 +31,7 @@ struct MenuView: View {
                 ChatView()
             }
             .sheet(isPresented: $showPlanView) {
-                PlanView(indexd: $indexd)
+                PlanMenuView()
             }
             
             
