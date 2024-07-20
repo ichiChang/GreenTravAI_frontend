@@ -24,6 +24,7 @@
 		10C55ED52BF0A09C000751EE /* ecoTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55ED42BF0A09C000751EE /* ecoTripTests.swift */; };
 		10C55EDF2BF0A09C000751EE /* ecoTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */; };
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
+		10DA61052C4404A700EAE64B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA61042C4404A700EAE64B /* RootView.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
 		FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD47687E2C3533B900C01DA6 /* PlaceView.swift */; };
 		FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768802C35355800C01DA6 /* PlaceListView.swift */; };
@@ -80,6 +81,7 @@
 		10C55EDA2BF0A09C000751EE /* ecoTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecoTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITests.swift; sourceTree = "<group>"; };
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		10DA61042C4404A700EAE64B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		FD47687E2C3533B900C01DA6 /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
 		FD4768802C35355800C01DA6 /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
 				FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */,
 				FDE297712C1EFCAE00FE09FC /* LandingView.swift */,
+				10DA61042C4404A700EAE64B /* RootView.swift */,
 				FDE297732C1F1A9500FE09FC /* LoginView.swift */,
 				FDE297752C1F1AA300FE09FC /* SignupView.swift */,
 				FDE297772C26646800FE09FC /* MenuView.swift */,
@@ -373,6 +376,7 @@
 				FD70906D2C296E6800209E72 /* AgentView.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
+				10DA61052C4404A700EAE64B /* RootView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
 				FD4D02542C3BD8DE0037F969 /* NewPlan.swift in Sources */,
 				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,
