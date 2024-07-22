@@ -39,8 +39,6 @@ struct LoginView: View {
                 .padding(.bottom)
                 
                 
-                
-                
                 VStack(alignment: .leading){
                     Text("電子郵件")
                         .padding(.leading)
@@ -71,10 +69,14 @@ struct LoginView: View {
                         .padding(.bottom)
                 }
                 
+                if let error = authViewModel.loginError {
+                    Text(error.description)
+                        .foregroundColor(.red)
+                        .padding()
+                        .bold()
+                }
                 Button(action: {
-//                    authViewModel.login(username: username, password: password)
-                    self.navigateToMenu = true
-                    
+                    authViewModel.login(username: username, password: password)
                 }) {
                     Text("登入").bold()
                         .foregroundColor(.white)
