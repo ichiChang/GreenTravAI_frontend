@@ -11,10 +11,26 @@ struct Memo: View {
     @State private var textInput = ""
     @Environment(\.dismiss) var dismiss
     @FocusState private var focus: Bool
+
+    
     var body: some View {
         
         VStack(spacing: 0){
-      
+            Button{
+                dismiss()
+            }label: {
+                Image(systemName: "chevron.down")
+                    .resizable()
+                    .bold()
+                    .frame(width:42, height: 15)
+                    .foregroundStyle(Color.init(hex: "8F785C", alpha: 1.0))
+                
+                
+            }
+            .padding(20)
+            
+            Spacer()
+            
             HStack{
             
                 Text("行程細節備註")
@@ -63,7 +79,7 @@ struct Memo: View {
                 .frame(width: 120, height: 42)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 .cornerRadius(10)
-                .padding()
+                .padding(30)
         
                 
                 Button(action: {
@@ -81,6 +97,7 @@ struct Memo: View {
       
                 
             }
+            Spacer()
             
         }
         .navigationBarBackButtonHidden(true)

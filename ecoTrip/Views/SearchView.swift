@@ -12,10 +12,10 @@ struct SearchView: View{
     @State private var textInput = ""
     @FocusState private var focus: Bool
     @Binding var index1: Int
-    
+    @Binding var indexheart: Int
     @State private var navigateToSiteInfo = false
     
-    
+
     
     var body: some View{
         NavigationView  {
@@ -36,16 +36,11 @@ struct SearchView: View{
                         .focused($focus)
                         .padding(.vertical, 10)
                     
-                    // Filter icon
-                    Button(action: {}, label: {
-                        Image(.filter)
-                            .frame(width: 45, height: 45)
-                            .padding(.trailing, 10)
-                    })
+                 
                 }
                 .background(Color.init(hex: "E8E8E8", alpha: 1.0))
                 .cornerRadius(10)
-                .padding(10)
+                .padding()
                 .onAppear {
                     focus = true
                     placeViewModel.fetchPlaces() // Fetch places when the view appears
@@ -129,16 +124,42 @@ struct SearchView: View{
                 ScrollView {
                     ForEach(placeViewModel.places) { place in
                         VStack(spacing: 0) {
-                            VStack(spacing: 0) {
-                                ZStack(alignment: .topLeading) {
-                                    if place.lowCarbon {
-                                        Image(.greenlabel2)
-                                            .resizable()
-                                            .frame(width: 45, height: 45)
-                                            .foregroundColor(.black)
-                                            .padding(10)
-                                            .zIndex(1)
+                            ZStack(alignment:.top){
+                                Button(action: {
+                                    self.indexheart = self.indexheart == 0 ? 1 : 0
+
+                                }, label: {
+                                    HStack{
+                                        if place.lowCarbon {
+                                            Image(.greenlabel2)
+                                                .resizable()
+                                                .frame(width: 40, height: 40)
+                                                .foregroundColor(.black)
+                                                .padding(10)
+                                              
+                                        }
+                                        Spacer()
+                                        ZStack{
+                                            Circle()
+                                                .foregroundColor(.white)
+                                                .frame(width:40,height: 40)
+                                                .padding(5)
+                                            Image(systemName: indexheart == 0 ? "heart" : "heart.fill")
+                                                .resizable()
+                                                .frame(width:20,height: 20)
+                                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                                .bold()
+                                           
+                                               
+
+                                        }
                                     }
+                                    
+                                })
+                                .frame(width: 320, height: 80)
+                                .zIndex(1)
+                                   
+                                    
                                     NavigationLink(destination: SiteInfoView()) {
                                         AsyncImage(url: URL(string: place.image)) { phase in
                                             if let image = phase.image {
@@ -199,13 +220,13 @@ struct SearchView: View{
             }
         }
     }
-}
+
 
         
     
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(index1: .constant(0))
+        SearchView(index1: .constant(0), indexheart: .constant(0))
     }
 }

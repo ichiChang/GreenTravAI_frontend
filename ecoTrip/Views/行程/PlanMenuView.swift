@@ -17,7 +17,8 @@ struct PlanMenuView: View {
     @State var selectedDates: Set<DateComponents> = []
     @State private var navigateToPlanView = false
     @State private var indexd = 0
-    
+    @State private var planName: String = ""
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -39,6 +40,20 @@ struct PlanMenuView: View {
                         .frame(height: 100)
          
                     VStack(alignment: .leading) {
+                        
+                        Text("行程名稱")
+                            .bold()
+                            .foregroundStyle(.white)
+                            .font(.system(size: 20))
+                        
+                        TextField("", text: $planName)
+                            .padding(.horizontal)
+                            .frame(width: 330, height: 36)
+                            .background(.white)
+                            .cornerRadius(10)
+                            .padding(.bottom)
+                        
+                        
                         
                         HStack {
                             Text("目的地")
@@ -152,8 +167,8 @@ struct PlanMenuView: View {
                     .presentationDetents([.medium])
             }
             .sheet(isPresented: $showDatePicker) {
-                DatePicker(selectedDates: $selectedDates)
-                    .presentationDetents([.medium])
+                DatePick(selectedDates: $selectedDates)
+                    .presentationDetents([.height(435)])
             }
             .sheet(isPresented: $showRidePicker) {
                 RidePicker(selectedRide: $selectedRide)

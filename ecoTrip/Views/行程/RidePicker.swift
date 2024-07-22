@@ -32,6 +32,7 @@ struct RidePicker: View {
             
             Text("請選擇主要交通方式")
                 .font(.system(size: 20))
+                .padding(.top)
            
              
           
