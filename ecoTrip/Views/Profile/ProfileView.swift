@@ -17,16 +17,28 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             HStack {
+                
+                Spacer()
+             
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.init(hex: "5E845B", alpha: 1.0))
+            
+            HStack {
                 Circle()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 70, height: 70)
                     .foregroundColor(Color(hex: "D9D9D9", alpha: 1.0))
                     .padding()
                 Text("陳雨柔")
                     .bold()
                     .font(.system(size: 25))
+                    .foregroundColor(.black)
                 Spacer()
             }
-            .padding()
+            .padding(.horizontal)
+
+
 
             HStack(spacing: 0) {
                 IconView(icon: .suitcase, isSelected: selectedIcon == .suitcase) {
@@ -51,6 +63,7 @@ struct ProfileView: View {
            }
             Spacer()
         }
+
     }
 }
 

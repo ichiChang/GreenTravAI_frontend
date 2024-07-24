@@ -71,6 +71,7 @@ struct PlanView: View {
                         .background(Color.init(hex: "999999", alpha: 1.0))
                     }
                 }
+                .padding(.bottom)
                 
                 
                 
@@ -94,7 +95,7 @@ struct PlanView: View {
                 .frame(width: 300, height: 42)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 .cornerRadius(10)
-                .padding()
+                .padding(10)
                 
                 
                 // 地圖 button

@@ -63,19 +63,23 @@ struct ChatView: View {
                 
                 // send new message
                 HStack {
-                    TextField("傳送訊息", text: $newMessage)
-                        .padding(15)
-                        .textFieldStyle(.roundedBorder)
-                        .cornerRadius(20)
+                    TextField("Aa", text: $newMessage)
+                        .textFieldStyle(OvalBorder())
+                        .padding(.leading,30)
+                        .padding(.top,30)
+                        .padding(.trailing,10)
+
+                   
                     
                     
                     Button(action: sendMessage)   {
-                        Image(systemName: "paperplane")
+                        Image(systemName: "paperplane.fill")
                         .foregroundStyle(.white)
                         .font(.system(size: 30))
+                        .padding(.trailing,30)
+                        .padding(.top,30)
                     }
                 }
-                .padding(20)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
 
             }
@@ -83,6 +87,16 @@ struct ChatView: View {
         
         
         
+    }
+    struct OvalBorder: TextFieldStyle {
+        func _body(configuration: TextField<Self._Label>) -> some View {
+            configuration
+                .padding(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30)
+                        .foregroundColor(Color.init(hex: "F5EFCF", alpha: 1.0))
+                )
+        }
     }
     
     func sendMessage() {

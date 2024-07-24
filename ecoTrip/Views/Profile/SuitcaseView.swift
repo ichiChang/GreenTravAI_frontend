@@ -14,12 +14,12 @@ struct SuitcaseView: View {
                 HStack{
                     Text("宜蘭三天兩夜")
                         .bold()
-                        .font(.system(size: 23))
+                        .font(.system(size: 20))
                         .foregroundColor(.black)
                     Spacer()
                     Image(systemName: "chevron.right")
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 15, height: 15)
                         .bold()
                         .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
 
@@ -32,11 +32,34 @@ struct SuitcaseView: View {
                 )
 
             })
-
-            .frame(width: 312, height: 118)
+            .frame(width: 300, height: 100)
+            .padding()
             
 
-        
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                HStack{
+                    Text("台南三天兩夜")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .bold()
+                        .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+
+
+                }
+                .padding(40)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 25)
+                        .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 3)
+                )
+
+            })
+            .frame(width: 300, height: 100)
+            .padding()
 
         }
     }

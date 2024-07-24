@@ -10,7 +10,6 @@ import SwiftUI
 struct SearchView: View{
     @StateObject private var placeViewModel = PlaceViewModel()
     @State private var textInput = ""
-    @FocusState private var focus: Bool
     @Binding var index1: Int
     @Binding var indexheart: Int
     @State private var navigateToSiteInfo = false
@@ -20,6 +19,14 @@ struct SearchView: View{
     var body: some View{
         NavigationView  {
             VStack(alignment: .center) {
+                HStack {
+                    
+                    Spacer()
+                 
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.init(hex: "5E845B", alpha: 1.0))
                 
                 // Search bar
                 HStack {
@@ -33,7 +40,6 @@ struct SearchView: View{
                         .onSubmit {
                             print(textInput)
                         }
-                        .focused($focus)
                         .padding(.vertical, 10)
                     
                  
@@ -42,7 +48,6 @@ struct SearchView: View{
                 .cornerRadius(10)
                 .padding()
                 .onAppear {
-                    focus = true
                     placeViewModel.fetchPlaces() // Fetch places when the view appears
                 }
                 
@@ -56,13 +61,13 @@ struct SearchView: View{
                         HStack {
                             Image(systemName:"mappin.and.ellipse")
                                 .foregroundColor(index1 == 0 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                .frame(width: 21, height: 21)
+                                .frame(width: 20, height: 20)
                             Text("附近")
+                                .font(.system(size: 15))
                                 .foregroundColor(index1 == 0 ? .black : Color.init(hex: "999999", alpha: 1.0))
                             
                         }
-                        .padding(10)
-                        .frame(width: 90, height: 41)
+                        .frame(width: 90, height: 35)
                         .background(Color.white)
                         .cornerRadius(10)
                         .overlay(
@@ -79,12 +84,12 @@ struct SearchView: View{
                         HStack {
                             Image(systemName: "fork.knife")
                                 .foregroundColor(index1 == 1 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                .frame(width: 21, height: 21)
+                                .frame(width: 20, height: 20)
                             Text("餐廳")
+                                .font(.system(size: 15))
                                 .foregroundColor(index1 == 1 ? .black : Color.init(hex: "999999", alpha: 1.0))
                         }
-                        .padding(10)
-                        .frame(width: 90, height: 41)
+                        .frame(width: 90, height: 35)
                         .background(Color.white)
                         .cornerRadius(10)
                         .overlay(
@@ -102,12 +107,12 @@ struct SearchView: View{
                         HStack {
                             Image(systemName: "bed.double.fill")
                                 .foregroundColor(index1 == 2 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                .frame(width: 21, height: 21)
+                                .frame(width: 20, height: 20)
                             Text("住宿")
+                                .font(.system(size: 15))
                                 .foregroundColor(index1 == 2 ? .black : Color.init(hex: "999999", alpha: 1.0))
                         }
-                        .padding(10)
-                        .frame(width: 90, height: 41)
+                        .frame(width: 90, height: 35)
                         .background(Color.white)
                         .cornerRadius(10)
                         .overlay(
@@ -117,7 +122,6 @@ struct SearchView: View{
                     })
                     .padding(.horizontal, 5)
                 }
-                .padding(10)
                 
                 // Display places
                 
@@ -156,7 +160,7 @@ struct SearchView: View{
                                     }
                                     
                                 })
-                                .frame(width: 320, height: 80)
+                                .frame(width: 280, height: 60)
                                 .zIndex(1)
                                    
                                     
@@ -165,14 +169,14 @@ struct SearchView: View{
                                             if let image = phase.image {
                                                 image.resizable()
                                                     .scaledToFill()
-                                                    .frame(width: 320, height: 150)
+                                                    .frame(width: 280, height: 130)
                                                     .clipped()
                                             } else if phase.error != nil {
                                                 Color.red // Indicates an error.
-                                                    .frame(width: 320, height: 150)
+                                                    .frame(width: 280, height: 130)
                                             } else {
                                                 Color.gray // Acts as a placeholder.
-                                                    .frame(width: 320, height: 150)
+                                                    .frame(width: 280, height: 130)
                                             }
                                         }}
                                 }
@@ -180,21 +184,20 @@ struct SearchView: View{
                                 
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text(place.placename).bold()
-                                            .font(.title2)
-                                            .padding(.top, 10)
+                                        Text(place.placename)
+                                            .font(.system(size: 20))
+                                            .bold()
+                                            .padding(.top, 15)
                                             .padding(.leading, 10)
-                                            .padding(.bottom, 5)
+                                            .padding(.bottom, 3)
                                         
                                         Text(place.address)
-                                            .font(.subheadline)
+                                            .font(.system(size: 15))
                                             .foregroundColor(.gray)
                                             .padding(.leading, 10)
-                                            .padding(.bottom, 10)
+                                            .padding(.bottom, 15)
                                     }
-                                    
-                                    Spacer()
-                                        .frame(minWidth: 30, maxWidth: 70)
+                                   
                                     Button(action: {
                                         // 按鈕動作
                                     }) {
@@ -202,10 +205,10 @@ struct SearchView: View{
                                             .resizable()
                                             .frame(width: 18, height: 18)
                                             .foregroundColor(.black)
-                                            .padding(10)
+                                            .padding(.leading,25)
                                     }
                                 }
-                                .frame(width: 320, height: 80, alignment: .leading)
+                                .frame(width: 280, height: 60, alignment: .leading)
                                 .background(Color.white)
                             }
                             .cornerRadius(20)

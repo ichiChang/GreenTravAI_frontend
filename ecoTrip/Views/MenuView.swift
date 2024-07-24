@@ -14,12 +14,15 @@ struct MenuView: View {
     @State var showChatView = false
     @State var showPlanView = false
     @State var showProfileView = false
+    @State var showShortCutView = false
     @State var showSearchView = true  // Set default view to SearchView
 
     var body: some View {
         VStack {
             if showProfileView {
                 ProfileView()
+            }  else if showShortCutView {
+                ShortCutView()
             } else if showSearchView {
                 SearchView(index1: $index1, indexheart: $indexheart)
             }
@@ -28,7 +31,8 @@ struct MenuView: View {
                         showChatView: $showChatView,
                         showPlanView: $showPlanView,
                         showProfileView: $showProfileView,
-                        showSearchView: $showSearchView)
+                        showSearchView: $showSearchView,
+                       showShortCutView: $showShortCutView)
         }
         .sheet(isPresented: $showChatView) {
             ChatView()
@@ -45,6 +49,7 @@ struct CustomTabs: View {
     @Binding var showPlanView: Bool
     @Binding var showProfileView: Bool
     @Binding var showSearchView: Bool
+    @Binding var showShortCutView: Bool
 
     var body: some View {
         Spacer()
@@ -55,6 +60,7 @@ struct CustomTabs: View {
                 showProfileView = false
                 showChatView = false
                 showPlanView = false
+                showShortCutView = false
                 showSearchView = true
             }, label: {
                 Image(index == 0 ? "searchGreen" : "searchWhite")
@@ -66,7 +72,7 @@ struct CustomTabs: View {
             // Other buttons should also reset showSearchView when they are active
             Button(action: {
                 self.index = 1
-                showSearchView = false
+                showShortCutView.toggle()
             }, label: {
                 Image(index == 1 ? "squareGreen" : "square")
                     .resizable()
@@ -76,7 +82,6 @@ struct CustomTabs: View {
 
             Button(action: {
                 self.index = 2
-                showSearchView = false
                 showPlanView.toggle()
             }, label: {
                 ZStack {
@@ -94,7 +99,6 @@ struct CustomTabs: View {
 
             Button(action: {
                 self.index = 3
-                showSearchView = false
                 showChatView.toggle()
             }, label: {
                 Image(index == 3 ? "agent" : "agent")
@@ -105,8 +109,7 @@ struct CustomTabs: View {
 
             Button(action: {
                 self.index = 4
-                showSearchView = false
-                showProfileView = true  // Show ProfileView when the user info button is tapped
+                showProfileView = true
             }, label: {
                 Image(index == 4 ? "userInfogreen" : "UserInfo")
                     .resizable()

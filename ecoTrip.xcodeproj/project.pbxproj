@@ -51,6 +51,7 @@
 		FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297732C1F1A9500FE09FC /* LoginView.swift */; };
 		FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297752C1F1AA300FE09FC /* SignupView.swift */; };
 		FDE297782C26646800FE09FC /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297772C26646800FE09FC /* MenuView.swift */; };
+		FDFE30262C4F5CBB00B0552F /* ShortCutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,8 @@
 		FDE297732C1F1A9500FE09FC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FDE297752C1F1AA300FE09FC /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		FDE297772C26646800FE09FC /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		FDF878A62C50D3FF00CC7B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortCutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +176,7 @@
 		10A855892C00CCB8004F0207 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FDE297772C26646800FE09FC /* MenuView.swift */,
 				10A8558A2C00CCD4004F0207 /* ContentView.swift */,
 				10A8558C2C00CD13004F0207 /* StopListView.swift */,
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
@@ -181,10 +185,10 @@
 				10DA61042C4404A700EAE64B /* RootView.swift */,
 				FDE297732C1F1A9500FE09FC /* LoginView.swift */,
 				FDE297752C1F1AA300FE09FC /* SignupView.swift */,
-				FDE297772C26646800FE09FC /* MenuView.swift */,
 				FD70906C2C296E6800209E72 /* AgentView.swift */,
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
+				FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */,
 				FD4D02552C3BDEE30037F969 /* 行程 */,
 				FDAB260E2C4E5F5D00CED5EC /* Profile */,
 			);
@@ -214,6 +218,7 @@
 		10C55EC22BF0A09B000751EE /* ecoTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FDF878A62C50D3FF00CC7B3D /* Info.plist */,
 				10A855892C00CCB8004F0207 /* Views */,
 				105E35BE2C00CC0F0047E2F1 /* ViewModels */,
 				106EA1E62BF6F74700DC5661 /* Models */,
@@ -436,6 +441,7 @@
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
+				FDFE30262C4F5CBB00B0552F /* ShortCutView.swift in Sources */,
 				FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */,
 				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
 				FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */,
@@ -610,18 +616,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecoTrip/Preview Content\"";
+				DEVELOPMENT_TEAM = KF7N8YK9UD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecoTrip/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MISProject.ecoTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -638,18 +649,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecoTrip/Preview Content\"";
+				DEVELOPMENT_TEAM = KF7N8YK9UD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecoTrip/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MISProject.ecoTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

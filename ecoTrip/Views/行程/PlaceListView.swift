@@ -15,7 +15,7 @@ struct PlaceListView: View {
     
      var body: some View {
          ScrollView(showsIndicators: false, content: {
-             VStack(spacing:0) {
+             VStack{
                  ForEach(Array(zip(place.indices, place)), id: \.1) { index, place in
                      PlaceView(name: place, time: schedule[index])
                          .onDrag({
@@ -25,7 +25,7 @@ struct PlaceListView: View {
                          .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: place, places: $place, schedules: $schedule, draggedItem: $draggedPlace))
 
                  }
-             }.padding()
+             }
          })
      }
         

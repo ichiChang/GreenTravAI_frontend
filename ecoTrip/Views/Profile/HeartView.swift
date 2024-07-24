@@ -29,13 +29,13 @@ struct HeartView: View {
                     }
                     
                 })
-                .frame(width: 320, height: 80)
+                .frame(width: 280, height: 60)
                 .zIndex(1)
                    
                 Image("garden")
                 .resizable()
                 .scaledToFill()
-                .frame(width: 320, height: 150)
+                .frame(width: 280, height: 130)
                 .clipped()
                             
                 }
@@ -44,20 +44,20 @@ struct HeartView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("台北植物園").bold()
-                            .font(.title2)
-                            .padding(.top, 10)
+                            .font(.system(size: 20))
+                            .bold()
+                            .padding(.top, 15)
                             .padding(.leading, 10)
-                            .padding(.bottom, 5)
+                            .padding(.bottom, 3)
                         
                         Text("100台北市中正區南海路53號")
-                            .font(.subheadline)
+                            .font(.system(size: 15))
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, 15)
                     }
                     
-                    Spacer()
-                        .frame(minWidth: 30, maxWidth: 70)
+                  
                     Button(action: {
                         // 按鈕動作
                     }) {
@@ -65,10 +65,10 @@ struct HeartView: View {
                             .resizable()
                             .frame(width: 18, height: 18)
                             .foregroundColor(.black)
-                            .padding(10)
+                            .padding(.leading,25)
                     }
                 }
-                .frame(width: 320, height: 80, alignment: .leading)
+                .frame(width: 280, height: 60, alignment: .leading)
                 .background(Color.white)
             }
             .cornerRadius(20)

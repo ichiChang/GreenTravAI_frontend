@@ -12,6 +12,7 @@ struct RootView: View {
     @State private var isAuthenticated = false
 
     var body: some View {
+       
         Group {
             if isAuthenticated {
                 MenuView()
