@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DatePicker: View {
+struct DatePick: View {
     @Environment(\.dismiss) var dismiss
     @Binding var selectedDates: Set<DateComponents>
 
@@ -23,18 +23,21 @@ struct DatePicker: View {
                     .frame(width:42, height: 15)
                     .foregroundStyle(Color.init(hex: "8F785C", alpha: 1.0))
                 
-            }
-            .padding()
+            }  .padding(.bottom)
+ 
   
            
             
-            Text("請選擇行程日期")
+            Text("請選擇出發及回程日期")
                 .font(.system(size: 20))
+                .padding(.bottom)
+ 
             
            
             MultiDatePicker("Select dates", selection: $selectedDates)
-                .frame(height: 290)
-                .padding()
+                 .frame(width: 350, height: 280, alignment: .center)
+                 .padding()
+             
                         
                         
             Button(action: {
@@ -48,6 +51,7 @@ struct DatePicker: View {
             .frame(width: 100, height: 42)
             .background(Color.init(hex: "5E845B", alpha: 1.0))
             .cornerRadius(10)
+          
    
             
           
@@ -56,8 +60,8 @@ struct DatePicker: View {
 }
 
 // SwiftUI Preview
-struct DatePicker_Previews: PreviewProvider {
+struct DatePick_Previews: PreviewProvider {
     static var previews: some View {
-        DatePicker(selectedDates: .constant([]))
+        DatePick(selectedDates: .constant([]))
     }
 }

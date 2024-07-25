@@ -13,6 +13,19 @@ struct PlaceChoice: View {
 
     var body: some View {
         VStack{
+            Button{
+                dismiss()
+            }label: {
+                Image(systemName: "chevron.down")
+                    .resizable()
+                    .bold()
+                    .frame(width:42, height: 15)
+                    .foregroundStyle(Color.init(hex: "8F785C", alpha: 1.0))
+                
+                
+            }
+            .padding()
+            
             // Text field
             TextField("請輸入地點名稱", text: $textInput)
                 .font(.system(size: 20))

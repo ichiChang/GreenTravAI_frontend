@@ -17,30 +17,40 @@ struct PlaceView: View {
             VStack(alignment: .leading){
                 Text(name)
                     .bold()
-                    .font(.system(size: 25))
-                    .padding(.bottom,10)
+                    .font(.system(size: 23))
+                    .padding(10)
                 Text(time)
                     .bold()
                     .font(.system(size: 20))
                     .foregroundColor(.gray)
+                    .padding(.horizontal,10)
+                    .padding(.bottom,10)
+
             }
             .padding()
-    
+            
             Spacer()
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                
+            
+            Button(action: {
+                
+            }, label: {
                 Image(systemName: "chevron.right")
                     .resizable()
-                    .frame(width: 15,height: 25)
+                    .frame(width: 10,height: 20)
                     .foregroundColor(.black)
-                    .padding(.trailing,30)
+                    .padding(.trailing,10)
+             
             })
+            .padding()
         
       
         }
+        .frame(width: 300,height: 90)
         .background(Color.init(hex: "F5EFCF", alpha: 1.0))
         .cornerRadius(20)
-        .padding(20)
-       
+        .padding(.bottom)
+   
      
    
         

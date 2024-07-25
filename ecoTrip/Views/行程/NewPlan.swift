@@ -10,8 +10,18 @@ import SwiftUI
 struct NewPlan: View {
     @Environment(\.dismiss) var dismiss
     @State private var navigateToPlaceChoice = false
+    @State private var navigateToTimeChoice = false
     @State private var navigateToMemo = false
+    @State private var arrivalTime = Date()
+    @State private var departureTime = Date()
 
+    
+    var formattedTime: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return " \(formatter.string(from: arrivalTime)) - \(formatter.string(from: departureTime))"
+    }
     var body: some View {
         VStack(spacing:0){
             NavigationStack {
@@ -26,8 +36,9 @@ struct NewPlan: View {
                     
                     
                 }
-                .padding(30)
-
+                .padding(20)
+                
+                
                   VStack(spacing: 0) {
                       Button {
                           navigateToPlaceChoice = true
@@ -36,9 +47,9 @@ struct NewPlan: View {
                               Text("選擇地點")
                                   .font(.system(size: 25))
                                   .foregroundStyle(.black)
+                                  .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
-                              Spacer()
-                                  .frame(width: 150)
+                             
                               Image(systemName: "chevron.right")
                                   .resizable()
                                   .bold()
@@ -55,15 +66,20 @@ struct NewPlan: View {
                           .padding(.bottom)
 
                       Button {
-                          
+                          navigateToTimeChoice = true
+
                       } label: {
                           HStack {
+//                              Text(formattedTime)
+//                                  .font(.system(size: 25))
+//                                  .foregroundStyle(.black)
+//                                  .padding()
                               Text("選擇時間")
                                   .font(.system(size: 25))
                                   .foregroundStyle(.black)
+                                  .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
-                              Spacer()
-                                  .frame(width: 150)
+                              
                               Image(systemName: "chevron.right")
                                   .resizable()
                                   .bold()
@@ -84,12 +100,13 @@ struct NewPlan: View {
 
                       } label: {
                           HStack {
-                              Text("新增備註")
+                              Text("備註")
                                   .font(.system(size: 25))
                                   .foregroundStyle(.black)
+                                  .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
-                              Spacer()
-                                  .frame(width: 150)
+
+                         
                               Image(systemName: "chevron.right")
                                   .resizable()
                                   .bold()
@@ -108,7 +125,7 @@ struct NewPlan: View {
                       Spacer()
 
                       Button(action: {
-                          
+                          dismiss()
                       }, label: {
                           Text("新增")
                               .bold()
@@ -123,15 +140,21 @@ struct NewPlan: View {
                   .navigationDestination(isPresented: $navigateToPlaceChoice) {
                       PlaceChoice()
                   }
+                  .navigationDestination(isPresented: $navigateToTimeChoice) {
+                      TimeChoice(arrivalTime: $arrivalTime, departureTime: $departureTime)
+                  }
                   .navigationDestination(isPresented: $navigateToMemo) {
                       Memo()
                   }
+                 
             }
        
         }
         
     }
 }
+
+
 
 #Preview {
     NewPlan()

@@ -13,6 +13,7 @@ struct LoginView: View {
     @State private var password: String = ""
 
     @State private var navigateToMenu = false
+    @State private var navigateToSignup = false
 
     var body: some View {
         NavigationStack {
@@ -90,7 +91,9 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                Button(action: {
+                    self.navigateToSignup = true
+                }, label: {
                     Text("還不是會員？ 立即註冊")
                         .foregroundStyle(.black)
                         .underline()
@@ -99,6 +102,9 @@ struct LoginView: View {
             }
             .navigationDestination(isPresented: $navigateToMenu) {
                 MenuView()
+            }
+            .navigationDestination(isPresented: $navigateToSignup) {
+                SignupView()
             }
             
         }

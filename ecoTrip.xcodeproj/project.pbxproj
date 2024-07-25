@@ -27,7 +27,7 @@
 		10DA61052C4404A700EAE64B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA61042C4404A700EAE64B /* RootView.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
 		FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F762C3D1098002704D6 /* PlacePicker.swift */; };
-		FD1D0F792C3D72A6002704D6 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F782C3D72A6002704D6 /* DatePicker.swift */; };
+		FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F782C3D72A6002704D6 /* DatePick.swift */; };
 		FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */; };
 		FD1D0F7D2C3E6C72002704D6 /* PlanMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7C2C3E6C72002704D6 /* PlanMenuView.swift */; };
 		FD1D0F7F2C3FC580002704D6 /* TimeChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */; };
@@ -43,10 +43,15 @@
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
 		FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */; };
 		FDA587832C3190F1000EFB2C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA587822C3190F0000EFB2C /* SearchView.swift */; };
+		FDAB26052C4E46A700CED5EC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB26042C4E46A700CED5EC /* ProfileView.swift */; };
+		FDAB26092C4E5EE900CED5EC /* LeafView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB26082C4E5EE900CED5EC /* LeafView.swift */; };
+		FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB260A2C4E5F0700CED5EC /* HeartView.swift */; };
+		FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB260C2C4E5F2800CED5EC /* SuitcaseView.swift */; };
 		FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297712C1EFCAE00FE09FC /* LandingView.swift */; };
 		FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297732C1F1A9500FE09FC /* LoginView.swift */; };
 		FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297752C1F1AA300FE09FC /* SignupView.swift */; };
 		FDE297782C26646800FE09FC /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297772C26646800FE09FC /* MenuView.swift */; };
+		FDFE30262C4F5CBB00B0552F /* ShortCutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +95,7 @@
 		10DA61042C4404A700EAE64B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		FD1D0F762C3D1098002704D6 /* PlacePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePicker.swift; sourceTree = "<group>"; };
-		FD1D0F782C3D72A6002704D6 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
+		FD1D0F782C3D72A6002704D6 /* DatePick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePick.swift; sourceTree = "<group>"; };
 		FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePicker.swift; sourceTree = "<group>"; };
 		FD1D0F7C2C3E6C72002704D6 /* PlanMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanMenuView.swift; sourceTree = "<group>"; };
 		FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeChoice.swift; sourceTree = "<group>"; };
@@ -106,10 +111,16 @@
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceChoice.swift; sourceTree = "<group>"; };
 		FDA587822C3190F0000EFB2C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		FDAB26042C4E46A700CED5EC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		FDAB26082C4E5EE900CED5EC /* LeafView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeafView.swift; sourceTree = "<group>"; };
+		FDAB260A2C4E5F0700CED5EC /* HeartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
+		FDAB260C2C4E5F2800CED5EC /* SuitcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuitcaseView.swift; sourceTree = "<group>"; };
 		FDE297712C1EFCAE00FE09FC /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		FDE297732C1F1A9500FE09FC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FDE297752C1F1AA300FE09FC /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		FDE297772C26646800FE09FC /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		FDF878A62C50D3FF00CC7B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortCutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +176,7 @@
 		10A855892C00CCB8004F0207 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FDE297772C26646800FE09FC /* MenuView.swift */,
 				10A8558A2C00CCD4004F0207 /* ContentView.swift */,
 				10A8558C2C00CD13004F0207 /* StopListView.swift */,
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
@@ -173,11 +185,12 @@
 				10DA61042C4404A700EAE64B /* RootView.swift */,
 				FDE297732C1F1A9500FE09FC /* LoginView.swift */,
 				FDE297752C1F1AA300FE09FC /* SignupView.swift */,
-				FDE297772C26646800FE09FC /* MenuView.swift */,
 				FD70906C2C296E6800209E72 /* AgentView.swift */,
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
+				FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */,
 				FD4D02552C3BDEE30037F969 /* 行程 */,
+				FDAB260E2C4E5F5D00CED5EC /* Profile */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +218,7 @@
 		10C55EC22BF0A09B000751EE /* ecoTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FDF878A62C50D3FF00CC7B3D /* Info.plist */,
 				10A855892C00CCB8004F0207 /* Views */,
 				105E35BE2C00CC0F0047E2F1 /* ViewModels */,
 				106EA1E62BF6F74700DC5661 /* Models */,
@@ -250,12 +264,23 @@
 				FD4D02532C3BD8DE0037F969 /* NewPlan.swift */,
 				FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */,
 				FD1D0F762C3D1098002704D6 /* PlacePicker.swift */,
-				FD1D0F782C3D72A6002704D6 /* DatePicker.swift */,
+				FD1D0F782C3D72A6002704D6 /* DatePick.swift */,
 				FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */,
 				FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */,
 				FD1D0F802C3FC5A6002704D6 /* Memo.swift */,
 			);
 			path = "行程";
+			sourceTree = "<group>";
+		};
+		FDAB260E2C4E5F5D00CED5EC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FDAB26042C4E46A700CED5EC /* ProfileView.swift */,
+				FDAB260C2C4E5F2800CED5EC /* SuitcaseView.swift */,
+				FDAB260A2C4E5F0700CED5EC /* HeartView.swift */,
+				FDAB26082C4E5EE900CED5EC /* LeafView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDAB26092C4E5EE900CED5EC /* LeafView.swift in Sources */,
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
@@ -396,11 +422,13 @@
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
 				10DA61052C4404A700EAE64B /* RootView.swift in Sources */,
 				FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */,
+				FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
 				FD1D0F7D2C3E6C72002704D6 /* PlanMenuView.swift in Sources */,
 				FD4D02542C3BD8DE0037F969 /* NewPlan.swift in Sources */,
 				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
+				FDAB26052C4E46A700CED5EC /* ProfileView.swift in Sources */,
 				FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */,
 				10A8558B2C00CCD4004F0207 /* ContentView.swift in Sources */,
 				FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */,
@@ -413,6 +441,8 @@
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
+				FDFE30262C4F5CBB00B0552F /* ShortCutView.swift in Sources */,
+				FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */,
 				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
 				FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
@@ -422,7 +452,7 @@
 				FD1D0F7F2C3FC580002704D6 /* TimeChoice.swift in Sources */,
 				FD601C242C3298D1000443BE /* PlanView.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
-				FD1D0F792C3D72A6002704D6 /* DatePicker.swift in Sources */,
+				FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,18 +616,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecoTrip/Preview Content\"";
+				DEVELOPMENT_TEAM = KF7N8YK9UD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecoTrip/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MISProject.ecoTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -614,18 +649,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ecoTrip/Preview Content\"";
+				DEVELOPMENT_TEAM = KF7N8YK9UD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ecoTrip/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MISProject.ecoTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

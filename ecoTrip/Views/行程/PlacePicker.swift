@@ -32,6 +32,8 @@ struct PlacePicker: View {
             
             Text("請選擇目的地")
                 .font(.system(size: 20))
+                .padding(.top)
+
              
              
                 Picker("Select a place", selection: $selectedPlace) {
