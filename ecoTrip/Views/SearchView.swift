@@ -14,9 +14,7 @@ struct SearchView: View{
     @Binding var index1: Int
     
     @State private var navigateToSiteInfo = false
-    
-    
-    
+
     var body: some View{
         NavigationView  {
             VStack(alignment: .center) {
@@ -139,7 +137,7 @@ struct SearchView: View{
                                             .padding(10)
                                             .zIndex(1)
                                     }
-                                    NavigationLink(destination: SiteInfoView()) {
+                                    NavigationLink(destination: SiteInfoView(place: place)) {
                                         AsyncImage(url: URL(string: place.image)) { phase in
                                             if let image = phase.image {
                                                 image.resizable()
@@ -153,10 +151,10 @@ struct SearchView: View{
                                                 Color.gray // Acts as a placeholder.
                                                     .frame(width: 320, height: 150)
                                             }
-                                        }}
+                                        }
+                                    }
                                 }
-                                
-                                
+                                                
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text(place.placename).bold()
@@ -192,9 +190,6 @@ struct SearchView: View{
                             .padding(20)
                         }
                     }
-                }
-                .navigationDestination(isPresented: $navigateToSiteInfo) {
-                    SiteInfoView()
                 }
             }
         }
