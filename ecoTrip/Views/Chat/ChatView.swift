@@ -16,17 +16,22 @@ struct ChatView: View {
     @State private var isEnabled = false
     //控制主題顏色
     @State private var mainColor = Color(hex: "8F785C")
+    //四個PopUp
+    @State private var showChatPlan = false
+    @State private var showChatTransport = false
+    @State private var showChatTicket = false
+    @State private var showChatAccom = false
 
     var body: some View {
-        
-        VStack(spacing:0) {
+        NavigationView{
+            VStack(spacing:0) {
                 HStack {
                     Button{
                         dismiss()
                     }label: {
                         Image(systemName: "chevron.down")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 30))
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
                         
                     }
                     Spacer()
@@ -38,16 +43,16 @@ struct ChatView: View {
                     .frame(width: 150)
                     .toggleStyle(ColoredToggleStyle(label: "減碳模式", onColor: .green, offColor: Color.init(hex: "413629", alpha: 0.6), thumbColor: .white))
                     .onChange(of: isEnabled) { newValue in
-                       // 根據toggle的狀態變換顏色
-                       mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
-                   }
-
+                        // 根據toggle的狀態變換顏色
+                        mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
+                    }
+                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(20)
                 .background(mainColor)
-
-          
+                
+                
                 ScrollViewReader { proxy in
                     
                     //選單畫面
@@ -62,95 +67,93 @@ struct ChatView: View {
                             .padding(.bottom,20)
                         
                         //四個按鈕
-                        LazyVGrid(columns: [
-                            GridItem(), GridItem()
-                        ], spacing: 20) {
+                        LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
                             ForEach(buttons, id: \.self) { buttonLabel in
                                 Button(action: {
-                                    // 按鈕被點擊時的行為
-                         
+                                    handleButtonTap(buttonLabel: buttonLabel)
                                 }) {
                                     Text(buttonLabel)
                                         .font(.system(size: 18))
                                         .foregroundColor(.black)
                                         .padding()
-                                        .frame(width:120,height: 80)
+                                        .frame(width: 120, height: 80)
                                         .background(Color.white)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 5)
                                                 .stroke(mainColor, lineWidth: 2)
                                         )
                                 }
+                                
                             }
                         }
-                        .frame(width:280)
-                        .padding()
-                        
-        
                     }
-                   
+                    .frame(width:280)
+                    .padding()
+                    
+                    
+                }
+                
                 //對話
-//                ScrollView {
-//                    LazyVStack {
-//                        ForEach(messages, id: \.self) { message in
-//                            MessageView(currentMessage: message)
-//                                .id(message)
-//                        }
-//                    }
-//                    .onReceive(Just(messages)) { _ in
-//                        withAnimation {
-//                            proxy.scrollTo(messages.last, anchor: .bottom)
-//                        }
-//                        
-//                    }.onAppear {
-//                        withAnimation {
-//                            proxy.scrollTo(messages.last, anchor: .bottom)
-//                        }
-//                    }
-//                }
-
+                //                ScrollView {
+                //                    LazyVStack {
+                //                        ForEach(messages, id: \.self) { message in
+                //                            MessageView(currentMessage: message)
+                //                                .id(message)
+                //                        }
+                //                    }
+                //                    .onReceive(Just(messages)) { _ in
+                //                        withAnimation {
+                //                            proxy.scrollTo(messages.last, anchor: .bottom)
+                //                        }
+                //
+                //                    }.onAppear {
+                //                        withAnimation {
+                //                            proxy.scrollTo(messages.last, anchor: .bottom)
+                //                        }
+                //                    }
+                //                }
+                
                 
                 // Textfield
-                    HStack {
+                HStack {
                     TextField("Aa", text: $newMessage)
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
                         .padding(.top,10)
                         .padding(.leading,10)
-
-
-
+                    
+                    
+                    
                     Button(action: sendMessage)   {
                         Image(systemName: "paperplane.fill")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 30))
-                        .padding(.top,5)
-                        .padding(.trailing,10)
-
-
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                            .padding(.top,5)
+                            .padding(.trailing,10)
+                        
+                        
                     }
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
                 .background(mainColor)
-
+                
             }
+            .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
+                        ChatPlan(showChatPlan: $showChatPlan)
+                    }
+            .popupNavigationView(horizontalPadding: 40, show: $showChatTransport) {
+                ChatTransport()
+            }
+            .popupNavigationView(horizontalPadding: 40, show: $showChatTicket) {
+                ChatTicket()
+            }
+            .popupNavigationView(horizontalPadding: 40, show: $showChatAccom) {
+                ChatAccom()
+            }
+            
         }
-        
-        
-        
     }
-    struct OvalBorder: TextFieldStyle {
-        func _body(configuration: TextField<Self._Label>) -> some View {
-            configuration
-                .padding(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 30)
-                        .foregroundColor(Color.init(hex: "F5EFCF", alpha: 1.0))
-                )
-        }
-    }
-    
     func sendMessage() {
         
         if !newMessage.isEmpty{
@@ -159,8 +162,35 @@ struct ChatView: View {
             newMessage = ""
         }
     }
+    
+    func handleButtonTap(buttonLabel: String) {
+        switch buttonLabel {
+        case "行程規劃":
+            showChatPlan.toggle()
+        case "交通查詢":
+            showChatTransport.toggle()
+        case "票價查詢":
+            showChatTicket.toggle()
+        case "住宿推薦":
+            showChatAccom.toggle()
+        default:
+            break
+        }
+    }
+        
 }
 
+struct OvalBorder: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 30)
+                    .foregroundColor(Color.init(hex: "F5EFCF", alpha: 1.0))
+            )
+    }
+}
+    
 struct MessageView : View {
     var currentMessage: Message
     
@@ -197,7 +227,6 @@ struct MessageView : View {
         
     }
 
-
 struct MessageCell: View {
     var contentMessage: String
     var isCurrentUser: Bool
@@ -214,6 +243,7 @@ struct MessageCell: View {
             
     }
 }
+
 struct ColoredToggleStyle: ToggleStyle {
     var label = ""
     var onColor = Color.green
@@ -243,6 +273,8 @@ struct ColoredToggleStyle: ToggleStyle {
         }
     }
 }
+
+
 
 extension Color {
     static let cloloABC = Color(hex: "#FFFFFF", alpha: 0.5)
@@ -276,6 +308,7 @@ extension Color {
         )
     }
 }
+
 
 
 

@@ -48,6 +48,10 @@
 		FDAB26092C4E5EE900CED5EC /* LeafView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB26082C4E5EE900CED5EC /* LeafView.swift */; };
 		FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB260A2C4E5F0700CED5EC /* HeartView.swift */; };
 		FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB260C2C4E5F2800CED5EC /* SuitcaseView.swift */; };
+		FDC1728F2C58C9E000706856 /* ChatTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC1728E2C58C9E000706856 /* ChatTransport.swift */; };
+		FDC172912C58C9F100706856 /* ChatTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC172902C58C9F100706856 /* ChatTicket.swift */; };
+		FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC172922C58C9FE00706856 /* ChatAccom.swift */; };
+		FDC172952C591AF700706856 /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC172942C591AF700706856 /* PopUp.swift */; };
 		FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297712C1EFCAE00FE09FC /* LandingView.swift */; };
 		FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297732C1F1A9500FE09FC /* LoginView.swift */; };
 		FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297752C1F1AA300FE09FC /* SignupView.swift */; };
@@ -117,6 +121,10 @@
 		FDAB26082C4E5EE900CED5EC /* LeafView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeafView.swift; sourceTree = "<group>"; };
 		FDAB260A2C4E5F0700CED5EC /* HeartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
 		FDAB260C2C4E5F2800CED5EC /* SuitcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuitcaseView.swift; sourceTree = "<group>"; };
+		FDC1728E2C58C9E000706856 /* ChatTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTransport.swift; sourceTree = "<group>"; };
+		FDC172902C58C9F100706856 /* ChatTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTicket.swift; sourceTree = "<group>"; };
+		FDC172922C58C9FE00706856 /* ChatAccom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAccom.swift; sourceTree = "<group>"; };
+		FDC172942C591AF700706856 /* PopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUp.swift; sourceTree = "<group>"; };
 		FDE297712C1EFCAE00FE09FC /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		FDE297732C1F1A9500FE09FC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FDE297752C1F1AA300FE09FC /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
@@ -261,6 +269,10 @@
 			children = (
 				FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */,
 				FD3F3C7E2C5685B100879509 /* ChatPlan.swift */,
+				FDC1728E2C58C9E000706856 /* ChatTransport.swift */,
+				FDC172902C58C9F100706856 /* ChatTicket.swift */,
+				FDC172922C58C9FE00706856 /* ChatAccom.swift */,
+				FDC172942C591AF700706856 /* PopUp.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -425,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDAB26092C4E5EE900CED5EC /* LeafView.swift in Sources */,
+				FDC172952C591AF700706856 /* PopUp.swift in Sources */,
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
@@ -432,6 +445,7 @@
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
 				10DA61052C4404A700EAE64B /* RootView.swift in Sources */,
+				FDC172912C58C9F100706856 /* ChatTicket.swift in Sources */,
 				FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */,
 				FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
@@ -449,6 +463,7 @@
 				FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */,
 				FDE297782C26646800FE09FC /* MenuView.swift in Sources */,
 				FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */,
+				FDC1728F2C58C9E000706856 /* ChatTransport.swift in Sources */,
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
@@ -463,6 +478,7 @@
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
 				FD1D0F7F2C3FC580002704D6 /* TimeChoice.swift in Sources */,
 				FD601C242C3298D1000443BE /* PlanView.swift in Sources */,
+				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
 				FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */,
 			);

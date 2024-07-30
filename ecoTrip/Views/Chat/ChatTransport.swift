@@ -1,14 +1,13 @@
 //
-//  ChatPlan.swift
+//  ChatTransport.swift
 //  ecoTrip
 //
-//  Created by 陳萭鍒 on 2024/7/28.
+//  Created by 陳萭鍒 on 2024/7/30.
 //
 
 import SwiftUI
 
-struct ChatPlan: View {
-    @Binding var showChatPlan: Bool
+struct ChatTransport: View {
     @State private var showPlacePicker = false
     @State private var selectedPlace = ""
     @State private var showDurationPicker = false
@@ -23,7 +22,7 @@ struct ChatPlan: View {
         
         VStack{
             Button(action: {
-                showChatPlan = false
+     
             }, label: {
                 HStack{
                     Image(systemName: "xmark")
@@ -204,7 +203,6 @@ struct ChatPlan: View {
             
             //確定按鈕
             Button {
-                showChatPlan = false
 
             } label: {
                 Text("確定")
@@ -223,8 +221,6 @@ struct ChatPlan: View {
     }
 }
 
-
-
 #Preview {
-    ChatPlan(showChatPlan: .constant(true))
+    ChatTransport()
 }
