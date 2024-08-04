@@ -16,6 +16,7 @@ struct MenuView: View {
     @State var showProfileView = false
     @State var showShortCutView = false
     @State var showSearchView = true  // Set default view to SearchView
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
         VStack {
@@ -28,11 +29,12 @@ struct MenuView: View {
             }
 
             CustomTabs(index: $index,
-                        showChatView: $showChatView,
-                        showPlanView: $showPlanView,
-                        showProfileView: $showProfileView,
-                        showSearchView: $showSearchView,
-                       showShortCutView: $showShortCutView)
+                           showChatView: $showChatView,
+                           showPlanView: $showPlanView,
+                           showProfileView: $showProfileView,
+                           showSearchView: $showSearchView,
+                           showShortCutView: $showShortCutView,
+                           authViewModel: authViewModel)
         }
         .sheet(isPresented: $showChatView) {
             ChatView()
@@ -50,6 +52,7 @@ struct CustomTabs: View {
     @Binding var showProfileView: Bool
     @Binding var showSearchView: Bool
     @Binding var showShortCutView: Bool
+    @ObservedObject var authViewModel: AuthViewModel
 
     var body: some View {
         Spacer()
@@ -96,6 +99,9 @@ struct CustomTabs: View {
                        .padding(10)
                 }
             })
+            .sheet(isPresented: $showPlanView) {
+                PlanMenuView().environmentObject(authViewModel)
+            }
 
             Button(action: {
                 self.index = 3

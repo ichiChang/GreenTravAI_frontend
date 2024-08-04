@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct ecoTripApp: App {
+    @StateObject private var authViewModel = AuthViewModel.shared
+    
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environmentObject(authViewModel)
         }
     }
 }

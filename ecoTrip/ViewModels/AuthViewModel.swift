@@ -4,11 +4,9 @@
 //
 //  Created by Ichi Chang on 2024/6/28.
 //
-
 import Combine
 import SwiftUI
 
-// 檢查是否已經定義了 AuthResponse，並確保其定義如下
 struct AuthResponse: Codable {
     var accessToken: String
     var refreshToken: String
@@ -46,7 +44,11 @@ class AuthViewModel: ObservableObject {
     @Published var user: User?
     @Published var loginError: LoginError?
 
+    static let shared = AuthViewModel()
+
     private var cancellables: Set<AnyCancellable> = []
+
+    init() {}
 
     func login(username: String, password: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/login") else {
