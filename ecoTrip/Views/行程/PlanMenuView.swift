@@ -11,11 +11,11 @@ struct PlanMenuView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State var showPlacePicker = false
+    @State private var showPlacePicker = false
     @State var showDatePicker = false
-    @State var showRidePicker = false
-    @State var selectedPlace = ""
-    @State var selectedRide = ""
+    @State private var showRidePicker = false
+    @State private var selectedPlace = ""
+    @State private var selectedRide = ""
     @State var selectedDates: Set<DateComponents> = []
     @State private var navigateToPlanView = false
     @State private var indexd = 0
