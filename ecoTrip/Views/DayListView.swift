@@ -23,7 +23,7 @@ struct DayListView: View {
                     }
                 }
             }
-            .navigationTitle(travelPlan.name)
+            .navigationTitle(travelPlan.planname)
             .toolbar {
                 Button(action: {
                     // 顯示新增日期的視圖
@@ -33,7 +33,7 @@ struct DayListView: View {
             }
         }
         .onAppear {
-            viewModel.fetchDays(for: travelPlan.id)
+            
         }
     }
 }

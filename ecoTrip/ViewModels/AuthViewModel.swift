@@ -50,7 +50,7 @@ class AuthViewModel: ObservableObject {
 
     init() {}
 
-    func login(username: String, password: String) {
+    func login(email: String, password: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/login") else {
             loginError = .unknownError
             return
@@ -60,7 +60,7 @@ class AuthViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let loginDetails = ["username": username, "password": password]
+        let loginDetails = ["email": email, "password": password]
         request.httpBody = try? JSONSerialization.data(withJSONObject: loginDetails)
 
         URLSession.shared.dataTaskPublisher(for: request)

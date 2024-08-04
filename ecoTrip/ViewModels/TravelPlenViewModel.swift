@@ -18,14 +18,44 @@ class TravelPlanViewModel: ObservableObject {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    func fetchTravelPlans() {
-        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans") else { return }
-        URLSession.shared.dataTaskPublisher(for: url)
-            .map { $0.data }
+    func fetchTravelPlans(token: String) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/") else {
+            self.error = "Invalid URL"
+            return
+        }
+        
+        isLoading = true
+        error = nil
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { output in
+                guard let httpResponse = output.response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+                print("Status code: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 401 {
+                    throw URLError(.userAuthenticationRequired)
+                }
+                return output.data
+            }
             .decode(type: [TravelPlan].self, decoder: JSONDecoder())
-            .replaceError(with: [])
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.travelPlans = $0 }
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                switch completion {
+                case .failure(let error):
+                    self?.error = error.localizedDescription
+                    print("Error fetching travel plans: \(error)")
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self] travelPlans in
+                self?.travelPlans = travelPlans
+            }
             .store(in: &cancellables)
     }
 
@@ -51,9 +81,9 @@ class TravelPlanViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func createTravelPlan(planName: String, startDate: Date, endDate: Date, accessToken: String?) {
+    func createTravelPlan(planName: String, startDate: Date, endDate: Date, accessToken: String?, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/") else {
-            self.error = "Invalid URL"
+            completion(false, "Invalid URL")
             return
         }
 
@@ -71,30 +101,39 @@ class TravelPlanViewModel: ObservableObject {
         if let token = accessToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            self.error = "No access token available"
+            completion(false, "No access token available")
             return
         }
 
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
         } catch {
-            self.error = "Failed to encode request body"
+            completion(false, "Failed to encode request body")
             return
         }
 
         isLoading = true
-        URLSession.shared.dataTaskPublisher(for: request)
-            .map(\.data)
-            .decode(type: TravelPlan.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                self.isLoading = false
-                if case .failure(let error) = completion {
-                    self.error = error.localizedDescription
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                
+                if let error = error {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                    return
                 }
-            } receiveValue: { [weak self] newTravelPlan in
-                self?.travelPlans.append(newTravelPlan)
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(false, "Invalid response")
+                    return
+                }
+                
+                if (200...299).contains(httpResponse.statusCode) {
+                    completion(true, nil)
+                } else {
+                    completion(false, "Server error: HTTP \(httpResponse.statusCode)")
+                }
             }
-            .store(in: &cancellables)
+        }.resume()
     }
 }

@@ -195,7 +195,17 @@ struct PlanMenuView: View {
             return
         }
         
-        viewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken)
+        viewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
+            if success {
+                // Handle success
+                print("Travel plan created successfully")
+                // TODO: 陳雨柔幫把這裡改成跳進編輯行程
+                dismiss() // Dismiss the view on success
+            } else {
+                // Handle failure
+                viewModel.error = errorMessage ?? "Unknown error occurred"
+            }
+        }
     }
     
     private func formatSelectedDates(_ dates: Set<DateComponents>) -> String {
