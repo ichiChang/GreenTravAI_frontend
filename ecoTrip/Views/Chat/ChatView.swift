@@ -14,13 +14,15 @@ struct ChatView: View {
     @State var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
-    //控制主題顏色
-    @State private var mainColor = Color(hex: "8F785C")
+    
     //四個PopUp
     @State private var showChatPlan = false
     @State private var showChatTransport = false
     @State private var showChatTicket = false
     @State private var showChatAccom = false
+    
+    @EnvironmentObject var colorManager: ColorManager
+
 
     var body: some View {
         NavigationView{
@@ -38,19 +40,19 @@ struct ChatView: View {
                     
                     
                     Toggle(isOn: $isEnabled) {
-                        
+                        // 無顯示的內容
                     }
                     .frame(width: 150)
                     .toggleStyle(ColoredToggleStyle(label: "減碳模式", onColor: .green, offColor: Color.init(hex: "413629", alpha: 0.6), thumbColor: .white))
                     .onChange(of: isEnabled) { newValue in
-                        // 根據toggle的狀態變換顏色
-                        mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
+                        colorManager.mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
                     }
+
                     
                 }
                 .frame(maxWidth: .infinity)
                 .padding(20)
-                .background(mainColor)
+                .background(colorManager.mainColor)
                 
                 
                 ScrollViewReader { proxy in
@@ -80,7 +82,7 @@ struct ChatView: View {
                                         .background(Color.white)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 5)
-                                                .stroke(mainColor, lineWidth: 2)
+                                                .stroke(colorManager.mainColor, lineWidth: 2)
                                         )
                                 }
                                 
@@ -136,20 +138,20 @@ struct ChatView: View {
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
-                .background(mainColor)
+                .background(colorManager.mainColor)
                 
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                         ChatPlan(showChatPlan: $showChatPlan)
                     }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTransport) {
-                ChatTransport()
+                ChatTransport(showChatTransport: $showChatTransport)
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTicket) {
-                ChatTicket()
+                ChatTicket(showChatTicket: $showChatTicket)
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatAccom) {
-                ChatAccom()
+                ChatAccom(showChatAccom: $showChatAccom)
             }
             
         }
@@ -314,6 +316,8 @@ extension Color {
 
 #Preview {
     ChatView()
+        .environmentObject(ColorManager()) // 提供 ColorManager 給預覽
+
 }
 
 

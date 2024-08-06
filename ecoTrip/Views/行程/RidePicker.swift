@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RidePicker: View {
     private let ride: [String] = [
-        "自行安排", "開車", "大眾運輸"
+        "自行安排", "開車", "大眾運輸", "步行", "機車"
     ]
     
     @Binding public var selectedRide: String

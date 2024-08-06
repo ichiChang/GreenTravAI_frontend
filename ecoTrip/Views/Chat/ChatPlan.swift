@@ -17,7 +17,8 @@ struct ChatPlan: View {
     @State private var duration = ""
     @State private var upperbudget = ""
     @State private var lowerbudget = ""
-    
+    @EnvironmentObject var colorManager: ColorManager
+
     
     var body: some View {
         
@@ -29,7 +30,7 @@ struct ChatPlan: View {
                     Image(systemName: "xmark")
                         .resizable()
                         .frame(width:20,height:20)
-                        .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                        .foregroundColor(colorManager.mainColor)
                     Spacer()
                 }
                 .frame(width: 280)
@@ -65,7 +66,7 @@ struct ChatPlan: View {
                         
                         Spacer()
                         Image(systemName: "chevron.down")
-                            .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
+                            .foregroundStyle(colorManager.mainColor)
                             .bold()
                             .font(.system(size: 25))
                             .padding()
@@ -74,7 +75,7 @@ struct ChatPlan: View {
                     .cornerRadius(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.init(hex: "5E845B", alpha: 1.0), lineWidth: 2)
+                            .stroke(colorManager.mainColor, lineWidth: 2)
                     )
                     .padding(.bottom)
                 })
@@ -104,7 +105,7 @@ struct ChatPlan: View {
                     .cornerRadius(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.init(hex: "5E845B", alpha: 1.0), lineWidth: 2)
+                            .stroke(colorManager.mainColor, lineWidth: 2)
                     )
                     .padding(.bottom)
                 
@@ -113,7 +114,7 @@ struct ChatPlan: View {
                 //預算
                 HStack{
                     VStack(alignment:.leading){
-                        Text("*預算上限")
+                        Text("預算上限")
                             .bold()
                             .foregroundStyle(.black)
                             .font(.system(size: 15))
@@ -130,7 +131,7 @@ struct ChatPlan: View {
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.init(hex: "5E845B", alpha: 1.0), lineWidth: 2)
+                                    .stroke(colorManager.mainColor, lineWidth: 2)
                             )
                             .padding(.bottom)
                         
@@ -138,7 +139,7 @@ struct ChatPlan: View {
                     }.padding(.trailing,15)
                     
                     VStack(alignment:.leading){
-                        Text("*預算下限")
+                        Text("預算下限")
                             .bold()
                             .foregroundStyle(.black)
                             .font(.system(size: 15))
@@ -155,7 +156,7 @@ struct ChatPlan: View {
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.init(hex: "5E845B", alpha: 1.0), lineWidth: 2)
+                                    .stroke(colorManager.mainColor, lineWidth: 2)
                             )
                             .padding(.bottom)
                     }
@@ -182,7 +183,7 @@ struct ChatPlan: View {
                         
                         Spacer()
                         Image(systemName: "chevron.down")
-                            .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
+                            .foregroundStyle(colorManager.mainColor)
                             .bold()
                             .font(.system(size: 25))
                             .padding()
@@ -192,7 +193,7 @@ struct ChatPlan: View {
                     .cornerRadius(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.init(hex: "5E845B", alpha: 1.0), lineWidth: 2)
+                            .stroke(colorManager.mainColor, lineWidth: 2)
                     )
                     .padding(.bottom)
                 })
@@ -213,7 +214,7 @@ struct ChatPlan: View {
                     .foregroundColor(.white)
             }
             .frame(width: 100, height: 42)
-            .background(Color.init(hex: "5E845B", alpha: 1.0))
+            .background(colorManager.mainColor)
             .cornerRadius(10)
             
             
@@ -227,4 +228,6 @@ struct ChatPlan: View {
 
 #Preview {
     ChatPlan(showChatPlan: .constant(true))
+        .environmentObject(ColorManager()) // 提供 ColorManager 給預覽
+
 }

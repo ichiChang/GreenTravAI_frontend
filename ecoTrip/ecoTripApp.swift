@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ecoTripApp: App {
+    var colorManager = ColorManager()
+
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environmentObject(colorManager)
+
         }
     }
 }

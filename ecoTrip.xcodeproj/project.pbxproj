@@ -26,6 +26,8 @@
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
 		10DA61052C4404A700EAE64B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA61042C4404A700EAE64B /* RootView.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
+		FD07AC952C60C5B9007DF6DB /* AccomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD07AC942C60C5B9007DF6DB /* AccomPicker.swift */; };
+		FD07AC972C625B0B007DF6DB /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD07AC962C625B0B007DF6DB /* ColorManager.swift */; };
 		FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F762C3D1098002704D6 /* PlacePicker.swift */; };
 		FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F782C3D72A6002704D6 /* DatePick.swift */; };
 		FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */; };
@@ -99,6 +101,8 @@
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		10DA61042C4404A700EAE64B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
+		FD07AC942C60C5B9007DF6DB /* AccomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccomPicker.swift; sourceTree = "<group>"; };
+		FD07AC962C625B0B007DF6DB /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		FD1D0F762C3D1098002704D6 /* PlacePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePicker.swift; sourceTree = "<group>"; };
 		FD1D0F782C3D72A6002704D6 /* DatePick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePick.swift; sourceTree = "<group>"; };
 		FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePicker.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 			children = (
 				FDF878A62C50D3FF00CC7B3D /* Info.plist */,
 				10A855892C00CCB8004F0207 /* Views */,
+				FD07AC962C625B0B007DF6DB /* ColorManager.swift */,
 				105E35BE2C00CC0F0047E2F1 /* ViewModels */,
 				106EA1E62BF6F74700DC5661 /* Models */,
 				10C55EC32BF0A09B000751EE /* ecoTripApp.swift */,
@@ -273,6 +278,7 @@
 				FDC172902C58C9F100706856 /* ChatTicket.swift */,
 				FDC172922C58C9FE00706856 /* ChatAccom.swift */,
 				FDC172942C591AF700706856 /* PopUp.swift */,
+				FD07AC942C60C5B9007DF6DB /* AccomPicker.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -467,12 +473,14 @@
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
+				FD07AC952C60C5B9007DF6DB /* AccomPicker.swift in Sources */,
 				FDFE30262C4F5CBB00B0552F /* ShortCutView.swift in Sources */,
 				FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */,
 				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
 				FD3F3C7F2C5685B100879509 /* ChatPlan.swift in Sources */,
 				FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
+				FD07AC972C625B0B007DF6DB /* ColorManager.swift in Sources */,
 				FD1D0F812C3FC5A6002704D6 /* Memo.swift in Sources */,
 				10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
