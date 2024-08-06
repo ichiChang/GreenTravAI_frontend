@@ -10,12 +10,15 @@ import SwiftUI
 @main
 struct ecoTripApp: App {
     var colorManager = ColorManager()
-
+    @StateObject private var authViewModel = AuthViewModel.shared
+    
+    
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(colorManager)
-
+                .environmentObject(authViewModel)
         }
+        
     }
 }

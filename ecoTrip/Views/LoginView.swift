@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
 
     @State private var navigateToMenu = false
@@ -44,7 +44,7 @@ struct LoginView: View {
                         .padding(.leading)
                         .padding(.top)
                     
-                    TextField("", text: $username)
+                    TextField("", text: $email)
                         .frame(width:250, height: 30)
                         .padding(.horizontal)
                         .overlay(RoundedRectangle(cornerRadius: 8)
@@ -76,7 +76,7 @@ struct LoginView: View {
                         .bold()
                 }
                 Button(action: {
-                    authViewModel.login(username: username, password: password)
+                    authViewModel.login(email: email, password: password)
                 }) {
                     Text("登入").bold()
                         .foregroundColor(.white)

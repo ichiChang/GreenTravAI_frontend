@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @StateObject private var userViewModel = UserViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var selectedIcon: IconType = .suitcase
 
     enum IconType: String {
@@ -30,10 +32,20 @@ struct ProfileView: View {
                     .frame(width: 70, height: 70)
                     .foregroundColor(Color(hex: "D9D9D9", alpha: 1.0))
                     .padding()
-                Text("陳雨柔")
-                    .bold()
-                    .font(.system(size: 25))
-                    .foregroundColor(.black)
+                if userViewModel.isLoading {
+                    ProgressView()
+                } else if let error = userViewModel.error {
+                    Text(error)
+                        .foregroundColor(.red)
+                } else if let user = userViewModel.user {
+                    Text(user.username)
+                        .bold()
+                        .font(.system(size: 25))
+                        .foregroundColor(.black)
+                } else {
+                    Text("User not found")
+                        .foregroundColor(.gray)
+                }
                 Spacer()
             }
             .padding(.horizontal)
@@ -62,6 +74,11 @@ struct ProfileView: View {
                }
            }
             Spacer()
+        }
+        .onAppear {
+            if let token = authViewModel.accessToken {
+                userViewModel.fetchUserInfo(token: token)
+            }
         }
 
     }

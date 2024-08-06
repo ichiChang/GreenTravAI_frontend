@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PlanMenuView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject private var viewModel = TravelPlanViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showPlacePicker = false
     @State var showDatePicker = false
     @State private var showRidePicker = false
@@ -52,8 +54,6 @@ struct PlanMenuView: View {
                             .background(.white)
                             .cornerRadius(10)
                             .padding(.bottom)
-                        
-                        
                         
                         HStack {
                             Text("目的地")
@@ -149,7 +149,9 @@ struct PlanMenuView: View {
                     Spacer()
                         .frame(height: 75)
                     
-                    NavigationLink(destination: PlanView(indexd: $indexd)) {
+                    Button(action: {
+                        createNewTravelPlan()
+                    }) {
                         Text("確定")
                             .bold()
                             .font(.system(size: 25))
@@ -158,6 +160,15 @@ struct PlanMenuView: View {
                     .frame(width: 100, height: 42)
                     .background(Color.white)
                     .cornerRadius(10)
+                    
+                    if viewModel.isLoading {
+                        ProgressView()
+                    }
+                    
+                    if let error = viewModel.error {
+                        Text(error)
+                            .foregroundColor(.red)
+                    }
                     
                     Spacer()
                 }
@@ -177,10 +188,29 @@ struct PlanMenuView: View {
         }
     }
     
-    // Helper function to format selected dates
+    private func createNewTravelPlan() {
+        guard let startDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).min(),
+              let endDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).max() else {
+            viewModel.error = "Please select start and end dates"
+            return
+        }
+        
+        viewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
+            if success {
+                // Handle success
+                print("Travel plan created successfully")
+                // TODO: 陳雨柔幫把這裡改成跳進編輯行程
+                dismiss() // Dismiss the view on success
+            } else {
+                // Handle failure
+                viewModel.error = errorMessage ?? "Unknown error occurred"
+            }
+        }
+    }
+    
     private func formatSelectedDates(_ dates: Set<DateComponents>) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd" // Alternative custom format
+        dateFormatter.dateFormat = "yyyy.MM.dd"
         
         let datesArray = dates.compactMap { Calendar.current.date(from: $0) }
         let sortedDates = datesArray.sorted()
@@ -200,3 +230,5 @@ struct PlanMenuView_Previews: PreviewProvider {
         PlanMenuView()
     }
 }
+
+

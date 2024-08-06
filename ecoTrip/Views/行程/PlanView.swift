@@ -11,7 +11,7 @@ struct PlanView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var indexd: Int
     @State var showNewPlan = false
-    
+    @State private var showDemo = false
     
     
     
@@ -34,9 +34,17 @@ struct PlanView: View {
                     
                     Spacer()
                     
-                    Image(systemName: "chevron.down")
-                        .opacity(0)
-                        .font(.system(size: 30))
+                    Button(action: {
+                        showDemo.toggle()
+                    }, label: {
+                        Image(systemName: "questionmark.circle.fill")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                            .padding()
+                    })
+                 
+
+                    
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
@@ -125,7 +133,9 @@ struct PlanView: View {
                 
             }
             .navigationBarBackButtonHidden(true)
-            
+            .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
+                Demo()
+                    }
             
             
             

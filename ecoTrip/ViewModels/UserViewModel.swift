@@ -1,54 +1,54 @@
 //
-//  PlaceViewModel.swift
+//  UserViewModel.swift
 //  ecoTrip
 //
-//  Created by Ichi Chang on 2024/6/28.
+//  Created by Ichi Chang on 2024/8/4.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
-class PlaceViewModel: ObservableObject {
-    @Published var places: [Place] = []
+class UserViewModel: ObservableObject {
+    @Published var user: User?
+    @Published var error: String?
     @Published var isLoading = false
-    @Published var errorMessage: String?
     
     private var cancellables = Set<AnyCancellable>()
     
-    func fetchPlaces() {
-        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/places/") else {
-            self.errorMessage = "Invalid URL"
+    func fetchUserInfo(token: String) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/userInfo") else {
+            self.error = "Invalid URL"
             return
         }
         
         isLoading = true
-        errorMessage = nil
+        error = nil
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { output in
                 guard let httpResponse = output.response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
-                print("Status code: \(httpResponse.statusCode)")
-                if httpResponse.statusCode == 401 {
-                    throw URLError(.userAuthenticationRequired)
+                if httpResponse.statusCode != 200 {
+                    throw URLError(.badServerResponse)
                 }
                 return output.data
             }
-            .decode(type: [Place].self, decoder: JSONDecoder())
+            .decode(type: User.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 self.isLoading = false
                 if case .failure(let error) = completion {
-                    self.errorMessage = error.localizedDescription
-                    print("Error: \(error)")
+                    self.error = error.localizedDescription
                 }
-            } receiveValue: { [weak self] places in
-                self?.places = places
+            } receiveValue: { [weak self] user in
+                self?.user = user
             }
             .store(in: &cancellables)
     }
 }
+
