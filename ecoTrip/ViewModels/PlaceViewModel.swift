@@ -12,7 +12,8 @@ class PlaceViewModel: ObservableObject {
     @Published var places: [Place] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-    
+    @Published var favorites: [String: Bool] = [:]
+
     private var cancellables = Set<AnyCancellable>()
     
     func fetchPlaces() {
@@ -48,7 +49,18 @@ class PlaceViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] places in
                 self?.places = places
+                places.forEach { place in
+                    if self?.favorites[place.id] == nil {
+                        self?.favorites[place.id] = false
+                    }
+                }
             }
             .store(in: &cancellables)
     }
+    func toggleFavorite(for id: String) {
+            favorites[id]?.toggle()
+            favorites = favorites    // 重新賦值以觸發更新
+
+        
+        }
 }

@@ -11,7 +11,6 @@ struct SearchView: View{
     @StateObject private var placeViewModel = PlaceViewModel()
     @State private var textInput = ""
     @Binding var index1: Int
-    @Binding var indexheart: Int
     @State private var navigateToSiteInfo = false
 
     var body: some View{
@@ -128,7 +127,7 @@ struct SearchView: View{
                         VStack(spacing: 0) {
                             ZStack(alignment:.top){
                                 Button(action: {
-                                    self.indexheart = self.indexheart == 0 ? 1 : 0
+                                    placeViewModel.toggleFavorite(for: place.id)
 
                                 }, label: {
                                     HStack{
@@ -146,7 +145,7 @@ struct SearchView: View{
                                                 .foregroundColor(.white)
                                                 .frame(width:40,height: 40)
                                                 .padding(5)
-                                            Image(systemName: indexheart == 0 ? "heart" : "heart.fill")
+                                            Image(systemName: placeViewModel.favorites[place.id, default: false] ? "heart.fill" : "heart")
                                                 .resizable()
                                                 .frame(width:20,height: 20)
                                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
@@ -163,7 +162,7 @@ struct SearchView: View{
                                 .zIndex(1)
                                    
                                     
-                                    NavigationLink(destination: SiteInfoView(place: place)) {
+                                NavigationLink(destination: SiteInfoView(indexheart: .constant(0), place: place)) {
                                         AsyncImage(url: URL(string: place.image)) { phase in
                                             if let image = phase.image {
                                                 image.resizable()
@@ -191,7 +190,7 @@ struct SearchView: View{
                                             .padding(.bottom, 3)
                                         
                                         Text(place.address)
-                                            .font(.system(size: 15))
+                                            .font(.system(size: 13))
                                             .foregroundColor(.gray)
                                             .padding(.leading, 10)
                                             .padding(.bottom, 15)
@@ -226,6 +225,6 @@ struct SearchView: View{
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(index1: .constant(0), indexheart: .constant(0))
+        SearchView(index1: .constant(0))
     }
 }

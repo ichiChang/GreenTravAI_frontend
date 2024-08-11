@@ -25,7 +25,7 @@ struct MenuView: View {
             }  else if showShortCutView {
                 ShortCutView()
             } else if showSearchView {
-                SearchView(index1: $index1, indexheart: $indexheart)
+                SearchView(index1: $index1)
             }
 
             CustomTabs(index: $index,
@@ -127,6 +127,7 @@ struct CustomTabs: View {
         .padding()
         .background(Color(hex: "5E845B"))
         .navigationBarBackButtonHidden(true)
+
     }
 }
 
