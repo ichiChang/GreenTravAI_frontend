@@ -17,11 +17,11 @@ struct PlaceView: View {
             VStack(alignment: .leading){
                 Text(name)
                     .bold()
-                    .font(.system(size: 23))
+                    .font(.system(size: 20))
                     .padding(10)
                 Text(time)
                     .bold()
-                    .font(.system(size: 20))
+                    .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
                     .padding(.bottom,10)
@@ -37,8 +37,9 @@ struct PlaceView: View {
             }, label: {
                 Image(systemName: "chevron.right")
                     .resizable()
+                    .bold()
                     .frame(width: 10,height: 20)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                     .padding(.trailing,10)
              
             })
@@ -46,10 +47,10 @@ struct PlaceView: View {
         
       
         }
-        .frame(width: 300,height: 90)
-        .background(Color.init(hex: "F5EFCF", alpha: 1.0))
-        .cornerRadius(20)
-        .padding(.bottom)
+        .frame(width: 330,height: 70)
+        .background(Color.init(hex: "F5F5F5", alpha: 1.0))
+        .cornerRadius(15)
+     
    
      
    

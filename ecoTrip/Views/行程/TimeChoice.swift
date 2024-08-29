@@ -35,7 +35,7 @@ struct TimeChoice: View {
                 .frame(height: 80)
             HStack {
                 Text("抵達時間")
-                    .font(.system(size: 23))
+                    .font(.system(size: 20))
                     .foregroundStyle(.black)
                     .frame(maxWidth: 150, alignment: .leading)
 
@@ -57,7 +57,7 @@ struct TimeChoice: View {
 
             HStack {
                 Text("離開時間")
-                    .font(.system(size: 23))
+                    .font(.system(size: 20))
                     .foregroundStyle(.black)
                     .frame(maxWidth: 150, alignment: .leading)
 
@@ -102,7 +102,7 @@ struct TimeChoice: View {
                 }, label: {
                     Text("返回")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)
@@ -115,7 +115,7 @@ struct TimeChoice: View {
                 }, label: {
                     Text("確定")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)

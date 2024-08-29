@@ -32,9 +32,15 @@ struct SuitcaseView: View {
                                             .bold()
                                             .font(.system(size: 20))
                                             .foregroundColor(.black)
+                                            .padding(.bottom)
+                                            .padding(.leading)
+                                            .padding(.top)
                                         Text("\(formatDate(plan.startdate)) - \(formatDate(plan.enddate))")
-                                            .font(.system(size: 14))
+                                            .font(.system(size: 15))
                                             .foregroundColor(.gray)
+                                            .padding(.bottom)
+                                            .padding(.leading)
+
                                     }
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -42,17 +48,19 @@ struct SuitcaseView: View {
                                         .frame(width: 15, height: 15)
                                         .bold()
                                         .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+                                        .padding(.trailing,10)
                                 }
-                                .padding(20)
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
+                                    RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 3)
                                 )
+                                .frame(width: 280, height: 100)
+                                .padding(2)
                             }
-                            .frame(width: 300, height: 100)
+                  
                         }
                     }
-                    .padding()
+
                 }
             }
         }

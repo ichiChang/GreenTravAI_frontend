@@ -126,6 +126,7 @@ struct SearchView: View{
                     ForEach(placeViewModel.places) { place in
                         VStack(spacing: 0) {
                             ZStack(alignment:.top){
+                                
                                 Button(action: {
                                     placeViewModel.toggleFavorite(for: place.id)
 

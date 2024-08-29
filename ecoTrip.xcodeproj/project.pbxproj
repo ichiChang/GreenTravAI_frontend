@@ -31,9 +31,11 @@
 		FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F762C3D1098002704D6 /* PlacePicker.swift */; };
 		FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F782C3D72A6002704D6 /* DatePick.swift */; };
 		FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */; };
-		FD1D0F7D2C3E6C72002704D6 /* PlanMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7C2C3E6C72002704D6 /* PlanMenuView.swift */; };
+		FD1D0F7D2C3E6C72002704D6 /* NewJourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */; };
 		FD1D0F7F2C3FC580002704D6 /* TimeChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */; };
 		FD1D0F812C3FC5A6002704D6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F802C3FC5A6002704D6 /* Memo.swift */; };
+		FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */; };
+		FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */; };
 		FD3F3C7F2C5685B100879509 /* ChatPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3F3C7E2C5685B100879509 /* ChatPlan.swift */; };
 		FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD47687E2C3533B900C01DA6 /* PlaceView.swift */; };
 		FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768802C35355800C01DA6 /* PlaceListView.swift */; };
@@ -41,7 +43,6 @@
 		FD4D02542C3BD8DE0037F969 /* NewPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4D02532C3BD8DE0037F969 /* NewPlan.swift */; };
 		FD601C242C3298D1000443BE /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD601C232C3298D1000443BE /* PlanView.swift */; };
 		FD6189D42C626138004ED264 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6189D32C626138004ED264 /* Demo.swift */; };
-		FD70906D2C296E6800209E72 /* AgentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD70906C2C296E6800209E72 /* AgentView.swift */; };
 		FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7090702C2F00E500209E72 /* SiteInfoView.swift */; };
 		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
@@ -107,9 +108,11 @@
 		FD1D0F762C3D1098002704D6 /* PlacePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePicker.swift; sourceTree = "<group>"; };
 		FD1D0F782C3D72A6002704D6 /* DatePick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePick.swift; sourceTree = "<group>"; };
 		FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePicker.swift; sourceTree = "<group>"; };
-		FD1D0F7C2C3E6C72002704D6 /* PlanMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanMenuView.swift; sourceTree = "<group>"; };
+		FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewJourneyView.swift; sourceTree = "<group>"; };
 		FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeChoice.swift; sourceTree = "<group>"; };
 		FD1D0F802C3FC5A6002704D6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeRideView.swift; sourceTree = "<group>"; };
+		FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanMenuView.swift; sourceTree = "<group>"; };
 		FD3F3C7E2C5685B100879509 /* ChatPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPlan.swift; sourceTree = "<group>"; };
 		FD47687E2C3533B900C01DA6 /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
 		FD4768802C35355800C01DA6 /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
@@ -117,7 +120,6 @@
 		FD4D02532C3BD8DE0037F969 /* NewPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlan.swift; sourceTree = "<group>"; };
 		FD601C232C3298D1000443BE /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FD6189D32C626138004ED264 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
-		FD70906C2C296E6800209E72 /* AgentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentView.swift; sourceTree = "<group>"; };
 		FD7090702C2F00E500209E72 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
 		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -193,7 +195,6 @@
 		10A855892C00CCB8004F0207 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FD3F3C7D2C56856800879509 /* Chat */,
 				FDE297772C26646800FE09FC /* MenuView.swift */,
 				10A8558C2C00CD13004F0207 /* StopListView.swift */,
 				10A8558E2C00CDA5004F0207 /* DayListView.swift */,
@@ -201,10 +202,10 @@
 				10DA61042C4404A700EAE64B /* RootView.swift */,
 				FDE297732C1F1A9500FE09FC /* LoginView.swift */,
 				FDE297752C1F1AA300FE09FC /* SignupView.swift */,
-				FD70906C2C296E6800209E72 /* AgentView.swift */,
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
 				FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */,
+				FD3F3C7D2C56856800879509 /* Chat */,
 				FD4D02552C3BDEE30037F969 /* 行程 */,
 				FDAB260E2C4E5F5D00CED5EC /* Profile */,
 			);
@@ -288,7 +289,7 @@
 		FD4D02552C3BDEE30037F969 /* 行程 */ = {
 			isa = PBXGroup;
 			children = (
-				FD1D0F7C2C3E6C72002704D6 /* PlanMenuView.swift */,
+				FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */,
 				FD601C232C3298D1000443BE /* PlanView.swift */,
 				FD47687E2C3533B900C01DA6 /* PlaceView.swift */,
 				FD4768802C35355800C01DA6 /* PlaceListView.swift */,
@@ -300,6 +301,8 @@
 				FD1D0F7E2C3FC580002704D6 /* TimeChoice.swift */,
 				FD1D0F802C3FC5A6002704D6 /* Memo.swift */,
 				FD6189D32C626138004ED264 /* Demo.swift */,
+				FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */,
+				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
 			);
 			path = "行程";
 			sourceTree = "<group>";
@@ -450,15 +453,15 @@
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
-				FD70906D2C296E6800209E72 /* AgentView.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
 				10DA61052C4404A700EAE64B /* RootView.swift in Sources */,
 				FDC172912C58C9F100706856 /* ChatTicket.swift in Sources */,
 				FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */,
 				FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */,
+				FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
-				FD1D0F7D2C3E6C72002704D6 /* PlanMenuView.swift in Sources */,
+				FD1D0F7D2C3E6C72002704D6 /* NewJourneyView.swift in Sources */,
 				FD4D02542C3BD8DE0037F969 /* NewPlan.swift in Sources */,
 				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
@@ -492,6 +495,7 @@
 				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
 				108C00DC2C5FAD6700A40CA0 /* UserViewModel.swift in Sources */,
+				FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */,
 				FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

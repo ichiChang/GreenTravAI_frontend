@@ -45,7 +45,7 @@ struct NewPlan: View {
                       } label: {
                           HStack {
                               Text("選擇地點")
-                                  .font(.system(size: 25))
+                                  .font(.system(size: 20))
                                   .foregroundStyle(.black)
                                   .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
@@ -75,7 +75,7 @@ struct NewPlan: View {
 //                                  .foregroundStyle(.black)
 //                                  .padding()
                               Text("選擇時間")
-                                  .font(.system(size: 25))
+                                  .font(.system(size: 20))
                                   .foregroundStyle(.black)
                                   .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
@@ -101,7 +101,7 @@ struct NewPlan: View {
                       } label: {
                           HStack {
                               Text("備註")
-                                  .font(.system(size: 25))
+                                  .font(.system(size: 20))
                                   .foregroundStyle(.black)
                                   .frame(maxWidth: 230, alignment: .leading)
                                   .padding()
@@ -129,7 +129,7 @@ struct NewPlan: View {
                       }, label: {
                           Text("新增")
                               .bold()
-                              .font(.system(size: 25))
+                              .font(.system(size: 20))
                               .foregroundColor(.white)
                       })
                       .frame(width: 300, height: 42)

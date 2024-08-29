@@ -34,7 +34,7 @@ struct Memo: View {
             HStack{
             
                 Text("行程細節備註")
-                    .font(.system(size: 25))
+                    .font(.system(size: 20))
                     .padding([.horizontal],30)
                     .padding()
 
@@ -43,7 +43,7 @@ struct Memo: View {
             // Text field
             ZStack {
                      // Background Color
-                     Color(hex: "F5EFCF")
+                     Color(hex: "D9D9D9")
                          .cornerRadius(20)
                          .frame(width: 300, height: 300)
 
@@ -53,7 +53,7 @@ struct Memo: View {
                          .background(Color.clear)
                          .frame(width: 300, height: 300)
                          .cornerRadius(20)
-                         .colorMultiply(Color.init(hex: "F5EFCF", alpha: 1.0))
+                         .colorMultiply(Color.init(hex: "D9D9D9", alpha: 1.0))
                          .focused($focus)
                          .onAppear {
                              focus = true
@@ -73,7 +73,7 @@ struct Memo: View {
                 }, label: {
                     Text("返回")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)
@@ -87,7 +87,7 @@ struct Memo: View {
                 }, label: {
                     Text("確定")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)
