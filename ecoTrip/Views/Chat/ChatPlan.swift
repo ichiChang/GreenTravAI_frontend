@@ -18,7 +18,7 @@ struct ChatPlan: View {
     @State private var upperbudget = ""
     @State private var lowerbudget = ""
     @EnvironmentObject var colorManager: ColorManager
-
+    var onSubmit: ((String) -> Void)?
     
     var body: some View {
         
@@ -100,6 +100,7 @@ struct ChatPlan: View {
                             self.duration = filtered
                         }
                     }
+                    .font(.system(size: 15))
                     .padding(10)
                     .frame(width: 280, height: 36)
                     .cornerRadius(10)
@@ -114,31 +115,6 @@ struct ChatPlan: View {
                 //預算
                 HStack{
                     VStack(alignment:.leading){
-                        Text("預算上限")
-                            .bold()
-                            .foregroundStyle(.black)
-                            .font(.system(size: 15))
-                        
-                        TextField("", text: $upperbudget)
-                            .onChange(of: upperbudget) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.upperbudget = filtered
-                                }
-                            }
-                            .padding(10)
-                            .frame(width: 130, height: 36)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(colorManager.mainColor, lineWidth: 2)
-                            )
-                            .padding(.bottom)
-                        
-                        
-                    }.padding(.trailing,15)
-                    
-                    VStack(alignment:.leading){
                         Text("預算下限")
                             .bold()
                             .foregroundStyle(.black)
@@ -151,6 +127,7 @@ struct ChatPlan: View {
                                     self.lowerbudget = filtered
                                 }
                             }
+                            .font(.system(size: 15))
                             .padding(10)
                             .frame(width: 130, height: 36)
                             .cornerRadius(10)
@@ -160,6 +137,34 @@ struct ChatPlan: View {
                             )
                             .padding(.bottom)
                     }
+                    
+                    VStack(alignment:.leading){
+                        Text("預算上限")
+                            .bold()
+                            .foregroundStyle(.black)
+                            .font(.system(size: 15))
+                        
+                        TextField("", text: $upperbudget)
+                            .onChange(of: upperbudget) { newValue in
+                                let filtered = newValue.filter { "0123456789".contains($0) }
+                                if filtered != newValue {
+                                    self.upperbudget = filtered
+                                }
+                            }
+                            .font(.system(size: 15))
+                            .padding(10)
+                            .frame(width: 130, height: 36)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(colorManager.mainColor, lineWidth: 2)
+                            )
+                            .padding(.bottom)
+                        
+                        
+                    }.padding(.trailing,15)
+                    
+               
                 }
                 .frame(width: 280)
                 
@@ -205,6 +210,8 @@ struct ChatPlan: View {
             
             //確定按鈕
             Button {
+                let message = "請幫我規劃「 \(selectedPlace)」 \(duration)天行程\n預算：\(lowerbudget)～\(upperbudget)\n主要交通方式：\(selectedRide)"
+                            onSubmit?(message) // Pass the formatted message back to ChatView
                 showChatPlan = false
 
             } label: {

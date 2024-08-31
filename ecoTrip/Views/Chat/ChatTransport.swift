@@ -20,7 +20,8 @@ struct ChatTransport: View {
     @State private var navigateToTimeChoice = false
     @State private var timeChoice = Time.departure.rawValue  // Default to departure time
     @EnvironmentObject var colorManager: ColorManager
-
+    var onSubmit: ((String) -> Void)?
+    
     var body: some View {
         VStack {
             Button(action: {
@@ -131,6 +132,7 @@ struct ChatTransport: View {
                             selection: $departureTime,
                             displayedComponents: .hourAndMinute
                         )
+                        .scaleEffect(0.8)
                         .disabled(timeChoice != Time.departure.rawValue)
                         .labelsHidden()
                         .opacity(timeChoice == Time.departure.rawValue ? 1 : 0.5)
@@ -142,6 +144,7 @@ struct ChatTransport: View {
                             selection: $arrivalTime,
                             displayedComponents: .hourAndMinute
                         )
+                        .scaleEffect(0.8)
                         .disabled(timeChoice != Time.arrival.rawValue)
                         .labelsHidden()
                         .opacity(timeChoice == Time.arrival.rawValue ? 1 : 0.5)
@@ -152,8 +155,25 @@ struct ChatTransport: View {
             }
             
             Button {
-                showChatTransport = false
-
+                // Create a DateFormatter to format the time as "HH:mm" or "H:mm"
+                   let formatter = DateFormatter()
+                   formatter.dateFormat = "H:mm"
+                   
+                   // Format the departureTime and arrivalTime using the formatter
+                   let formattedDepartureTime = formatter.string(from: departureTime)
+                   let formattedArrivalTime = formatter.string(from: arrivalTime)
+                   
+                   // Construct the message based on the selected timeChoice
+                   let message: String
+                   if timeChoice == Time.departure.rawValue {
+                       message = "我預計 \(formattedDepartureTime) 時從「\(selectedPlace1)」出發，請告訴我該如何抵達「\(selectedPlace2)」？"
+                   } else {
+                       message = "我預計 \(formattedArrivalTime) 前抵達「\(selectedPlace2)」\n請告訴我該如何從「\(selectedPlace1)」前往？"
+                   }
+                   
+                   onSubmit?(message) // Pass the formatted message back to ChatView
+                   
+                   showChatTransport = false
             } label: {
                 Text("查詢")
                     .bold()
@@ -249,6 +269,7 @@ struct RadioButtonsGroup: View {
         selectedID = selected
         callback(selected)
     }
+
 }
 #Preview {
     ChatTransport(showChatTransport:  .constant(true))

@@ -18,13 +18,15 @@ struct PlaceView: View {
                 Text(name)
                     .bold()
                     .font(.system(size: 20))
-                    .padding(10)
+                    .padding(.top,10)
+                    .padding(.leading,10)
+                    .padding(.bottom,3)
                 Text(time)
                     .bold()
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
-                    .padding(.bottom,10)
+                    .padding(.bottom,5)
 
             }
             .padding()

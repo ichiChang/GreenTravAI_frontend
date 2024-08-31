@@ -21,7 +21,7 @@ struct SuitcaseView: View {
                 Text("No travel plans found")
             } else {
                 ScrollView {
-                    VStack(spacing: 20) {
+                    VStack(spacing: 0) {
                         ForEach(viewModel.travelPlans) { plan in
                             Button(action: {
                                 // Action when a plan is tapped
@@ -32,12 +32,12 @@ struct SuitcaseView: View {
                                             .bold()
                                             .font(.system(size: 20))
                                             .foregroundColor(.black)
-                                            .padding(.bottom)
                                             .padding(.leading)
                                             .padding(.top)
                                         Text("\(formatDate(plan.startdate)) - \(formatDate(plan.enddate))")
                                             .font(.system(size: 15))
                                             .foregroundColor(.gray)
+                                            .padding(.top,3)
                                             .padding(.bottom)
                                             .padding(.leading)
 
@@ -46,16 +46,15 @@ struct SuitcaseView: View {
                                     Image(systemName: "chevron.right")
                                         .resizable()
                                         .frame(width: 15, height: 15)
-                                        .bold()
                                         .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
-                                        .padding(.trailing,10)
+                                        .padding(.trailing, 10)
                                 }
+                                .frame(width: 280, height: 90)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 3)
+                                        .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 2)
                                 )
-                                .frame(width: 280, height: 100)
-                                .padding(2)
+                                .padding()
                             }
                   
                         }

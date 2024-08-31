@@ -11,10 +11,9 @@ struct PlanView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var indexd: Int
     @State var showNewPlan = false
-    @State private var showDemo = false
+    @State var showDemo = false
     @State private var navigationPath = NavigationPath()
-    
-    @State private var showChatView = false
+    @State var showChatView = false
     
     // Array to hold the days
     @State var days = ["8/1", "8/2", "8/3"]
@@ -33,32 +32,51 @@ struct PlanView: View {
                                 .font(.system(size: 30))
                         })
                         .padding()
-                        .offset(x:20,y:40)
+                        .offset(x:40,y:40)
                         
                         Spacer()
-                            .frame(width:220)
+                            .frame(width:200)
+                        
+                   
+                        Button(action: {
+                            showDemo.toggle()
+                        }, label: {
+                            Image(systemName: "questionmark.circle")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 30))
+                      
+                        })
+                        .padding(.horizontal)
+                        .offset(x:20,y:40)
+                        
+                        // 地圖 button
+                        Button(action: {
+                            
+                        }, label: {
+                           
+                                Image(systemName: "location.circle")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 30))
+                      
+                            
+                        })
+                        .padding(.horizontal)
+                        .offset(x:-10,y:40)
                         
                         Button(action: {
                             showChatView.toggle()
                         }, label: {
-                            Image("agent")
-                                .resizable()
-                                .frame(width: 35, height: 30)
-                                .padding(10)
-                        })
-                        .padding(.horizontal)
-                        .offset(x:20,y:40)
-
-                        
-                        Button(action: {
-                            showDemo.toggle()
-                        }, label: {
-                            Image(systemName: "questionmark.circle.fill")
+                            Image(systemName: "ellipsis.message")
                                 .foregroundStyle(.white)
                                 .font(.system(size: 30))
-                                .padding()
-                                .offset(x:-20,y:40)
+                   
+                           
                         })
+                        .padding(.horizontal)
+                        .offset(x:-40,y:40)
+                
+
+                        
                         
                         
                         
@@ -75,6 +93,7 @@ struct PlanView: View {
                                 Button(action: {
                                     self.indexd = index
                                 }, label: {
+                                    
                                     Text(day)
                                         .bold()
                                         .font(.system(size: 20))
@@ -82,9 +101,10 @@ struct PlanView: View {
                                         .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 40)
                                         .background(indexd == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
                                     
+                                    
                                 })
                             }
-                            
+                           
                             // Add day button
                             Button(action: {
                                 let nextDay = "8/\(days.count + 1)"
@@ -102,7 +122,9 @@ struct PlanView: View {
                     
                     
                     
-                    PlaceListView()
+                    if indexd == 0 {
+                         PlaceListView()
+                    }
                     
                     
                     // 新增行程 button
@@ -122,39 +144,26 @@ struct PlanView: View {
                     .cornerRadius(10)
                     .padding()
                     
-                    // 地圖 button
-                    Button(action: {
-                        
-                    }, label: {
-                        ZStack {
-                            Circle()
-                                .foregroundColor(Color.init(hex: "8F785C", alpha: 1.0))
-                                .frame(width: 60, height: 60)
-                                .padding(5)
-                            
-                            Image(systemName: "map")
-                                .resizable()
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(.white)
-                                .bold()
-                        }
-                    })
+                
+                    if indexd != 0 {
+                         Spacer()
+                    }
                     
                 }
             
+            }
+            .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
+                Demo() 
             }
             .sheet(isPresented: $showNewPlan) {
                 NewPlan()
                     .presentationDetents([.height(650)])
                 
             }
-            .navigationBarBackButtonHidden(true)
-            .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
-                Demo()
-            }
             .sheet(isPresented: $showChatView) {
                 ChatView()
             }
+            .navigationBarBackButtonHidden(true)
         
             
         }

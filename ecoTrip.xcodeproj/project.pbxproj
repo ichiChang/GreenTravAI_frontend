@@ -289,6 +289,7 @@
 		FD4D02552C3BDEE30037F969 /* 行程 */ = {
 			isa = PBXGroup;
 			children = (
+				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
 				FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */,
 				FD601C232C3298D1000443BE /* PlanView.swift */,
 				FD47687E2C3533B900C01DA6 /* PlaceView.swift */,
@@ -302,7 +303,6 @@
 				FD1D0F802C3FC5A6002704D6 /* Memo.swift */,
 				FD6189D32C626138004ED264 /* Demo.swift */,
 				FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */,
-				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
 			);
 			path = "行程";
 			sourceTree = "<group>";

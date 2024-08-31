@@ -14,6 +14,7 @@ struct ChatView: View {
     @State var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
+    @State private var isChatView = false
     
     //四個PopUp
     @State private var showChatPlan = false
@@ -38,7 +39,6 @@ struct ChatView: View {
                     }
                     Spacer()
                     
-                    
                     Toggle(isOn: $isEnabled) {
                         // 無顯示的內容
                     }
@@ -47,7 +47,20 @@ struct ChatView: View {
                     .onChange(of: isEnabled) { newValue in
                         colorManager.mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
                     }
-
+                    if isChatView{
+                        Button{
+                            isChatView = false
+                        }label: {
+                            Image(systemName: "arrowshape.turn.up.backward.fill")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 20))
+                            
+                        }
+                    } else{
+                        
+                    }
+                  
+             
                     
                 }
                 .frame(maxWidth: .infinity)
@@ -56,65 +69,60 @@ struct ChatView: View {
                 
                 
                 ScrollViewReader { proxy in
-                    
-                    //選單畫面
-                    ScrollView{
-                        Spacer()
-                        
-                        Image(.leafLogo)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width:80)
-                            .padding(.top,60)
-                            .padding(.bottom,20)
-                        
-                        //四個按鈕
-                        LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
-                            ForEach(buttons, id: \.self) { buttonLabel in
-                                Button(action: {
-                                    handleButtonTap(buttonLabel: buttonLabel)
-                                }) {
-                                    Text(buttonLabel)
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.black)
-                                        .padding()
-                                        .frame(width: 120, height: 80)
-                                        .background(Color.white)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(colorManager.mainColor, lineWidth: 2)
-                                        )
+                    ScrollView {
+                        if isChatView {
+                            //對話樣式
+                            LazyVStack {
+                                ForEach(messages, id: \.self) { message in
+                                    MessageView(currentMessage: message)
+                                        .id(message)
                                 }
-                                
+                            }
+                            .onReceive(Just(messages)) { _ in
+                                withAnimation {
+                                    proxy.scrollTo(messages.last, anchor: .bottom)
+                                }
+                            }
+                            .onAppear {
+                                withAnimation {
+                                    proxy.scrollTo(messages.last, anchor: .bottom)
+                                }
+                            }
+                        } else {
+                            //選單畫面
+                            Spacer()
+                            
+                            Image(.leafLogo)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width:80)
+                                .padding(.top,60)
+                                .padding(.bottom,20)
+                            
+                            //四個按鈕
+                            LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
+                                ForEach(buttons, id: \.self) { buttonLabel in
+                                    Button(action: {
+                                        handleButtonTap(buttonLabel: buttonLabel)
+                                    }) {
+                                        Text(buttonLabel)
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.black)
+                                            .padding()
+                                            .frame(width: 120, height: 80)
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .stroke(colorManager.mainColor, lineWidth: 2)
+                                            )
+                                    }
+                                }
                             }
                         }
                     }
-                    .frame(width:280)
+                    .frame(width: isChatView ? 350:300)
                     .padding()
-                    
-                    
                 }
-                
-                //對話
-                //                ScrollView {
-                //                    LazyVStack {
-                //                        ForEach(messages, id: \.self) { message in
-                //                            MessageView(currentMessage: message)
-                //                                .id(message)
-                //                        }
-                //                    }
-                //                    .onReceive(Just(messages)) { _ in
-                //                        withAnimation {
-                //                            proxy.scrollTo(messages.last, anchor: .bottom)
-                //                        }
-                //
-                //                    }.onAppear {
-                //                        withAnimation {
-                //                            proxy.scrollTo(messages.last, anchor: .bottom)
-                //                        }
-                //                    }
-                //                }
-                
                 
                 // Textfield
                 HStack {
@@ -124,46 +132,64 @@ struct ChatView: View {
                         .padding(.top,10)
                         .padding(.leading,10)
                     
-                    
-                    
                     Button(action: sendMessage)   {
                         Image(systemName: "paperplane.fill")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
                             .padding(.top,5)
                             .padding(.trailing,10)
-                        
-                        
                     }
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
                 .background(colorManager.mainColor)
-                
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
-                        ChatPlan(showChatPlan: $showChatPlan)
-                    }
+                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
+                     sendMessage(with: message)
+                     // Switch to chat view when the message is sent
+                     isChatView = true
+                 })
+             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTransport) {
-                ChatTransport(showChatTransport: $showChatTransport)
+                ChatTransport(showChatTransport:$showChatTransport,
+                    onSubmit: { message in
+                    sendMessage(with: message)
+                    // Switch to chat view when the message is sent
+                    isChatView = true
+                })
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTicket) {
-                ChatTicket(showChatTicket: $showChatTicket)
+                ChatTicket(showChatTicket: $showChatTicket,
+                   onSubmit: { message in
+                   sendMessage(with: message)
+                   // Switch to chat view when the message is sent
+                   isChatView = true
+               })
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatAccom) {
-                ChatAccom(showChatAccom: $showChatAccom)
+                ChatAccom(showChatAccom: $showChatAccom,
+                    onSubmit: { message in
+                    sendMessage(with: message)
+                    // Switch to chat view when the message is sent
+                    isChatView = true
+        })
             }
-            
         }
     }
+
     func sendMessage() {
-        
-        if !newMessage.isEmpty{
-            messages.append(Message(content: newMessage, isCurrentUser: true))
-            messages.append(Message(content: "Reply of " + newMessage , isCurrentUser: false))
-            newMessage = ""
-        }
+        sendMessage(with: newMessage)
     }
+    
+    func sendMessage(with content: String? = nil) {
+          let messageToSend = content ?? newMessage
+          if !messageToSend.isEmpty {
+              messages.append(Message(content: messageToSend, isCurrentUser: true))
+              messages.append(Message(content: "Reply", isCurrentUser: false))
+              newMessage = ""
+          }
+      }
     
     func handleButtonTap(buttonLabel: String) {
         switch buttonLabel {
@@ -179,8 +205,9 @@ struct ChatView: View {
             break
         }
     }
-        
 }
+
+
 
 struct OvalBorder: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
