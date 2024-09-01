@@ -10,7 +10,6 @@ import MapKit
 
 struct SiteInfoView: View {
     @Binding var indexheart: Int
-
     @Environment(\.dismiss) var dismiss
     let place: Place
     
@@ -19,7 +18,6 @@ struct SiteInfoView: View {
             
             ZStack(alignment: .topLeading) {
                 HStack {
-                    
                     
                     Button(action: {
                         dismiss()
@@ -73,9 +71,9 @@ struct SiteInfoView: View {
                 }
                 .padding(.horizontal)
                     
-                }
-                .frame(maxWidth: .infinity)
-                .background(Color.init(hex: "5E845B", alpha: 1.0))
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color.init(hex: "5E845B", alpha: 1.0))
                 
                 
                 
@@ -83,7 +81,8 @@ struct SiteInfoView: View {
                     switch phase {
                     case .success(let image):
                         image.resizable()
-                            .scaledToFit()
+                            .scaledToFill()
+
                     case .failure(_):
                         Image(systemName: "photo")
                             .resizable()
@@ -101,7 +100,7 @@ struct SiteInfoView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(place.placename).bold()
-                            .font(.title2)
+                            .font(.system(size: 20))
                             .padding(.top, 10)
                             .padding(.leading, 10)
                             .padding(.bottom, 5)
@@ -127,8 +126,7 @@ struct SiteInfoView: View {
                     }
                 }
                 .padding()
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
+              
                 
                 Divider()
                     .frame(minHeight: 2)

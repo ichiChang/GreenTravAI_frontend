@@ -12,25 +12,29 @@ struct MenuView: View {
     @State var indexd = 0
     @State var indexheart = 0
     @State var showChatView = false
-    @State var showPlanView = false
+    @State var showPlanMenuView = false
     @State var showProfileView = false
     @State var showShortCutView = false
     @State var showSearchView = true  // Set default view to SearchView
     @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
-        VStack {
-            if showProfileView {
-                ProfileView()
-            }  else if showShortCutView {
-                ShortCutView()
-            } else if showSearchView {
-                SearchView(index1: $index1)
-            }
-
+        
+        VStack(spacing:0) {
+            
+                if showProfileView {
+                    ProfileView()
+                }  else if showShortCutView {
+                    ShortCutView()
+                } else if showSearchView {
+                    SearchView(index1: $index1)
+                } else if showPlanMenuView {
+                    PlanMenuView(indexd: indexd).environmentObject(authViewModel)
+                }
+            
             CustomTabs(index: $index,
                            showChatView: $showChatView,
-                           showPlanView: $showPlanView,
+                           showPlanMenuView: $showPlanMenuView,
                            showProfileView: $showProfileView,
                            showSearchView: $showSearchView,
                            showShortCutView: $showShortCutView,
@@ -39,31 +43,26 @@ struct MenuView: View {
         .sheet(isPresented: $showChatView) {
             ChatView()
         }
-        .sheet(isPresented: $showPlanView) {
-            PlanMenuView()
-        }
+        
     }
 }
 
 struct CustomTabs: View {
     @Binding var index: Int
     @Binding var showChatView: Bool
-    @Binding var showPlanView: Bool
+    @Binding var showPlanMenuView: Bool
     @Binding var showProfileView: Bool
     @Binding var showSearchView: Bool
     @Binding var showShortCutView: Bool
     @ObservedObject var authViewModel: AuthViewModel
 
     var body: some View {
-        Spacer()
+   
         HStack(alignment: .bottom, spacing: 10) {
             Button(action: {
                 self.index = 0
                 // Reset other views and ensure SearchView is visible
-                showProfileView = false
-                showChatView = false
-                showPlanView = false
-                showShortCutView = false
+                resetViews()
                 showSearchView = true
             }, label: {
                 Image(index == 0 ? "searchGreen" : "searchWhite")
@@ -75,6 +74,7 @@ struct CustomTabs: View {
             // Other buttons should also reset showSearchView when they are active
             Button(action: {
                 self.index = 1
+                resetViews()
                 showShortCutView.toggle()
             }, label: {
                 Image(index == 1 ? "squareGreen" : "square")
@@ -85,26 +85,20 @@ struct CustomTabs: View {
 
             Button(action: {
                 self.index = 2
-                showPlanView.toggle()
+                resetViews()
+                showPlanMenuView = true
             }, label: {
-                ZStack {
-                    Circle()
-                        .foregroundColor(Color(hex: "F5EFCF"))
-                        .frame(width: 60, height: 60)
-
-                    Image(systemName: "plus")
-                       .resizable()
-                       .frame(width: 40, height: 40)
-                       .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-                       .padding(10)
-                }
+                Image(systemName: "suitcase")
+                    .resizable()
+                    .frame(width: 37, height: 40)
+                    .padding(10)
+                    .foregroundColor(index == 2 ? Color(hex: "B1D1A9", alpha: 1.0) : .white)
+            
             })
-            .sheet(isPresented: $showPlanView) {
-                PlanMenuView().environmentObject(authViewModel)
-            }
-
+           
             Button(action: {
                 self.index = 3
+      
                 showChatView.toggle()
             }, label: {
                 Image(index == 3 ? "agent" : "agent")
@@ -115,6 +109,7 @@ struct CustomTabs: View {
 
             Button(action: {
                 self.index = 4
+                resetViews()
                 showProfileView = true
             }, label: {
                 Image(index == 4 ? "userInfogreen" : "UserInfo")
@@ -129,10 +124,13 @@ struct CustomTabs: View {
         .navigationBarBackButtonHidden(true)
 
     }
+    private func resetViews() {
+            showProfileView = false
+            showChatView = false
+            showPlanMenuView = false
+            showShortCutView = false
+            showSearchView = false
+        }
 }
 
-struct MenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuView()
-    }
-}
+

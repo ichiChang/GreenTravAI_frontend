@@ -45,6 +45,7 @@ struct LoginView: View {
                         .padding(.top)
                     
                     TextField("", text: $email)
+                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                         .frame(width:250, height: 30)
                         .padding(.horizontal)
                         .overlay(RoundedRectangle(cornerRadius: 8)

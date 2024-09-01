@@ -63,7 +63,6 @@ struct Demo: View {
         VStack {
     
             Button(action: {
-                dismiss()
             }, label: {
                 HStack{
                     Image(systemName: "xmark")

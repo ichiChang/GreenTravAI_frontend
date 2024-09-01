@@ -14,8 +14,9 @@ struct ChatView: View {
     @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
+    @State private var isChatView = false
     
-    //四個PopUp
+    // Four PopUps
     @State private var showChatPlan = false
     @State private var showChatTransport = false
     @State private var showChatTicket = false
@@ -39,12 +40,22 @@ struct ChatView: View {
                     Spacer()
                     
                     Toggle(isOn: $isEnabled) {
-                        // 無顯示的內容
+                        // No display content
                     }
                     .frame(width: 150)
                     .toggleStyle(ColoredToggleStyle(label: "減碳模式", onColor: .green, offColor: Color.init(hex: "413629", alpha: 0.6), thumbColor: .white))
                     .onChange(of: isEnabled) { newValue in
                         colorManager.mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
+                    }
+                    
+                    if isChatView {
+                        Button {
+                            isChatView = false
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.backward.fill")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 20))
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -54,7 +65,7 @@ struct ChatView: View {
                 // Chat content
                 ScrollViewReader { proxy in
                     ScrollView {
-                        if viewModel.messages.isEmpty {
+                        if !isChatView && viewModel.messages.isEmpty {
                             // Initial view when no messages
                             VStack {
                                 Spacer()
@@ -101,6 +112,8 @@ struct ChatView: View {
                             }
                         }
                     }
+                    .frame(width: isChatView ? 350 : 300)
+                    .padding()
                 }
                 
                 // Input area
@@ -124,27 +137,46 @@ struct ChatView: View {
                 .background(colorManager.mainColor)
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
-                ChatPlan(showChatPlan: $showChatPlan)
+                ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
+                    sendMessage(with: message)
+                    isChatView = true
+                })
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTransport) {
-                ChatTransport(showChatTransport: $showChatTransport)
+                ChatTransport(showChatTransport: $showChatTransport, onSubmit: { message in
+                    sendMessage(with: message)
+                    isChatView = true
+                })
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTicket) {
-                ChatTicket(showChatTicket: $showChatTicket)
+                ChatTicket(showChatTicket: $showChatTicket, onSubmit: { message in
+                    sendMessage(with: message)
+                    isChatView = true
+                })
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatAccom) {
-                ChatAccom(showChatAccom: $showChatAccom)
+                ChatAccom(showChatAccom: $showChatAccom, onSubmit: { message in
+                    sendMessage(with: message)
+                    isChatView = true
+                })
             }
         }
     }
-    
+
     func sendMessage() {
-        guard let token = authViewModel.accessToken, !newMessage.isEmpty else {
+        sendMessage(with: newMessage)
+    }
+    
+    func sendMessage(with content: String? = nil) {
+        guard let token = authViewModel.accessToken else {
             return
         }
         
-        viewModel.sendMessage(query: newMessage, token: token)
-        newMessage = ""
+        let messageToSend = content ?? newMessage
+        if !messageToSend.isEmpty {
+            viewModel.sendMessage(query: messageToSend, token: token)
+            newMessage = ""
+        }
     }
     
     func handleButtonTap(buttonLabel: String) {
@@ -232,8 +264,6 @@ struct ColoredToggleStyle: ToggleStyle {
 }
 
 extension Color {
-    static let cloloABC = Color(hex: "#FFFFFF", alpha: 0.5)
-
     init(hex: String, alpha: CGFloat = 1.0) {
         var hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         if hex.hasPrefix("#") {
@@ -264,8 +294,10 @@ extension Color {
     }
 }
 
-#Preview {
-    ChatView()
-        .environmentObject(ColorManager()) // 提供 ColorManager 給預覽
-        .environmentObject(AuthViewModel()) // 提供 AuthViewModel 給預覽
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView()
+            .environmentObject(ColorManager())
+            .environmentObject(AuthViewModel())
+    }
 }

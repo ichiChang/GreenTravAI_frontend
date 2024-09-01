@@ -2,233 +2,205 @@
 //  PlanMenuView.swift
 //  ecoTrip
 //
-//  Created by 陳萭鍒 on 2024/7/10.
+//  Created by 陳萭鍒 on 2024/8/24.
 //
 
 import SwiftUI
 
 struct PlanMenuView: View {
-    @Environment(\.dismiss) var dismiss
+    @State private var textInput = ""
+    @State private var showNewJourney = false
+    @State private var selectedTab: Tab = .myPlans
+    @State private var showPlanView = false  // Add this state to trigger PlanView
+    @State var indexd: Int
     @StateObject private var viewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var showPlacePicker = false
-    @State var showDatePicker = false
-    @State private var showRidePicker = false
-    @State private var selectedPlace = ""
-    @State private var selectedRide = ""
-    @State var selectedDates: Set<DateComponents> = []
-    @State private var navigateToPlanView = false
-    @State private var indexd = 0
-    @State private var planName: String = ""
 
+    enum Tab {
+        case myPlans
+        case popularPlans
+    }
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.init(hex: "5E845B", alpha: 1.0)
-                    .ignoresSafeArea()
-                VStack {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.down")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 30))
-                        }
-                        Spacer()
-                    }.padding()
-                    
-                    Spacer()
-                        .frame(height: 100)
-         
-                    VStack(alignment: .leading) {
-                        
-                        Text("行程名稱")
-                            .bold()
-                            .foregroundStyle(.white)
-                            .font(.system(size: 20))
-                        
-                        TextField("", text: $planName)
-                            .padding(.horizontal)
-                            .frame(width: 330, height: 36)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom)
-                        
-                        HStack {
-                            Text("目的地")
-                                .bold()
-                                .foregroundStyle(.white)
-                                .font(.system(size: 20))
-                            Spacer()
-                                .frame(width: 150)
-                        }
-                        Button(action: {
-                            showPlacePicker.toggle()
-                        }, label: {
+        VStack(spacing:0) {
+            HStack {
+                 Spacer()
+                 
+                 Text("我的旅行計畫")
+                     .font(.system(size: 20))
+                     .bold(selectedTab == .myPlans)
+                     .foregroundColor(.white)
+                     .underline(selectedTab == .myPlans)
+                     .onTapGesture {
+                         selectedTab = .myPlans
+                     }
+                 
+                 Spacer()
+                 
+                 Text("熱門旅行計畫")
+                     .font(.system(size: 20))
+                     .bold(selectedTab == .popularPlans)
+                     .foregroundColor(.white)
+                     .underline(selectedTab == .popularPlans)
+                     .onTapGesture {
+                         selectedTab = .popularPlans
+                     }
+                 
+                 Spacer()
+             }
+             .ignoresSafeArea()
+             .frame(height: 50)
+             .background(Color.init(hex: "5E845B", alpha: 1.0))
+            
+            // Search bar
+            HStack {
+                // Search icon
+                Image(systemName: "magnifyingglass")
+                    .frame(width: 45, height: 45)
+                    .padding(.leading, 5)
+                
+                // Text field
+                TextField(" ", text: $textInput)
+                    .onSubmit {
+                        print(textInput)
+                    }
+                    .padding(.vertical, 10)
+            }
+            .frame(width: 300, height: 35)
+            .background(Color.init(hex: "E8E8E8", alpha: 1.0))
+            .cornerRadius(10)
+            .padding()
+    
+            
+            // Journey buttons
+            VStack {
+                if viewModel.isLoading {
+                    ProgressView()
+                } else if let error = viewModel.error {
+                    Text("Error: \(error)")
+                } else if viewModel.travelPlans.isEmpty {
+                    Text("No travel plans found")
+                } else {
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            
                             HStack {
-                                Text(selectedPlace.isEmpty ? "" : selectedPlace)
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 20))
-                                    .padding()
-                                
+                                Text("2024")
+                                    .foregroundStyle(Color.init(hex: "999999", alpha: 1.0))
+                                    .font(.system(size: 15))
                                 Spacer()
-                                Image(systemName: "chevron.down")
-                                    .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding()
                             }
-                            .frame(width: 330, height: 36)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom)
-                        })
-                        
-                        HStack {
-                            Text("行程日期")
-                                .bold()
-                                .foregroundStyle(.white)
-                                .font(.system(size: 20))
-                            Spacer()
-                                .frame(width: 150)
+                            .frame(width: 300)
+                            
+                            ForEach(viewModel.travelPlans) { plan in
+                                Button(action: {
+                                   
+                                    showPlanView = true  // Trigger PlanView
+
+                                }) {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(plan.planname)
+                                                .bold()
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.black)
+                                                .padding(.leading)
+                                                .padding(.top)
+                                            Text("\(formatDate(plan.startdate)) - \(formatDate(plan.enddate))")
+                                                .font(.system(size: 15))
+                                                .foregroundColor(.gray)
+                                                .padding(.top,3)
+                                                .padding(.bottom)
+                                                .padding(.leading)
+
+                                        }
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .frame(width: 15, height: 15)
+                                            .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+                                            .padding(.trailing, 10)
+                                    }
+                                    .frame(width: 280, height: 90)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 2)
+                                    )
+                                    .padding()
+                                }
+                      
+                            }
                         }
-                        Button(action: {
-                            showDatePicker.toggle()
-                        }, label: {
-                            HStack {
-                                Text(formatSelectedDates(selectedDates))
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 20))
-                                    .padding()
-                                
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                    .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding()
-                            }
-                            .frame(width: 330, height: 36)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom)
-                        })
-                        
-                        HStack {
-                            Text("主要交通方式")
-                                .bold()
-                                .foregroundStyle(.white)
-                                .font(.system(size: 20))
-                            Spacer()
-                                .frame(width: 150)
-                        }
-                        Button(action: {
-                            showRidePicker.toggle()
-                        }, label: {
-                            HStack {
-                                Text(selectedRide.isEmpty ? "" : selectedRide)
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 20))
-                                    .padding()
-                                
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                    .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding()
-                            }
-                            .frame(width: 330, height: 36)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom)
-                        })
+                    
+
                     }
-                    
-                    Spacer()
-                        .frame(height: 75)
-                    
-                    Button(action: {
-                        createNewTravelPlan()
-                    }) {
-                        Text("確定")
-                            .bold()
-                            .font(.system(size: 25))
-                            .foregroundColor(Color(hex: "5E845B", alpha: 1.0))
-                    }
-                    .frame(width: 100, height: 42)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    
-                    if viewModel.isLoading {
-                        ProgressView()
-                    }
-                    
-                    if let error = viewModel.error {
-                        Text(error)
-                            .foregroundColor(.red)
-                    }
-                    
-                    Spacer()
                 }
             }
-            .sheet(isPresented: $showPlacePicker) {
-                PlacePicker(selectedPlace: $selectedPlace)
-                    .presentationDetents([.medium])
+            .fullScreenCover(isPresented: $showPlanView) {  // Present PlanView as a full-screen cover
+                           PlanView(indexd: $indexd)
             }
-            .sheet(isPresented: $showDatePicker) {
-                DatePick(selectedDates: $selectedDates)
-                    .presentationDetents([.height(435)])
+            .onAppear {
+                if let token = authViewModel.accessToken {
+                    viewModel.fetchTravelPlans(token: token)
+                } else {
+                    viewModel.error = "No access token available"
+                }
             }
-            .sheet(isPresented: $showRidePicker) {
-                RidePicker(selectedRide: $selectedRide)
-                    .presentationDetents([.medium])
-            }
+            
+            // New journey button
+            Button(action: {
+                showNewJourney = true
+                let newPlanName = "New Plan"  // 可以通过用户输入获取
+                let startDate = Date()
+                let endDate = Calendar.current.date(byAdding: .day, value: 7, to: startDate)!
+                
+                if let token = authViewModel.accessToken {
+                    viewModel.createTravelPlan(planName: newPlanName, startDate: startDate, endDate: endDate, accessToken: token) { success, errorMessage in
+                        if success {
+                            // 设置新创建的旅行计划的索引
+                            indexd = viewModel.travelPlans.count - 1
+                            showPlanView = true
+                        } else if let errorMessage = errorMessage {
+                            viewModel.error = errorMessage
+                        }
+                    }
+                } else {
+                    viewModel.error = "No access token available"
+                }
+            }, label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 15)
+                        .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+                    
+                    Text("新增旅行計畫")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundStyle(.white)
+                }
+            })
+            .frame(width: 280, height: 40)
+            .padding(10)
+       
+  
         }
-    }
-    
-    private func createNewTravelPlan() {
-        guard let startDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).min(),
-              let endDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).max() else {
-            viewModel.error = "Please select start and end dates"
-            return
-        }
-        
-        viewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
-            if success {
-                // Handle success
-                print("Travel plan created successfully")
-                // TODO: 陳雨柔幫把這裡改成跳進編輯行程
-                dismiss() // Dismiss the view on success
-            } else {
-                // Handle failure
-                viewModel.error = errorMessage ?? "Unknown error occurred"
-            }
-        }
-    }
-    
-    private func formatSelectedDates(_ dates: Set<DateComponents>) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        
-        let datesArray = dates.compactMap { Calendar.current.date(from: $0) }
-        let sortedDates = datesArray.sorted()
-        
-        if let firstDate = sortedDates.first, let lastDate = sortedDates.last, firstDate != lastDate {
-            return "\(dateFormatter.string(from: firstDate)) - \(dateFormatter.string(from: lastDate))"
-        } else if let singleDate = sortedDates.first {
-            return dateFormatter.string(from: singleDate)
-        } else {
-            return ""
+        .popupNavigationView(horizontalPadding: 40, show: $showNewJourney) {
+            NewJourneyView(showNewJourney: $showNewJourney)
         }
     }
 }
 
-struct PlanMenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlanMenuView()
+func formatDate(_ dateString: String) -> String {
+    let inputFormatter = DateFormatter()
+    inputFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss 'GMT'"
+    inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+    inputFormatter.timeZone = TimeZone(abbreviation: "GMT")
+    
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "yyyy/MM/dd"
+    
+    if let date = inputFormatter.date(from: dateString) {
+        return outputFormatter.string(from: date)
+    } else {
+        return dateString
     }
 }
-
-

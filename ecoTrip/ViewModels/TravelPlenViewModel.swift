@@ -86,14 +86,14 @@ class TravelPlanViewModel: ObservableObject {
             completion(false, "Invalid URL")
             return
         }
-
+        
         let dateFormatter = ISO8601DateFormatter()
         let requestBody: [String: Any] = [
             "planname": planName,
             "startdate": dateFormatter.string(from: startDate),
             "enddate": dateFormatter.string(from: endDate)
         ]
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -104,14 +104,14 @@ class TravelPlanViewModel: ObservableObject {
             completion(false, "No access token available")
             return
         }
-
+        
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
         } catch {
             completion(false, "Failed to encode request body")
             return
         }
-
+        
         isLoading = true
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
@@ -129,7 +129,14 @@ class TravelPlanViewModel: ObservableObject {
                 }
                 
                 if (200...299).contains(httpResponse.statusCode) {
-                    completion(true, nil)
+                    // Assuming the newly created travel plan is returned in the response
+                    if let data = data,
+                       let newTravelPlan = try? JSONDecoder().decode(TravelPlan.self, from: data) {
+                        self?.travelPlans.append(newTravelPlan)
+                        completion(true, nil)
+                    } else {
+                        completion(false, "Failed to parse new travel plan")
+                    }
                 } else {
                     completion(false, "Server error: HTTP \(httpResponse.statusCode)")
                 }

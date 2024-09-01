@@ -13,7 +13,8 @@ struct ChatTicket: View {
     @State private var schedule = ""
     @Binding var showChatTicket: Bool
     @EnvironmentObject var colorManager: ColorManager
-
+    var onSubmit: ((String) -> Void)?
+    
     var body: some View {
         
         VStack(alignment:.center){
@@ -40,7 +41,7 @@ struct ChatTicket: View {
             Text("請輸入行程資訊")
                 .font(.system(size: 15))
                 .padding(.bottom)
-     
+            VStack(alignment:.leading){
                 //旅遊縣市
                 HStack{
                     Text("*景點名稱")
@@ -51,7 +52,7 @@ struct ChatTicket: View {
                     
                 }
                 .frame(width: 270, height: 36)
-
+                
                 TextField("", text: $schedule)
                     .padding(10)
                     .frame(width: 270, height: 36)
@@ -64,29 +65,34 @@ struct ChatTicket: View {
                 
                 //日期
                 HStack(alignment:.center){
-                   Text("日期")
-                       .bold()
-                       .foregroundStyle(Color.black)  // 注意：foregroundStyle 的参数应该是 Color 类型
-                       .font(.system(size: 15))
+                    Text("日期")
+                        .bold()
+                        .foregroundStyle(Color.black)  // 注意：foregroundStyle 的参数应该是 Color 类型
+                        .font(.system(size: 15))
                     
-                   Spacer()
-                        .frame(width: 120)
+                    Spacer()
+                        .frame(width:110)
                     
-                   DatePicker("", selection: $selectedDate, displayedComponents: .date)
-                       .labelsHidden() // 隐藏标签以使 DatePicker 紧贴左侧
-              
-               
-
-                 
-                
-                
+                    
+                    DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                        .labelsHidden() // 隐藏标签以使 DatePicker 紧贴左侧
+                        .scaleEffect(0.8)
+                    
+                }
             }
             
             Spacer()
                 .frame(height:120)
             
-            //確定按鈕
+            //查詢按鈕
             Button {
+                let formatter = DateFormatter()
+                formatter.dateFormat =  "yyyy/MM/dd"
+               
+                let formatDate = formatter.string(from: selectedDate)
+
+                let message = "請幫我搜尋 \(formatDate) \(schedule)的票價為何？"
+                    onSubmit?(message) // Pass the formatted message back to ChatView
                 showChatTicket = false
 
             } label: {

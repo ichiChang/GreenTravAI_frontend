@@ -13,16 +13,18 @@ struct ChatAccom: View {
     @State private var selectedPlace = ""
     @State private var upperbudget = ""
     @State private var lowerbudget = ""
+    @State private var peoplecount = ""
     @State var showDatePicker = false
     @State var selectedDates: Set<DateComponents> = []
     @State private var schedule = ""
     @State private var showAccomPicker = false
     @State private var selectedAccom = ""
     @EnvironmentObject var colorManager: ColorManager
+    var onSubmit: ((String) -> Void)?
 
     var body: some View {
         
-        VStack{
+        VStack(spacing:0){
             Button(action: {
                 showChatAccom = false
             }, label: {
@@ -40,11 +42,11 @@ struct ChatAccom: View {
             Text("住宿推薦")
                 .bold()
                 .font(.system(size: 20))
-                .padding(.bottom,10)
+                .padding(.bottom,5)
             
             Text("請輸入行程資訊")
                 .font(.system(size: 15))
-                .padding(.bottom)
+                .padding(.bottom,5)
             
             VStack(alignment:.leading){
                 //旅遊縣市
@@ -71,7 +73,7 @@ struct ChatAccom: View {
                             .font(.system(size: 25))
                             .padding()
                     }
-                    .frame(width: 280, height: 36)
+                    .frame(width: 280, height: 32)
                     .cornerRadius(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -108,7 +110,7 @@ struct ChatAccom: View {
                             .font(.system(size: 25))
                             .padding()
                     }
-                    .frame(width: 280, height: 36)
+                    .frame(width: 280, height: 32)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(colorManager.mainColor, lineWidth: 2)
@@ -142,7 +144,7 @@ struct ChatAccom: View {
                             .font(.system(size: 25))
                             .padding()
                     }
-                    .frame(width: 280, height: 36)
+                    .frame(width: 280, height: 32)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(colorManager.mainColor, lineWidth: 2)
@@ -150,37 +152,32 @@ struct ChatAccom: View {
                     .padding(.bottom)
                 })
                 
+                Text("入住人數")
+                    .bold()
+                    .foregroundStyle(.black)
+                    .font(.system(size: 15))
                 
+                TextField("", text: $peoplecount)
+                    .onChange(of: peoplecount) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.peoplecount = filtered
+                        }
+                    }
+                    .padding(10)
+                    .font(.system(size: 15))
+                    .frame(width: 280, height: 32)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(colorManager.mainColor, lineWidth: 2)
+                    )
+                    .padding(.bottom)
                 
                 //預算
                 HStack{
                     VStack(alignment:.leading){
-                        Text("預算上限")
-                            .bold()
-                            .foregroundStyle(.black)
-                            .font(.system(size: 15))
-                        
-                        TextField("", text: $upperbudget)
-                            .onChange(of: upperbudget) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.upperbudget = filtered
-                                }
-                            }
-                            .padding(10)
-                            .frame(width: 130, height: 36)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(colorManager.mainColor, lineWidth: 2)
-                            )
-                            .padding(.bottom)
-                        
-                        
-                    }.padding(.trailing,15)
-                    
-                    VStack(alignment:.leading){
-                        Text("預算下限")
+                        Text("預算下限(一晚)")
                             .bold()
                             .foregroundStyle(.black)
                             .font(.system(size: 15))
@@ -192,8 +189,9 @@ struct ChatAccom: View {
                                     self.lowerbudget = filtered
                                 }
                             }
+                            .font(.system(size: 15))
                             .padding(10)
-                            .frame(width: 130, height: 36)
+                            .frame(width: 130, height: 32)
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5)
@@ -201,6 +199,34 @@ struct ChatAccom: View {
                             )
                             .padding(.bottom)
                     }
+                    
+                    VStack(alignment:.leading){
+                        Text("預算上限(一晚)")
+                            .bold()
+                            .foregroundStyle(.black)
+                            .font(.system(size: 15))
+                        
+                        TextField("", text: $upperbudget)
+                            .onChange(of: upperbudget) { newValue in
+                                let filtered = newValue.filter { "0123456789".contains($0) }
+                                if filtered != newValue {
+                                    self.upperbudget = filtered
+                                }
+                            }
+                            .font(.system(size: 15))
+                            .padding(10)
+                            .frame(width: 130, height: 32)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(colorManager.mainColor, lineWidth: 2)
+                            )
+                            .padding(.bottom)
+                        
+                        
+                    }.padding(.trailing,15)
+                    
+                   
                 }
                 .frame(width: 280)
                 
@@ -209,6 +235,9 @@ struct ChatAccom: View {
             
             //確定按鈕
             Button {
+                
+                let message = "請推薦我 \(formatSelectedDates(selectedDates))「\(selectedPlace)」熱門住宿選擇\n住宿類型：\(selectedAccom)\n入住人數：\(peoplecount)\n預算：\(lowerbudget)~\(upperbudget)"
+                    onSubmit?(message) // Pass the formatted message back to ChatView
                 showChatAccom = false
 
             } label: {
@@ -217,7 +246,7 @@ struct ChatAccom: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }
-            .frame(width: 100, height: 42)
+            .frame(width: 100, height: 36)
             .background(colorManager.mainColor)
             .cornerRadius(10)
             

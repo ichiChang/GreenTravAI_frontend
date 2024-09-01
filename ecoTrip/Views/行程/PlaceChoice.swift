@@ -44,7 +44,7 @@ struct PlaceChoice: View {
                 }, label: {
                     Text("返回")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)
@@ -58,7 +58,7 @@ struct PlaceChoice: View {
                 }, label: {
                     Text("確定")
                         .bold()
-                        .font(.system(size: 25))
+                        .font(.system(size: 20))
                         .foregroundColor(.white)
                 })
                 .frame(width: 120, height: 42)
