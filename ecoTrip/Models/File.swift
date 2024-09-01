@@ -7,12 +7,17 @@
 
 import Foundation
 
-struct Message: Hashable {
-    var id = UUID()
+struct Message: Hashable, Identifiable {
+    let id: UUID
     var content: String
     var isCurrentUser: Bool
+    
+    init(id: UUID = UUID(), content: String, isCurrentUser: Bool) {
+        self.id = id
+        self.content = content
+        self.isCurrentUser = isCurrentUser
+    }
 }
-
 struct DataSource {
     
     static let messages = [

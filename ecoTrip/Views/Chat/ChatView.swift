@@ -5,13 +5,13 @@
 //  Created by 陳萭鍒 on 2024/5/26.
 //
 
-import Combine
 import SwiftUI
+import Combine
 
 struct ChatView: View {
     @Environment(\.dismiss) var dismiss
-    @State var messages = DataSource.messages
-    @State var newMessage: String = ""
+    @StateObject private var viewModel = ChatViewModel()
+    @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
     
@@ -22,22 +22,21 @@ struct ChatView: View {
     @State private var showChatAccom = false
     
     @EnvironmentObject var colorManager: ColorManager
-
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
-        NavigationView{
-            VStack(spacing:0) {
+        NavigationView {
+            VStack(spacing: 0) {
+                // Header
                 HStack {
-                    Button{
+                    Button {
                         dismiss()
-                    }label: {
+                    } label: {
                         Image(systemName: "chevron.down")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
-                        
                     }
                     Spacer()
-                    
                     
                     Toggle(isOn: $isEnabled) {
                         // 無顯示的內容
@@ -47,103 +46,86 @@ struct ChatView: View {
                     .onChange(of: isEnabled) { newValue in
                         colorManager.mainColor = newValue ? Color(hex: "5E845B") : Color(hex: "8F785C")
                     }
-
-                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(20)
                 .background(colorManager.mainColor)
                 
-                
+                // Chat content
                 ScrollViewReader { proxy in
-                    
-                    //選單畫面
-                    ScrollView{
-                        Spacer()
-                        
-                        Image(.leafLogo)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width:80)
-                            .padding(.top,60)
-                            .padding(.bottom,20)
-                        
-                        //四個按鈕
-                        LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
-                            ForEach(buttons, id: \.self) { buttonLabel in
-                                Button(action: {
-                                    handleButtonTap(buttonLabel: buttonLabel)
-                                }) {
-                                    Text(buttonLabel)
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.black)
-                                        .padding()
-                                        .frame(width: 120, height: 80)
-                                        .background(Color.white)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(colorManager.mainColor, lineWidth: 2)
-                                        )
-                                }
+                    ScrollView {
+                        if viewModel.messages.isEmpty {
+                            // Initial view when no messages
+                            VStack {
+                                Spacer()
+                                Image(.leafLogo)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80)
+                                    .padding(.top, 60)
+                                    .padding(.bottom, 20)
                                 
+                                LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
+                                    ForEach(buttons, id: \.self) { buttonLabel in
+                                        Button(action: {
+                                            handleButtonTap(buttonLabel: buttonLabel)
+                                        }) {
+                                            Text(buttonLabel)
+                                                .font(.system(size: 18))
+                                                .foregroundColor(.black)
+                                                .padding()
+                                                .frame(width: 120, height: 80)
+                                                .background(Color.white)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 5)
+                                                        .stroke(colorManager.mainColor, lineWidth: 2)
+                                                )
+                                        }
+                                    }
+                                }
+                            }
+                            .frame(width: 280)
+                            .padding()
+                        } else {
+                            // Messages view
+                            LazyVStack {
+                                ForEach(viewModel.messages) { message in
+                                    MessageView(currentMessage: message)
+                                        .id(message.id)
+                                }
+                            }
+                            .onChange(of: viewModel.messages) { _ in
+                                withAnimation {
+                                    proxy.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                }
                             }
                         }
                     }
-                    .frame(width:280)
-                    .padding()
-                    
-                    
                 }
                 
-                //對話
-                //                ScrollView {
-                //                    LazyVStack {
-                //                        ForEach(messages, id: \.self) { message in
-                //                            MessageView(currentMessage: message)
-                //                                .id(message)
-                //                        }
-                //                    }
-                //                    .onReceive(Just(messages)) { _ in
-                //                        withAnimation {
-                //                            proxy.scrollTo(messages.last, anchor: .bottom)
-                //                        }
-                //
-                //                    }.onAppear {
-                //                        withAnimation {
-                //                            proxy.scrollTo(messages.last, anchor: .bottom)
-                //                        }
-                //                    }
-                //                }
-                
-                
-                // Textfield
+                // Input area
                 HStack {
                     TextField("Aa", text: $newMessage)
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
-                        .padding(.top,10)
-                        .padding(.leading,10)
+                        .padding(.top, 10)
+                        .padding(.leading, 10)
                     
-                    
-                    
-                    Button(action: sendMessage)   {
+                    Button(action: sendMessage) {
                         Image(systemName: "paperplane.fill")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
-                            .padding(.top,5)
-                            .padding(.trailing,10)
-                        
-                        
+                            .padding(.top, 5)
+                            .padding(.trailing, 10)
                     }
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
                 .background(colorManager.mainColor)
-                
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
-                        ChatPlan(showChatPlan: $showChatPlan)
-                    }
+                ChatPlan(showChatPlan: $showChatPlan)
+            }
             .popupNavigationView(horizontalPadding: 40, show: $showChatTransport) {
                 ChatTransport(showChatTransport: $showChatTransport)
             }
@@ -153,16 +135,16 @@ struct ChatView: View {
             .popupNavigationView(horizontalPadding: 40, show: $showChatAccom) {
                 ChatAccom(showChatAccom: $showChatAccom)
             }
-            
         }
     }
+    
     func sendMessage() {
-        
-        if !newMessage.isEmpty{
-            messages.append(Message(content: newMessage, isCurrentUser: true))
-            messages.append(Message(content: "Reply of " + newMessage , isCurrentUser: false))
-            newMessage = ""
+        guard let token = authViewModel.accessToken, !newMessage.isEmpty else {
+            return
         }
+        
+        viewModel.sendMessage(query: newMessage, token: token)
+        newMessage = ""
     }
     
     func handleButtonTap(buttonLabel: String) {
@@ -179,70 +161,44 @@ struct ChatView: View {
             break
         }
     }
-        
 }
 
-struct OvalBorder: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 30)
-                    .foregroundColor(Color.init(hex: "F5EFCF", alpha: 1.0))
-            )
-    }
-}
-    
-struct MessageView : View {
+struct MessageView: View {
     var currentMessage: Message
     
     var body: some View {
-   
-            HStack(alignment: .top, spacing: 10) {
-                if !currentMessage.isCurrentUser {
-                    Image(.travelAgent)
-                        .resizable()
-                        .frame(width: 30, height: 30, alignment: .center)
-                        .cornerRadius(20)
-                        .padding(.leading,20)
-                    
-                    MessageCell(
-                        contentMessage:currentMessage.content,
-                        isCurrentUser:currentMessage.isCurrentUser)
-                    .frame(width: 270,alignment: currentMessage.isCurrentUser ? .trailing : .leading)
-                    Spacer()
-                        
-                } else {
-                    Spacer()
-                    
-                    MessageCell(
-                        contentMessage:currentMessage.content,
-                        isCurrentUser:currentMessage.isCurrentUser)
-                    .frame(width: 250,alignment: currentMessage.isCurrentUser ? .trailing : .leading)
-                    .padding(.trailing,20)
-
-                }
-          
+        HStack(alignment: .top, spacing: 10) {
+            if !currentMessage.isCurrentUser {
+                Image(.travelAgent)
+                    .resizable()
+                    .frame(width: 30, height: 30, alignment: .center)
+                    .cornerRadius(20)
+                    .padding(.leading, 20)
+                
+                MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
+                    .frame(width: 270, alignment: .leading)
+                Spacer()
+            } else {
+                Spacer()
+                MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
+                    .frame(width: 250, alignment: .trailing)
+                    .padding(.trailing, 20)
             }
-            .padding(.top,12)
         }
-        
+        .padding(.top, 12)
     }
+}
 
 struct MessageCell: View {
     var contentMessage: String
     var isCurrentUser: Bool
     
     var body: some View {
-
-            Text(contentMessage)
-                .padding(10)
-                .foregroundColor(isCurrentUser ? Color.white : Color.black)
-                .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
-                .cornerRadius(10)
-  
-       
-            
+        Text(contentMessage)
+            .padding(10)
+            .foregroundColor(isCurrentUser ? Color.white : Color.black)
+            .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
+            .cornerRadius(10)
     }
 }
 
@@ -270,13 +226,10 @@ struct ColoredToggleStyle: ToggleStyle {
                             .padding(0.7)
                             .offset(x: configuration.isOn ? 10 : -10)
                     )
-                 
             }
         }
     }
 }
-
-
 
 extension Color {
     static let cloloABC = Color(hex: "#FFFFFF", alpha: 0.5)
@@ -311,14 +264,8 @@ extension Color {
     }
 }
 
-
-
-
 #Preview {
     ChatView()
         .environmentObject(ColorManager()) // 提供 ColorManager 給預覽
-
+        .environmentObject(AuthViewModel()) // 提供 AuthViewModel 給預覽
 }
-
-
-
