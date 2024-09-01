@@ -94,7 +94,7 @@ struct PlanMenuView: View {
                             
                             ForEach(viewModel.travelPlans) { plan in
                                 Button(action: {
-                                   
+                                    print(plan.id)
                                     showPlanView = true  // Trigger PlanView
 
                                 }) {
