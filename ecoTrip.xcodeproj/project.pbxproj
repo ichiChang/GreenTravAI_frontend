@@ -42,6 +42,8 @@
 		FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768802C35355800C01DA6 /* PlaceListView.swift */; };
 		FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */; };
 		FD4D02542C3BD8DE0037F969 /* NewPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4D02532C3BD8DE0037F969 /* NewPlan.swift */; };
+		FD5162BB2C8988C300CF0A9B /* PopularPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */; };
+		FD5162BD2C898C5400CF0A9B /* OtherAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5162BC2C898C5400CF0A9B /* OtherAppsView.swift */; };
 		FD601C242C3298D1000443BE /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD601C232C3298D1000443BE /* PlanView.swift */; };
 		FD6189D42C626138004ED264 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6189D32C626138004ED264 /* Demo.swift */; };
 		FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7090702C2F00E500209E72 /* SiteInfoView.swift */; };
@@ -120,6 +122,8 @@
 		FD4768802C35355800C01DA6 /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
 		FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		FD4D02532C3BD8DE0037F969 /* NewPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlan.swift; sourceTree = "<group>"; };
+		FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlansView.swift; sourceTree = "<group>"; };
+		FD5162BC2C898C5400CF0A9B /* OtherAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsView.swift; sourceTree = "<group>"; };
 		FD601C232C3298D1000443BE /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FD6189D32C626138004ED264 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
 		FD7090702C2F00E500209E72 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
 				FDFE30252C4F5CBB00B0552F /* ShortCutView.swift */,
+				FD5162BC2C898C5400CF0A9B /* OtherAppsView.swift */,
 				FD3F3C7D2C56856800879509 /* Chat */,
 				FD4D02552C3BDEE30037F969 /* 行程 */,
 				FDAB260E2C4E5F5D00CED5EC /* Profile */,
@@ -293,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
+				FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */,
 				FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */,
 				FD601C232C3298D1000443BE /* PlanView.swift */,
 				FD47687E2C3533B900C01DA6 /* PlaceView.swift */,
@@ -455,6 +461,7 @@
 				FDC172952C591AF700706856 /* PopUp.swift in Sources */,
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
+				FD5162BB2C8988C300CF0A9B /* PopularPlansView.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
@@ -497,6 +504,7 @@
 				10C40B192C7B522600DF1198 /* ChatViewModel.swift in Sources */,
 				FD601C242C3298D1000443BE /* PlanView.swift in Sources */,
 				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
+				FD5162BD2C898C5400CF0A9B /* OtherAppsView.swift in Sources */,
 				10A8558D2C00CD13004F0207 /* StopListView.swift in Sources */,
 				108C00DC2C5FAD6700A40CA0 /* UserViewModel.swift in Sources */,
 				FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */,

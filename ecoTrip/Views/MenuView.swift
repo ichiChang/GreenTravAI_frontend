@@ -25,7 +25,7 @@ struct MenuView: View {
                 if showProfileView {
                     ProfileView()
                 }  else if showShortCutView {
-                    ShortCutView()
+                    OtherAppsView()
                 } else if showSearchView {
                     SearchView(index1: $index1)
                 } else if showPlanMenuView {
