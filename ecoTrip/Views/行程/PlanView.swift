@@ -153,10 +153,10 @@ struct PlanView: View {
             
             }
             .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
-                Demo() 
+                Demo(showDemo: $showDemo) 
             }
             .sheet(isPresented: $showNewPlan) {
-                NewPlan()
+                NewPlanView(showNewPlan: $showNewPlan)
                     .presentationDetents([.height(650)])
                 
             }

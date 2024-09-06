@@ -90,11 +90,12 @@ struct CustomTabs: View {
             }, label: {
                 Image(systemName: "suitcase")
                     .resizable()
-                    .frame(width: 37, height: 40)
+                    .frame(width: 35, height: 35)
                     .padding(10)
                     .foregroundColor(index == 2 ? Color(hex: "B1D1A9", alpha: 1.0) : .white)
             
             })
+            .offset(y:-2.5)
            
             Button(action: {
                 self.index = 3

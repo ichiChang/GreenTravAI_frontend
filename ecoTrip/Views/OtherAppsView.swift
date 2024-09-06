@@ -106,7 +106,7 @@ struct OtherAppsView: View {
                                    }
                                }
                            }
-                           .padding(.bottom)
+                           .padding(.bottom,5)
                            
                            // 最後一個不用分隔線
                            if index < categories.count - 1 {
@@ -115,7 +115,7 @@ struct OtherAppsView: View {
                                    .overlay(Color.init(hex: "D1CECE", alpha: 1.0))
                            }
                        }
-                       .padding(10)
+                       .padding(5)
                    }
                }
            }

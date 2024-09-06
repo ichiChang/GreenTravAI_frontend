@@ -138,7 +138,7 @@ struct NewPlan: View {
                       .padding()
                   }
                   .navigationDestination(isPresented: $navigateToPlaceChoice) {
-                      PlaceChoice()
+                      PlaceChoice(navigateToPlaceChoice: $navigateToPlaceChoice)
                   }
                   .navigationDestination(isPresented: $navigateToTimeChoice) {
                       TimeChoice(arrivalTime: $arrivalTime, departureTime: $departureTime)

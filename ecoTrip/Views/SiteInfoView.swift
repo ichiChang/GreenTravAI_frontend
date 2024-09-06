@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct SiteInfoView: View {
-    @Binding var indexheart: Int
+    @StateObject private var placeViewModel = PlaceViewModel()
     @Environment(\.dismiss) var dismiss
     let place: Place
     
@@ -30,9 +30,10 @@ struct SiteInfoView: View {
                             
                             Image(systemName: "chevron.left")
                                 .resizable()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                .frame(width: 15, height: 20)
                                 .bold()
+                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                        
                         }
                     }
                     Spacer()
@@ -53,15 +54,14 @@ struct SiteInfoView: View {
                     }
                     Button(action: {
                         // 按鈕動作
-                        self.indexheart = self.indexheart == 0 ? 1 : 0
-
+                        placeViewModel.toggleFavorite(for: place.id)
                     }) {
                         ZStack {
                             Circle()
                                 .foregroundColor(.white)
                                 .frame(width:40,height: 40)
                                 .padding(5)
-                            Image(systemName: indexheart == 0 ? "heart" : "heart.fill")
+                            Image(systemName: placeViewModel.favorites[place.id, default: false] ? "heart.fill" : "heart")
                                 .resizable()
                                 .frame(width:20,height: 20)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))

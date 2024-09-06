@@ -9,9 +9,8 @@ import SwiftUI
 
 struct Demo: View {
     @State private var selectedDot = 0
-    @Environment(\.dismiss) var dismiss
+    @Binding var showDemo: Bool
 
-    
     var currentView: some View {
         switch selectedDot {
         case 0:
@@ -63,6 +62,7 @@ struct Demo: View {
         VStack {
     
             Button(action: {
+                showDemo = false
             }, label: {
                 HStack{
                     Image(systemName: "xmark")
@@ -97,7 +97,7 @@ struct Demo: View {
                 
                 if selectedDot == 3 {
                     Button {
-                        dismiss()
+                        showDemo = false
 
                     } label: {
                         Text("結束")
@@ -118,5 +118,5 @@ struct Demo: View {
 }
 
 #Preview {
-    Demo()
+    Demo(showDemo: .constant(false))
 }
