@@ -186,7 +186,7 @@ struct PlanMenuView: View {
 
 func formatDate(_ dateString: String) -> String {
     let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss 'GMT'"
+    inputFormatter.dateFormat = "yyyy-MM-dd"
     inputFormatter.locale = Locale(identifier: "en_US_POSIX")
     inputFormatter.timeZone = TimeZone(abbreviation: "GMT")
     
