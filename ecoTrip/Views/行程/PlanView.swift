@@ -14,7 +14,7 @@ struct PlanView: View {
     @State var showDemo = false
     @State private var navigationPath = NavigationPath()
     @State var showChatView = false
-    
+    @State var showEditPlan = false
     // Array to hold the days
     @State var days = ["8/1", "8/2", "8/3"]
     
@@ -160,6 +160,7 @@ struct PlanView: View {
                     .presentationDetents([.height(650)])
                 
             }
+           
             .sheet(isPresented: $showChatView) {
                 ChatView()
             }

@@ -10,8 +10,7 @@ import SwiftUI
 struct PlaceView: View {
     var name: String
     var time: String
-
-    
+    @Binding var showEditView: Bool
     var body: some View {
         HStack{
             VStack(alignment: .leading){
@@ -35,12 +34,12 @@ struct PlaceView: View {
                 
             
             Button(action: {
-                
+                showEditView.toggle()
             }, label: {
-                Image(systemName: "chevron.right")
+                Image(systemName: "highlighter")
                     .resizable()
                     .bold()
-                    .frame(width: 10,height: 20)
+                    .frame(width: 18,height: 18)
                     .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                     .padding(.trailing,10)
              
@@ -58,8 +57,10 @@ struct PlaceView: View {
    
         
     }
+   
+ 
 }
 
 #Preview {
-    PlaceView(name: "國立政治大學", time: "10:00 - 10:30")
+    PlaceView(name: "國立政治大學", time: "10:00 - 10:30", showEditView: .constant(false))
 }

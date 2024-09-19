@@ -13,13 +13,14 @@ struct PlaceListView: View {
     @State private var schedule: [String] = ["10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00", "12:00 - 12:30", "12:30 - 13:00"]
     @State private var navigateToRide = false
     @State private var navigationPath = NavigationPath()
-
+    @State private var showEditView = false
+    
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false, content: {
                 VStack(spacing: 0){
                     ForEach(Array(zip(place.indices, place)), id: \.1) { index, place in
-                        PlaceView(name: place, time: schedule[index])
+                        PlaceView(name: place, time: schedule[index], showEditView: $showEditView)
                             .onDrag({
                                 self.draggedPlace = place
                                 return NSItemProvider()
@@ -67,6 +68,11 @@ struct PlaceListView: View {
             })
             .fullScreenCover(isPresented: $navigateToRide) {  // Present PlanView as a full-screen cover
                 ChangeRideView()
+            }
+            .sheet(isPresented: $showEditView) {
+                NewPlanView(showNewPlan: $showEditView)
+                    .presentationDetents([.height(650)])
+                
             }
         }
     }
