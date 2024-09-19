@@ -15,20 +15,20 @@ struct OtherAppsView: View {
        ("交通", ["Uber", "LINE TAXI", "yoxi"]),
        ("搜尋引擎", ["Google", "小紅書"]),
        ("住宿", ["agoda", "Booking.com"]),
-       ("行程規劃", ["Klook", "kkday"])
+       ("行程規劃", ["Klook", "KKday"])
    ]
 
    //app的logo名字
    let logos = [
-       "Uber": "Group 65",
+       "Uber": "Uber",
        "LINE TAXI": "Line Taxi",
        "yoxi": "Group 64",
        "Google": "Group 59",
        "小紅書": "Group 58",
-       "agoda": "Group 60",
+       "agoda": "Agoda",
        "Booking.com": "Group 61",
-       "Klook": "Group 62",
-       "kkday": "Group 63"
+       "Klook": "Klook",
+       "KKday": "KKday"
    ]
     
     // 每個app的urlScheme和fallbackURL
@@ -41,7 +41,7 @@ struct OtherAppsView: View {
          "agoda": ("agoda://", "https://www.agoda.com"),
          "Booking.com": ("booking://", "https://www.booking.com"),
          "Klook": ("klook://", "https://www.klook.com"),
-         "kkday": ("kkday://", "https://www.kkday.com")
+         "KKday": ("kkday://", "https://www.kkday.com")
      ]
     
    //定義LazyVGrid的佈局，每行最多3個app
