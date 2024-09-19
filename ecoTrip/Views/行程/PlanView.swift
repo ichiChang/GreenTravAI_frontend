@@ -8,173 +8,173 @@
 import SwiftUI
 
 struct PlanView: View {
+    @EnvironmentObject var viewModel: TravelPlanViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
-    @Binding var indexd: Int
-    @State var showNewPlan = false
-    @State var showDemo = false
-    @State private var navigationPath = NavigationPath()
-    @State var showChatView = false
-    
-    // Array to hold the days
-    @State var days = ["8/1", "8/2", "8/3"]
+    @State private var selectedDayIndex = 0
+    @State private var showNewPlan = false
+    @State private var showDemo = false
+    @State private var showChatView = false
+    @State private var isFirstAppear = true
     
     var body: some View {
-        
-        NavigationView{
-                VStack(spacing:0) {
-                    // Top bar with back button
-                    HStack {
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Image(systemName: "chevron.left")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 30))
-                        })
-                        .padding()
-                        .offset(x:40,y:40)
-                        
-                        Spacer()
-                            .frame(width:200)
-                        
-                   
-                        Button(action: {
-                            showDemo.toggle()
-                        }, label: {
-                            Image(systemName: "questionmark.circle")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 30))
-                      
-                        })
-                        .padding(.horizontal)
-                        .offset(x:20,y:40)
-                        
-                        // 地圖 button
-                        Button(action: {
-                            
-                        }, label: {
-                           
-                                Image(systemName: "location.circle")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 30))
-                      
-                            
-                        })
-                        .padding(.horizontal)
-                        .offset(x:-10,y:40)
-                        
-                        Button(action: {
-                            showChatView.toggle()
-                        }, label: {
-                            Image(systemName: "ellipsis.message")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 30))
-                   
-                           
-                        })
-                        .padding(.horizontal)
-                        .offset(x:-40,y:40)
-                
-
-                        
-                        
-                        
-                        
-                    }
-                    .ignoresSafeArea()
-                    .frame(height:50)
-                    .background(Color.init(hex: "5E845B", alpha: 1.0))
-                    
-                    
-                    // Days section
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .bottom, spacing: 0) {
-                            ForEach(Array(days.enumerated()), id: \.element) { index, day in
-                                Button(action: {
-                                    self.indexd = index
-                                }, label: {
-                                    
-                                    Text(day)
-                                        .bold()
-                                        .font(.system(size: 20))
-                                        .foregroundColor(indexd == index ? .black : .white)
-                                        .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 40)
-                                        .background(indexd == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
-                                    
-                                    
-                                })
-                            }
-                           
-                            // Add day button
-                            Button(action: {
-                                let nextDay = "8/\(days.count + 1)"
-                                days.append(nextDay)
-                            }, label: {
-                                Image(systemName: "plus")
-                                    .foregroundColor(.white)
-                                    .frame(width: 30, height: 30)
-                            })
-                            .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(days.count + 1)), height: 40)
-                            .background(Color.init(hex: "B8B7B7", alpha: 1.0))
-                        }
-                    }
-                    .padding(.bottom)
-                    
-                    
-                    
-                    if indexd == 0 {
-                         PlaceListView()
-                    }
-                    
-                    
-                    // 新增行程 button
-                    
+        NavigationView {
+            VStack(spacing: 0) {
+                // Top bar with back button and other controls
+                HStack {
                     Button(action: {
-                        
-                        showNewPlan.toggle()
-                        
-                    }, label: {
-                        Text("新增行程")
-                            .bold()
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                    })
-                    .frame(width: 300, height: 42)
-                    .background(Color.init(hex: "5E845B", alpha: 1.0))
-                    .cornerRadius(10)
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                    }
                     .padding()
                     
-                
-                    if indexd != 0 {
-                         Spacer()
-                    }
+                    Spacer()
                     
+                    Button(action: {
+                        showDemo.toggle()
+                    }) {
+                        Image(systemName: "questionmark.circle")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                    }
+                    .padding(.horizontal)
+                    
+                    Button(action: {
+                        // Action for map button
+                    }) {
+                        Image(systemName: "location.circle")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                    }
+                    .padding(.horizontal)
+                    
+                    Button(action: {
+                        showChatView.toggle()
+                    }) {
+                        Image(systemName: "ellipsis.message")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 30))
+                    }
+                    .padding(.horizontal)
                 }
-            
-            }
-            .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
-                Demo(showDemo: $showDemo) 
-            }
-            .sheet(isPresented: $showNewPlan) {
-                NewPlanView(showNewPlan: $showNewPlan)
-                    .presentationDetents([.height(650)])
+                .frame(maxWidth: .infinity)
+                .background(Color.init(hex: "5E845B", alpha: 1.0))
                 
+                // Days section
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .bottom, spacing: 0) {
+                        ForEach(Array(viewModel.days.enumerated()), id: \.element.id) { index, day in
+                            Button(action: {
+                                selectedDayIndex = index
+                                if let token = authViewModel.accessToken {
+                                    viewModel.fetchStopsForDay(dayId: day.id, token: token)
+                                }
+                            }) {
+                                Text(formatDate(day.date))
+                                    .bold()
+                                    .font(.system(size: 20))
+                                    .foregroundColor(selectedDayIndex == index ? .black : .white)
+                                    .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(viewModel.days.count + 1)), height: 40)
+                                    .background(selectedDayIndex == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
+                            }
+                        }
+                        
+                        // Add day button
+                        Button(action: {
+                            // Action to add a new day
+                        }) {
+                            Image(systemName: "plus")
+                                .foregroundColor(.white)
+                                .frame(width: 30, height: 30)
+                        }
+                        .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(viewModel.days.count + 1)), height: 40)
+                        .background(Color.init(hex: "B8B7B7", alpha: 1.0))
+                    }
+                }
+                .padding(.bottom)
+                
+                // Content based on selected day
+                if viewModel.isLoading {
+                    ProgressView()
+                } else if let error = viewModel.error {
+                    Text("Error: \(error)")
+                } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
+                    PlaceListView(stops: dayStops.stops)
+                } else {
+                    Text("No plans for this day yet.")
+                        .foregroundColor(.gray)
+                }
+                
+                Spacer()
+                
+                // Add new plan button
+                Button(action: {
+                    showNewPlan.toggle()
+                }) {
+                    Text("新增行程")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                }
+                .frame(width: 300, height: 42)
+                .background(Color.init(hex: "5E845B", alpha: 1.0))
+                .cornerRadius(10)
+                .padding()
             }
-            .sheet(isPresented: $showChatView) {
-                ChatView()
+            .navigationBarHidden(true)
+            .onAppear {
+                if let firstDay = viewModel.days.first,
+                   let token = authViewModel.accessToken {
+                    viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
+                }
             }
-            .navigationBarBackButtonHidden(true)
-        
-            
         }
-        
+        .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
+            Demo(showDemo: $showDemo)
+        }
+        .sheet(isPresented: $showNewPlan) {
+            NewPlanView(showNewPlan: $showNewPlan)
+                .presentationDetents([.height(650)])
+        }
+        .sheet(isPresented: $showChatView) {
+            ChatView()
+        }
+        .onAppear {
+            if let selectedPlan = viewModel.selectedTravelPlan,
+               let token = authViewModel.accessToken {
+                viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token)
+            }
+        }
     }
     
-
-
-// Preview
-struct PlanView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlanView(indexd: .constant(0))
+    private func formatDate(_ dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+        inputFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "M/d"
+        
+        if let date = inputFormatter.date(from: dateString) {
+            return outputFormatter.string(from: date)
+        } else {
+            return dateString
+        }
+    }
+    private func formatTime(_ timeString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "HH:mm"
+        
+        if let date = inputFormatter.date(from: timeString) {
+            return outputFormatter.string(from: date)
+        }
+        return timeString
     }
 }

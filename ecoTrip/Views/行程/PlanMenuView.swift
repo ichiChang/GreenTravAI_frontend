@@ -4,17 +4,18 @@
 //
 //  Created by 陳萭鍒 on 2024/8/24.
 //
+
 import SwiftUI
 
 struct PlanMenuView: View {
+    @StateObject private var viewModel = TravelPlanViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var textInput = ""
     @State private var showNewJourney = false
     @State private var showPopPlans = false
     @State private var selectedTab: Tab = .myPlans
-    @State private var showPlanView = false  // Add this state to trigger PlanView
-    @State var indexd: Int
-    @StateObject private var viewModel = TravelPlanViewModel()
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var showPlanView = false
+    @State private var selectedPlanId: String?
 
     enum Tab {
         case myPlans
@@ -22,10 +23,10 @@ struct PlanMenuView: View {
     }
     
     var body: some View {
-        VStack(spacing:0) {
+        VStack(spacing: 0) {
+            // Tab selection
             HStack {
                 Spacer()
-                 
                 Text("我的旅行計畫")
                     .font(.system(size: 20))
                     .bold()
@@ -35,9 +36,7 @@ struct PlanMenuView: View {
                         selectedTab = .myPlans
                         showPopPlans = false
                     }
-                 
                 Spacer()
-                 
                 Text("熱門旅行計畫")
                     .font(.system(size: 20))
                     .bold()
@@ -47,10 +46,8 @@ struct PlanMenuView: View {
                         selectedTab = .popularPlans
                         showPopPlans = true
                     }
-                 
                 Spacer()
             }
-            .ignoresSafeArea()
             .frame(height: 50)
             .background(Color.init(hex: "5E845B", alpha: 1.0))
 
@@ -60,11 +57,7 @@ struct PlanMenuView: View {
                     Image(systemName: "magnifyingglass")
                         .frame(width: 45, height: 45)
                         .padding(.leading, 5)
-                    
                     TextField(" ", text: $textInput)
-                        .onSubmit {
-                            print(textInput)
-                        }
                         .padding(.vertical, 10)
                 }
                 .frame(width: 300, height: 35)
@@ -72,130 +65,120 @@ struct PlanMenuView: View {
                 .cornerRadius(10)
                 .padding()
 
-                VStack {
-                    if viewModel.isLoading {
-                        ProgressView()
-                    } else if let error = viewModel.error {
-                        Text("Error: \(error)")
-                    } else if viewModel.travelPlans.isEmpty {
-                        Text("No travel plans found")
-                    } else {
-                        ScrollView {
-                            VStack(spacing: 0) {
-                                HStack {
-                                    Text("2024")
-                                        .foregroundStyle(Color.init(hex: "999999", alpha: 1.0))
-                                        .font(.system(size: 15))
-                                    Spacer()
-                                }
-                                .frame(width: 300)
-                                
-                                ForEach(viewModel.travelPlans) { plan in
-                                    Button(action: {
-                                        print(plan.id)
-                                        showPlanView = true  // Trigger PlanView
-                                    }) {
-                                        HStack {
-                                            VStack(alignment: .leading) {
-                                                Text(plan.planname)
-                                                    .bold()
-                                                    .font(.system(size: 20))
-                                                    .foregroundColor(.black)
-                                                    .padding(.leading)
-                                                    .padding(.top)
-                                                Text("\(formatDate(plan.startdate)) - \(formatDate(plan.enddate))")
-                                                    .font(.system(size: 15))
-                                                    .foregroundColor(.gray)
-                                                    .padding(.top,3)
-                                                    .padding(.bottom)
-                                                    .padding(.leading)
-                                            }
-                                            Spacer()
-                                            Image(systemName: "chevron.right")
-                                                .resizable()
-                                                .frame(width: 15, height: 15)
-                                                .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
-                                                .padding(.trailing, 10)
-                                        }
-                                        .frame(width: 280, height: 90)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 2)
-                                        )
-                                        .padding()
-                                    }
+                // Travel plans list
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if viewModel.isLoading {
+                            ProgressView()
+                        } else if let error = viewModel.error {
+                            Text("Error: \(error)")
+                        } else if viewModel.travelPlans.isEmpty {
+                            Text("No travel plans found")
+                        } else {
+                            ForEach(viewModel.travelPlans) { plan in
+                                Button(action: {
+                                    selectedPlanId = plan.id
+                                    viewModel.selectedTravelPlan = plan
+                                    showPlanView = true
+                                }) {
+                                    PlanRowView(plan: plan)
                                 }
                             }
                         }
                     }
                 }
-                .fullScreenCover(isPresented: $showPlanView) {
-                    PlanView(indexd: $indexd)
-                }
-                .onAppear {
+                .refreshable {
                     if let token = authViewModel.accessToken {
                         viewModel.fetchTravelPlans(token: token)
-                    } else {
-                        viewModel.error = "No access token available"
                     }
                 }
-                // Use navigationDestination to show PopularPlansView
-                 .navigationDestination(isPresented: $showPopPlans) {
-                     PopularPlansView()
-                 }
 
                 // New journey button
                 Button(action: {
                     showNewJourney = true
-                    let newPlanName = "New Plan"
-                    let startDate = Date()
-                    let endDate = Calendar.current.date(byAdding: .day, value: 7, to: startDate)!
-                    
-                    if let token = authViewModel.accessToken {
-                        viewModel.createTravelPlan(planName: newPlanName, startDate: startDate, endDate: endDate, accessToken: token) { success, errorMessage in
-                            if success {
-                                indexd = viewModel.travelPlans.count - 1
-                                showPlanView = true
-                            } else if let errorMessage = errorMessage {
-                                viewModel.error = errorMessage
-                            }
-                        }
-                    } else {
-                        viewModel.error = "No access token available"
-                    }
-                }, label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
-                        
-                        Text("新增旅行計畫")
-                            .bold()
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                    }
-                })
-                .frame(width: 280, height: 40)
+                }) {
+                    Text("新增旅行計畫")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .frame(width: 280, height: 40)
+                        .background(Color(hex: "8F785C", alpha: 1.0))
+                        .cornerRadius(15)
+                }
                 .padding(10)
             }
+            .navigationDestination(isPresented: $showPopPlans) {
+                PopularPlansView()
+            }
+            .fullScreenCover(isPresented: $showPlanView) {
+                if let _ = selectedPlanId {
+                    PlanView()
+                        .environmentObject(viewModel)
+                        .environmentObject(authViewModel)
+                }
+            }
         }
-        .popupNavigationView(horizontalPadding: 40, show: $showNewJourney) {
+        .onAppear {
+            if let token = authViewModel.accessToken {
+                viewModel.fetchTravelPlans(token: token)
+            }
+        }
+        .sheet(isPresented: $showNewJourney) {
             NewJourneyView(showNewJourney: $showNewJourney)
+                .environmentObject(viewModel)
+                .environmentObject(authViewModel)
         }
     }
 }
 
-func formatDate(_ dateString: String) -> String {
-    let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "yyyy-MM-dd"
-    inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-    inputFormatter.timeZone = TimeZone(abbreviation: "GMT")
+struct PlanRowView: View {
+    let plan: TravelPlan
     
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "yyyy/MM/dd"
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(plan.planname)
+                    .bold()
+                    .font(.system(size: 20))
+                    .foregroundColor(.black)
+                    .padding(.leading)
+                    .padding(.top)
+                Text("\(formatDate(plan.startdate)) - \(formatDate(plan.enddate))")
+                    .font(.system(size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.top, 3)
+                    .padding(.bottom)
+                    .padding(.leading)
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
+                .resizable()
+                .frame(width: 15, height: 15)
+                .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+                .padding(.trailing, 10)
+        }
+        .frame(width: 280, height: 90)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color(hex: "8F785C", alpha: 1.0), lineWidth: 2)
+        )
+        .padding()
+    }
     
-    if let date = inputFormatter.date(from: dateString) {
-        return outputFormatter.string(from: date)
-    } else {
-        return dateString
+    private func formatDate(_ dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+        inputFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "yyyy/MM/dd"
+        
+        if let date = inputFormatter.date(from: dateString) {
+            return outputFormatter.string(from: date)
+        } else {
+            return dateString
+        }
     }
 }
+

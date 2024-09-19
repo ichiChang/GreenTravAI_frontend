@@ -29,7 +29,9 @@ struct MenuView: View {
                 } else if showSearchView {
                     SearchView(index1: $index1)
                 } else if showPlanMenuView {
-                    PlanMenuView(indexd: indexd).environmentObject(authViewModel)
+                    PlanMenuView()
+                        .environmentObject(authViewModel)
+                        .environmentObject(TravelPlanViewModel())
                 }
             
             CustomTabs(index: $index,

@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Day: Identifiable, Codable, Hashable {
-    var id: Int
-    var date: String
-    var travelPlanId: Int
+struct Day: Identifiable, Codable {
+    let id: String
+    let date: String
+    let travel_plan_id: String
 }
 

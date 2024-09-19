@@ -12,7 +12,7 @@ class TravelPlanViewModel: ObservableObject {
     @Published var travelPlans: [TravelPlan] = []
     @Published var selectedTravelPlan: TravelPlan?
     @Published var days: [Day] = []
-    @Published var stops: [Stop] = []
+    @Published var dayStops: DayStops?
     @Published var isLoading: Bool = false
     @Published var error: String?
 
@@ -59,25 +59,63 @@ class TravelPlanViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func fetchDays(for travelPlanId: Int) {
-        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travelplans/\(travelPlanId)/days") else { return }
-        URLSession.shared.dataTaskPublisher(for: url)
-            .map { $0.data }
+    func fetchDaysForPlan(planId: String, token: String) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/days/day-in-plan") else {
+            self.error = "Invalid URL"
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let body: [String: String] = ["TravelPlanId": planId]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTaskPublisher(for: request)
+            .map(\.data)
             .decode(type: [Day].self, decoder: JSONDecoder())
-            .replaceError(with: [])
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.days = $0 }
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    self.error = error.localizedDescription
+                }
+            } receiveValue: { [weak self] days in
+                self?.days = days
+            }
             .store(in: &cancellables)
     }
 
-    func fetchStops(for dayId: Int) {
-        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/days/\(dayId)/stops") else { return }
-        URLSession.shared.dataTaskPublisher(for: url)
-            .map { $0.data }
-            .decode(type: [Stop].self, decoder: JSONDecoder())
-            .replaceError(with: [])
+    
+    func fetchStopsForDay(dayId: String, token: String) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/StopinDay") else {
+            self.error = "Invalid URL"
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let body: [String: String] = ["day_id": dayId]
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        isLoading = true
+        
+        URLSession.shared.dataTaskPublisher(for: request)
+            .map(\.data)
+            .decode(type: DayStops.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.stops = $0 }
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                if case .failure(let error) = completion {
+                    self?.error = error.localizedDescription
+                }
+            } receiveValue: { [weak self] dayStops in
+                self?.dayStops = dayStops
+            }
             .store(in: &cancellables)
     }
 

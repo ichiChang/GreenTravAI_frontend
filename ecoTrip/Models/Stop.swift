@@ -6,14 +6,12 @@
 //
 
 import Foundation
-
-struct Stop: Identifiable, Codable, Hashable {
-    var id: Int
-    var name: String
-    var startTime: String
-    var endTime: String
-    var note: String?
-    var placeId: Int
-    var dayId: Int
+struct Stop: Codable, Identifiable {
+    let id: String
+    let stopname: String
+    let StartTime: String
+    let EndTime: String
+    let Note: String?
+    let transportationToNext: Transportation?
 }
 

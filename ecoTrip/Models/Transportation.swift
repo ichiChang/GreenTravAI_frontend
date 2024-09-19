@@ -7,13 +7,9 @@
 
 import Foundation
 
-struct Transportation: Identifiable, Codable, Hashable {
-    var id: Int
-    var name: String
-    var timeSpent: Int
-    var lowCarbon: Bool
-    var createAt: String
-    var fromStopId: Int
-    var toStopId: Int
+struct Transportation: Codable {
+    let LowCarbon: Bool?
+    let Mode: String?
+    let TimeSpent: Int?
 }
 

@@ -177,7 +177,7 @@ struct NewJourneyView: View {
                     Spacer()
                 }
                 .navigationDestination(isPresented: $navigateToPlanView) {
-                                    PlanView(indexd: $indexd)
+                    PlanView()
                 }
             }
             .sheet(isPresented: $showPlacePicker) {

@@ -8,70 +8,32 @@
 import SwiftUI
 
 struct PlaceListView: View {
-    @State private var draggedPlace: String?
-    @State private var place: [String] = ["國立政治大學","台北市立動物園","指南宮","台北101觀景台","貓空纜車動物園站","道南河濱公園"]
-    @State private var schedule: [String] = ["10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00", "12:00 - 12:30", "12:30 - 13:00"]
+    let stops: [Stop]
     @State private var navigateToRide = false
-    @State private var navigationPath = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
-            ScrollView(showsIndicators: false, content: {
-                VStack(spacing: 0){
-                    ForEach(Array(zip(place.indices, place)), id: \.1) { index, place in
-                        PlaceView(name: place, time: schedule[index])
-                            .onDrag({
-                                self.draggedPlace = place
-                                return NSItemProvider()
-                            })
-                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: place, places: $place, schedules: $schedule, draggedItem: $draggedPlace))
-                        
-                        // 仅在不是最后一个元素时添加按钮
-                        if index < self.place.count - 1 {
-                            HStack{
-                                Spacer()
-                                    .frame(width:30)
-                                Rectangle()
-                                    .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-                                    .frame(width:7,height:40)
-                                
-                                
-                                Image(systemName: "bicycle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width:25, height:25)
-                                    .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-                                Text("6 分鐘")
-                                    .font(.system(size: 15))
-                                    .bold()
-                                    .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-                                
-                                Button(action: {
-                                    navigateToRide = true
-                                }) {
-                                    Image(systemName: "highlighter")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width:18, height:18)
-                                        .foregroundColor(.black)
-                                }
-                                .padding(.horizontal)
-                                
-                                Spacer()
-                                
-                            }
-                            .frame(width: 300)
-                        }
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
+                    PlaceView(stop: stop)
+                    
+                    if index < stops.count - 1 {
+                        TransportationView(transportation: stop.transportationToNext)
                     }
                 }
-            })
-            .fullScreenCover(isPresented: $navigateToRide) {  // Present PlanView as a full-screen cover
-                ChangeRideView()
             }
+        }
+        .fullScreenCover(isPresented: $navigateToRide) {
+            ChangeRideView()
         }
     }
 }
 
-#Preview {
-    PlaceListView()
+struct PlaceListView_Previews: PreviewProvider {
+    static var previews: some View {
+        PlaceListView(stops: [
+            Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil),
+            Stop(id: "2", stopname: "台北市立動物園", StartTime: "2024-09-05 11:00", EndTime: "2024-09-05 11:30", Note: nil, transportationToNext: nil)
+        ])
+    }
 }
