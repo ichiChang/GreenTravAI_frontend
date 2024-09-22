@@ -10,17 +10,31 @@ import SwiftUI
 struct PlaceListView: View {
     let stops: [Stop]
     @State private var navigateToRide = false
-
+    @State private var navigationPath = NavigationPath()
+    @State private var showEditView = false
+    @State private var draggedPlace: String?
+    
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
-                    PlaceView(stop: stop)
-                    
-                    if index < stops.count - 1 {
-                        TransportationView(transportation: stop.transportationToNext)
+        NavigationStack(path: $navigationPath) {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
+                        PlaceView(stop: stop, showEditView: $showEditView)
+                            .onDrag({
+                                self.draggedPlace = stop.stopname
+                                return NSItemProvider()
+                            })
+                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: stop.stopname, places: .constant(stops.map { $0.stopname }), schedules: .constant([]), draggedItem: $draggedPlace))
+                        
+                        if index < stops.count - 1 {
+                            TransportationView(transportation: stop.transportationToNext)
+                        }
                     }
                 }
+            }
+            .sheet(isPresented: $showEditView) {
+                NewPlanView(showNewPlan: $showEditView)
+                    .presentationDetents([.height(650)])
             }
         }
         .fullScreenCover(isPresented: $navigateToRide) {

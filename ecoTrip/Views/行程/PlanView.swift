@@ -16,6 +16,8 @@ struct PlanView: View {
     @State private var showDemo = false
     @State private var showChatView = false
     @State private var isFirstAppear = true
+    @State private var navigationPath = NavigationPath()
+    @State private var showEditPlan = false
     
     var body: some View {
         NavigationView {
@@ -165,6 +167,7 @@ struct PlanView: View {
             return dateString
         }
     }
+
     private func formatTime(_ timeString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"

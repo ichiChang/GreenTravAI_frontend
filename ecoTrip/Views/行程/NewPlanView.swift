@@ -13,7 +13,8 @@ struct NewPlanView: View {
     @State private var textInput = ""
     @Binding var showNewPlan: Bool
     @State private var navigateToPlaceChoice = false
-
+    @State var hours: Int = 0
+    @State var minutes: Int = 0
     
     var body: some View {
         VStack{
@@ -85,20 +86,25 @@ struct NewPlanView: View {
                     .padding(.bottom)
                 
                 HStack {
-                    Text("預計離開時間")
+                    Text("預計停留時間")
                         .font(.system(size: 20))
                         .foregroundStyle(.black)
-                        .frame(maxWidth: 150, alignment: .leading)
-                    
-                    
-                    DatePicker(
-                        "",
-                        selection: $departureTime,
-                        displayedComponents: .hourAndMinute
-                    )
-                    .labelsHidden()
-                    .frame(width: 150, height: 45)
-                    .scaleEffect(1.3)
+                        .frame(maxWidth: 130, alignment: .leading)
+                        .layoutPriority(1)  // Give the text priority to take up space
+
+ 
+                    Picker("", selection: $hours){
+                            ForEach(0..<9, id: \.self) { i in
+                                Text("\(i) hrs").tag(i)
+                                    .font(.system(size: 23))
+                            }
+                        }.pickerStyle(WheelPickerStyle())
+                        Picker("", selection: $minutes){
+                            ForEach(0..<60, id: \.self) { i in
+                                Text("\(i) ").tag(i)
+                                    .font(.system(size: 23))
+                            }
+                        }.pickerStyle(WheelPickerStyle())
                     
                 }
                 .frame(width: 295)

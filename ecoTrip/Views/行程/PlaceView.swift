@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlaceView: View {
     let stop: Stop
+    @Binding var showEditView: Bool
     
     var body: some View {
         HStack {
@@ -31,12 +32,12 @@ struct PlaceView: View {
             Spacer()
             
             Button(action: {
-                // Action for edit button
+                showEditView.toggle()
             }) {
-                Image(systemName: "chevron.right")
+                Image(systemName: "highlighter")
                     .resizable()
                     .bold()
-                    .frame(width: 10, height: 20)
+                    .frame(width: 18, height: 18)
                     .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                     .padding(.trailing, 10)
             }
@@ -63,6 +64,6 @@ struct PlaceView: View {
 
 struct PlaceView_Previews: PreviewProvider {
     static var previews: some View {
-        PlaceView(stop: Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil))
+        PlaceView(stop: Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil), showEditView: .constant(false))
     }
 }
