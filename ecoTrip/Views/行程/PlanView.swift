@@ -26,43 +26,58 @@ struct PlanView: View {
                 HStack {
                     Button(action: {
                         dismiss()
-                    }) {
+                    }, label: {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
-                    }
+                    })
                     .padding()
+                    .offset(x:40,y:40)
                     
                     Spacer()
+                        .frame(width:200)
                     
+               
                     Button(action: {
                         showDemo.toggle()
-                    }) {
+                    }, label: {
                         Image(systemName: "questionmark.circle")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
-                    }
+                  
+                    })
                     .padding(.horizontal)
+                    .offset(x:20,y:40)
                     
+                    // 地圖 button
                     Button(action: {
-                        // Action for map button
-                    }) {
-                        Image(systemName: "location.circle")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 30))
-                    }
+                        
+                    }, label: {
+                       
+                            Image(systemName: "location.circle")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 30))
+                  
+                        
+                    })
                     .padding(.horizontal)
+                    .offset(x:-10,y:40)
                     
                     Button(action: {
                         showChatView.toggle()
-                    }) {
+                    }, label: {
                         Image(systemName: "ellipsis.message")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
-                    }
+               
+                       
+                    })
                     .padding(.horizontal)
+                    .offset(x:-40,y:40)
+                    
                 }
-                .frame(maxWidth: .infinity)
+                .ignoresSafeArea()
+                .frame(height:50)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 
                 // Days section
