@@ -58,7 +58,7 @@ struct ChatTransport: View {
                     showPlacePicker1.toggle()
                 }, label: {
                     HStack {
-                        Text(selectedPlace1.isEmpty ? "" : selectedPlace1)
+                        Text(selectedPlace1.isEmpty ? "台北市" : selectedPlace1)
                             .foregroundColor(.black)
                             .font(.system(size: 15))
                             .padding()
@@ -94,7 +94,7 @@ struct ChatTransport: View {
                          showPlacePicker2.toggle()
                      }, label: {
                          HStack {
-                             Text(selectedPlace2.isEmpty ? "" : selectedPlace2)
+                             Text(selectedPlace2.isEmpty ? "台北市" : selectedPlace2)
                                  .foregroundColor(.black)
                                  .font(.system(size: 15))
                                  .padding()

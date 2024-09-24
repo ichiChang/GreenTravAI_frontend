@@ -66,9 +66,10 @@ struct PlanView: View {
                     Button(action: {
                         showChatView.toggle()
                     }, label: {
-                        Image(systemName: "ellipsis.message")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 30))
+                        Image("agent")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+
                
                        
                     })
