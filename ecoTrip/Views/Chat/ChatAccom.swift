@@ -61,7 +61,7 @@ struct ChatAccom: View {
                     showPlacePicker.toggle()
                 }, label: {
                     HStack {
-                        Text(selectedPlace.isEmpty ? "" : selectedPlace)
+                        Text(selectedPlace.isEmpty ? "台北市" : selectedPlace)
                             .foregroundColor(.black)
                             .font(.system(size: 15))
                             .padding()
@@ -132,7 +132,7 @@ struct ChatAccom: View {
                     showAccomPicker.toggle()
                 }, label: {
                     HStack {
-                        Text(selectedAccom.isEmpty ? "" : selectedAccom)
+                        Text(selectedAccom.isEmpty ? "民宿" : selectedAccom)
                             .foregroundColor(.black)
                             .font(.system(size: 15))
                             .padding()
