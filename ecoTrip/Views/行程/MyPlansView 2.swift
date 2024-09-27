@@ -1,7 +1,15 @@
+//
+//  MyPlansView 2.swift
+//  ecoTrip
+//
+//  Created by 陳萭鍒 on 2024/9/26.
+//
+
+
 
 import SwiftUI
 
-struct MyPlansView: View {
+struct JournetPicker: View {
     @State private var textInput = ""
     @State private var showNewJourney = false
     @State private var showPlanView = false

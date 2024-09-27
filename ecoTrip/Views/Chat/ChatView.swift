@@ -11,11 +11,14 @@ import Combine
 struct ChatView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = ChatViewModel()
+    @StateObject var travelPlanViewModel = TravelPlanViewModel()
+
     @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
     @State private var isChatView = false
-    
+    @State private var showJPicker = false
+
     // Four PopUps
     @State private var showChatPlan = false
     @State private var showChatTransport = false
@@ -94,6 +97,7 @@ struct ChatView: View {
                                         }
                                     }
                                 }
+                                
                             }
                             .frame(width: 280)
                             .padding()
@@ -104,12 +108,30 @@ struct ChatView: View {
                                     MessageView(currentMessage: message)
                                         .id(message.id)
                                 }
-                            }
-                            .onChange(of: viewModel.messages) { _ in
-                                withAnimation {
-                                    proxy.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                .onChange(of: viewModel.messages) { _ in
+                                    withAnimation {
+                                        proxy.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                    }
                                 }
+                                
+                               Button(action: {
+                                   
+                                   showJPicker.toggle()
+                               }) {
+                                   Text("新增至現有旅行計畫")
+                                       .bold()
+                                       .font(.system(size: 15))
+                                       .foregroundColor(.white)
+                                       .frame(width: 150, height: 40)
+                                       .background(Color(hex: "8F785C", alpha: 1.0))
+                                       .cornerRadius(15)
+                               }
+                               .padding(10)
+                             
+                                
                             }
+                            
+                           
                         }
                     }
                     .frame(width: isChatView ? 350 : 300)
@@ -118,23 +140,32 @@ struct ChatView: View {
                 
                 // Input area
                 HStack {
-                    TextField("Aa", text: $newMessage)
-                        .padding(10)
-                        .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
-                        .padding(.top, 10)
-                        .padding(.leading, 10)
-                    
                     Button(action: sendMessage) {
-                        Image(systemName: "paperplane.fill")
+                        Image(systemName: "plus")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
                             .padding(.top, 5)
-                            .padding(.trailing, 10)
+                            .padding(.leading, 5)
+                        
                     }
+                    
+                    TextField("Aa", text: $newMessage)
+                        .padding(10)
+                        .padding(.leading,10)
+                        .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
+                        .padding(.top, 10)
+                        .padding(.trailing, 10)
+                    
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
                 .background(colorManager.mainColor)
+            }
+            .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
+                JourneyPicker(showJPicker: $showJPicker)
+                    .environmentObject(travelPlanViewModel)
+                    .environmentObject(authViewModel)
+                 
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
