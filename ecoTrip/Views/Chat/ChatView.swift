@@ -25,9 +25,12 @@ struct ChatView: View {
     @State private var showChatTicket = false
     @State private var showChatAccom = false
     
+    @State private var navigateToPlanView = false
+    @State private var selectedPlanId: String?
+    
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var authViewModel: AuthViewModel
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -161,10 +164,20 @@ struct ChatView: View {
                 .padding(.horizontal)
                 .background(colorManager.mainColor)
             }
+            .background(
+                NavigationLink(
+                    destination: PlanView()
+                        .environmentObject(travelPlanViewModel)
+                        .environmentObject(authViewModel),
+                    isActive: $navigateToPlanView,
+                    label: { EmptyView() }
+                )
+            )
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(showJPicker: $showJPicker,
                               chatContent: viewModel.messages.last?.content ?? "",
-                              recommendation: viewModel.lastRecommendation)
+                              recommendation: viewModel.lastRecommendation,
+                              navigateToPlanView: $navigateToPlanView)
                     .environmentObject(travelPlanViewModel)
                     .environmentObject(authViewModel)
             }

@@ -12,13 +12,15 @@ struct JourneyPicker: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var recommendation: Recommendation?
+    @Binding var navigateToPlanView: Bool
 
-    init(showJPicker: Binding<Bool>, chatContent: String, recommendation: Recommendation?) {
+    init(showJPicker: Binding<Bool>, chatContent: String, recommendation: Recommendation?, navigateToPlanView: Binding<Bool>) {
         self._showJPicker = showJPicker
         self._chatContent = State(initialValue: chatContent)
         self._recommendation = State(initialValue: recommendation)
+        self._navigateToPlanView = navigateToPlanView
     }
-
+    
     var body: some View {
         NavigationStack {
             Button(action: {
@@ -108,7 +110,21 @@ struct JourneyPicker: View {
             }
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text("提示"), message: Text(alertMessage), dismissButton: .default(Text("確定")))
+            Alert(
+                title: Text("提示"),
+                message: Text(alertMessage),
+                primaryButton: .default(Text("查看行程")) {
+                    // 确保 selectedTravelPlan 被正确设置
+                    if let selectedPlan = viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) {
+                        viewModel.selectedTravelPlan = selectedPlan
+                    }
+                    navigateToPlanView = true
+                    showJPicker = false
+                },
+                secondaryButton: .cancel(Text("取消")) {
+                    showJPicker = false
+                }
+            )
         }
         .onAppear {
             if let token = authViewModel.accessToken {
@@ -142,10 +158,11 @@ struct JourneyPicker: View {
                 "prev_stop": prevStop
             ]
 
+
             viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
                 if success {
-                    showAlert(message: "成功添加到旅行計劃")
-                    showJPicker = false
+                    alertMessage = "成功添加到旅行計劃。是否查看該行程？"
+                    showAlert = true
                 } else {
                     showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
                 }

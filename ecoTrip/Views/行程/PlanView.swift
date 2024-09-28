@@ -163,7 +163,11 @@ struct PlanView: View {
         .onAppear {
             if let selectedPlan = viewModel.selectedTravelPlan,
                let token = authViewModel.accessToken {
-                viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token)
+                viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token) {
+                    if let firstDay = viewModel.days.first {
+                        viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
+                    }
+                }
             }
         }
     }

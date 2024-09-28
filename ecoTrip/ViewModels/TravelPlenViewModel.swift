@@ -59,9 +59,10 @@ class TravelPlanViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func fetchDaysForPlan(planId: String, token: String) {
+    func fetchDaysForPlan(planId: String, token: String, completion: (() -> Void)? = nil) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/days/day-in-plan") else {
             self.error = "Invalid URL"
+            completion?()
             return
         }
         
@@ -77,10 +78,11 @@ class TravelPlanViewModel: ObservableObject {
             .map(\.data)
             .decode(type: [Day].self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
+            .sink { completionResult in
+                if case .failure(let error) = completionResult {
                     self.error = error.localizedDescription
                 }
+                completion?()
             } receiveValue: { [weak self] days in
                 self?.days = days
             }
