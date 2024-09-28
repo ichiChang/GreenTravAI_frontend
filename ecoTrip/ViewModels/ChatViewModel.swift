@@ -14,17 +14,17 @@ struct ApiResponse: Codable {
 }
 
 struct Recommendation: Codable {
-    let Activity: String
+    let Name: String
     let Address: String
-    let Location: String
+    let Latency: Int
 }
 
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var isLoading: Bool = false
     @Published var error: String?
+    @Published var lastRecommendation: Recommendation?
     
-    private var recommendations: [Recommendation] = []
     private var cancellables = Set<AnyCancellable>()
 
     func sendMessage(query: String, token: String) {
@@ -55,13 +55,35 @@ class ChatViewModel: ObservableObject {
                 }
             } receiveValue: { response in
                 self.messages.append(Message(content: query, isCurrentUser: true))
-                self.messages.append(Message(content: response.Message, isCurrentUser: false))
+                
+                var botMessage = response.Message
                 
                 if let recommendations = response.Recommendation {
-                    self.recommendations = recommendations
-                    // 暂时存储recommendations，但不显示
+                    for recommendation in recommendations {
+                        botMessage += "\n\n地點：\(recommendation.Name)\n地址：\(recommendation.Address)\n建議停留時間：\(self.formatLatency(recommendation.Latency))"
+                    }
+                    if let first = recommendations.first {
+                        self.lastRecommendation = first
+                    }
                 }
+                
+                self.messages.append(Message(content: botMessage, isCurrentUser: false))
             }
             .store(in: &cancellables)
+    }
+    
+    private func formatLatency(_ latency: Int) -> String {
+        let hours = latency / 60
+        let minutes = latency % 60
+        
+        if hours > 0 {
+            if minutes > 0 {
+                return "\(hours)小時\(minutes)分鐘"
+            } else {
+                return "\(hours)小時"
+            }
+        } else {
+            return "\(minutes)分鐘"
+        }
     }
 }

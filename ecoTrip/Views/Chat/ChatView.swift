@@ -162,10 +162,11 @@ struct ChatView: View {
                 .background(colorManager.mainColor)
             }
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
-                JourneyPicker(showJPicker: $showJPicker)
+                JourneyPicker(showJPicker: $showJPicker,
+                              chatContent: viewModel.messages.last?.content ?? "",
+                              recommendation: viewModel.lastRecommendation)
                     .environmentObject(travelPlanViewModel)
                     .environmentObject(authViewModel)
-                 
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
@@ -257,11 +258,14 @@ struct MessageCell: View {
     var isCurrentUser: Bool
     
     var body: some View {
-        Text(contentMessage)
-            .padding(10)
-            .foregroundColor(isCurrentUser ? Color.white : Color.black)
-            .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
-            .cornerRadius(10)
+        VStack(alignment: .leading, spacing: 4) {
+            Text(contentMessage)
+                .padding(10)
+                .foregroundColor(isCurrentUser ? Color.white : Color.black)
+                .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
+                .cornerRadius(10)
+        }
+        .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
     }
 }
 

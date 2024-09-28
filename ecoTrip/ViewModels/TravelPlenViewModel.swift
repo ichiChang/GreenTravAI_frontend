@@ -181,4 +181,73 @@ class TravelPlanViewModel: ObservableObject {
             }
         }.resume()
     }
+    func getLastStopForDay(dayId: String, token: String, completion: @escaping (Stop?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/StopinDay") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let body = ["day_id": dayId]
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            
+            do {
+                let dayStops = try JSONDecoder().decode(DayStops.self, from: data)
+                DispatchQueue.main.async {
+                    completion(dayStops.stops.last)
+                }
+            } catch {
+                print("Decoding error: \(error)")
+                DispatchQueue.main.async { completion(nil) }
+            }
+        }.resume()
+    }
+    func addStopToDay(requestBody: [String: Any], token: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        } catch {
+            completion(false, "Failed to encode request body")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(false, "Invalid response")
+                    return
+                }
+                
+                if (200...299).contains(httpResponse.statusCode) {
+                    completion(true, nil)
+                } else {
+                    completion(false, "Server error: HTTP \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
 }

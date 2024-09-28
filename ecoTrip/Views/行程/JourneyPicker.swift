@@ -1,12 +1,23 @@
 import SwiftUI
+
 struct JourneyPicker: View {
     @State private var textInput = ""
     @State private var selectedPlanId: String?
-    @State private var selectedDate: String?
+    @State private var selectedDayId: String?
     @State private var showingDateSelector = false
     @EnvironmentObject var viewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @Binding var showJPicker: Bool
+    @State private var chatContent: String
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var recommendation: Recommendation?
+
+    init(showJPicker: Binding<Bool>, chatContent: String, recommendation: Recommendation?) {
+        self._showJPicker = showJPicker
+        self._chatContent = State(initialValue: chatContent)
+        self._recommendation = State(initialValue: recommendation)
+    }
 
     var body: some View {
         NavigationStack {
@@ -30,9 +41,8 @@ struct JourneyPicker: View {
             if showingDateSelector, let plan = viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) {
                 ScrollView {
                     VStack(spacing: 10) {
-                        let dates = datesBetween(startDate: plan.startdate, endDate: plan.enddate)
-                        ForEach(Array(dates.enumerated()), id: \.element) { index, date in
-                            DateRowView(date: date, index: index, totalCount: dates.count, selectedDate: $selectedDate)
+                        ForEach(viewModel.days) { day in
+                            DateRowView(day: day, selectedDayId: $selectedDayId)
                         }
                     }
                 }
@@ -60,30 +70,92 @@ struct JourneyPicker: View {
                 }
             }
 
-            // Confirm button
-            Button(action: {
-                if showingDateSelector && selectedDate != nil {
-                    showJPicker = false // Close the picker view if a date has been selected
-                } else {
-                    showingDateSelector = true // Show date selection
+            if showingDateSelector && selectedDayId != nil {
+                // Confirm button
+                Button(action: {
+                    addContentToTravelPlan()
+                }) {
+                    Text("添加到旅行計劃")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .frame(width: 200, height: 40)
+                        .background(Color(hex: "8F785C", alpha: 1.0))
+                        .cornerRadius(15)
                 }
-            }) {
-                Text(showingDateSelector && selectedDate != nil ? "完成" : "確認")
-                    .bold()
-                    .font(.system(size: 20))
-                    .foregroundColor(.white)
-                    .frame(width: 80, height: 40)
-                    .background(Color(hex: "8F785C", alpha: 1.0))
-                    .cornerRadius(15)
+                .padding()
+            } else {
+                // Confirm button
+                Button(action: {
+                    if showingDateSelector && selectedDayId != nil {
+                        showJPicker = false
+                    } else {
+                        showingDateSelector = true
+                        if let planId = selectedPlanId, let token = authViewModel.accessToken {
+                            viewModel.fetchDaysForPlan(planId: planId, token: token)
+                        }
+                    }
+                }) {
+                    Text(showingDateSelector && selectedDayId != nil ? "完成" : "確認")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 40)
+                        .background(Color(hex: "8F785C", alpha: 1.0))
+                        .cornerRadius(15)
+                }
+                .padding()
             }
-            .padding()
-           
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("提示"), message: Text(alertMessage), dismissButton: .default(Text("確定")))
         }
         .onAppear {
             if let token = authViewModel.accessToken {
                 viewModel.fetchTravelPlans(token: token)
             }
         }
+    }
+
+    private func addContentToTravelPlan() {
+        guard let dayId = selectedDayId,
+              let token = authViewModel.accessToken,
+              let recommendation = recommendation else {
+            showAlert(message: "無法添加內容：缺少必要資訊")
+            return
+        }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let startTime = dateFormatter.string(from: Date())
+
+        viewModel.getLastStopForDay(dayId: dayId, token: token) { lastStop in
+            let prevStop = lastStop?.id ?? ""
+
+            let requestBody: [String: Any] = [
+                "Name": recommendation.Name,
+                "StartTime": startTime,
+                "note": chatContent,
+                "DayId": dayId,
+                "latency": recommendation.Latency,
+                "address": recommendation.Address,
+                "prev_stop": prevStop
+            ]
+
+            viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
+                if success {
+                    showAlert(message: "成功添加到旅行計劃")
+                    showJPicker = false
+                } else {
+                    showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
+                }
+            }
+        }
+    }
+
+    private func showAlert(message: String) {
+        alertMessage = message
+        showAlert = true
     }
 
     private func datesBetween(startDate: String, endDate: String) -> [String] {
@@ -105,39 +177,31 @@ struct JourneyPicker: View {
 }
 
 struct DateRowView: View {
-    let date: String
-   let index: Int // Add an index to know the position
-   let totalCount: Int // Total count of dates
-   @Binding var selectedDate: String?
+    let day: Day
+    @Binding var selectedDayId: String?
     
     var body: some View {
         HStack {
-            Text(date)
+            Text(day.date)
                 .bold()
                 .padding()
             Spacer()
-            Image(systemName: selectedDate == date ? "checkmark.circle.fill" : "checkmark.circle")
+            Image(systemName: selectedDayId == day.id ? "checkmark.circle.fill" : "checkmark.circle")
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundColor(selectedDate == date ? Color(hex: "8F785C", alpha: 1.0) : .gray)
-          
+                .foregroundColor(selectedDayId == day.id ? Color(hex: "8F785C", alpha: 1.0) : .gray)
         }
         .frame(width: 280)
-        .padding(.top,10)
+        .padding(.top, 10)
         .onTapGesture {
-            self.selectedDate = date
+            self.selectedDayId = day.id
         }
-        if index < totalCount - 1 {
-            Divider()
-                .frame(width: 280)
-                .frame(minHeight: 2)
-                .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
- 
-        }
-
+        Divider()
+            .frame(width: 280)
+            .frame(minHeight: 2)
+            .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
     }
 }
-
 
 struct PlanRowView2: View {
     let plan: TravelPlan
