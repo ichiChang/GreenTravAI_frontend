@@ -34,6 +34,7 @@
 		FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F782C3D72A6002704D6 /* DatePick.swift */; };
 		FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */; };
 		FD1D0F7D2C3E6C72002704D6 /* NewJourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */; };
+		FD2282EC2CA3FD3800C2B6D8 /* MyPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */; };
 		FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */; };
 		FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */; };
 		FD3F3C7F2C5685B100879509 /* ChatPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3F3C7E2C5685B100879509 /* ChatPlan.swift */; };
@@ -48,6 +49,7 @@
 		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
 		FD8CD7F12C8AB611003F63AD /* NewPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8CD7F02C8AB611003F63AD /* NewPlanView.swift */; };
+		FD9341C32CA53A9B00C71DDA /* JourneyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */; };
 		FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */; };
 		FDA587832C3190F1000EFB2C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA587822C3190F0000EFB2C /* SearchView.swift */; };
 		FDAB26052C4E46A700CED5EC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB26042C4E46A700CED5EC /* ProfileView.swift */; };
@@ -112,6 +114,7 @@
 		FD1D0F782C3D72A6002704D6 /* DatePick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePick.swift; sourceTree = "<group>"; };
 		FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePicker.swift; sourceTree = "<group>"; };
 		FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewJourneyView.swift; sourceTree = "<group>"; };
+		FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlansView.swift; sourceTree = "<group>"; };
 		FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeRideView.swift; sourceTree = "<group>"; };
 		FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanMenuView.swift; sourceTree = "<group>"; };
 		FD3F3C7E2C5685B100879509 /* ChatPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPlan.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		FD8CD7F02C8AB611003F63AD /* NewPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlanView.swift; sourceTree = "<group>"; };
+		FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyPicker.swift; sourceTree = "<group>"; };
 		FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceChoice.swift; sourceTree = "<group>"; };
 		FDA587822C3190F0000EFB2C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		FDAB26042C4E46A700CED5EC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -300,6 +304,8 @@
 		FD4D02552C3BDEE30037F969 /* 行程 */ = {
 			isa = PBXGroup;
 			children = (
+				FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */,
+				FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */,
 				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
 				FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */,
 				FD1D0F7C2C3E6C72002704D6 /* NewJourneyView.swift */,
@@ -494,6 +500,7 @@
 				FDC1728F2C58C9E000706856 /* ChatTransport.swift in Sources */,
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
+				FD9341C32CA53A9B00C71DDA /* JourneyPicker.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
 				FD07AC952C60C5B9007DF6DB /* AccomPicker.swift in Sources */,
 				FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */,
@@ -503,6 +510,7 @@
 				10410B5D2C9C04840016662D /* TransportationView.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
 				FD8CD7F12C8AB611003F63AD /* NewPlanView.swift in Sources */,
+				FD2282EC2CA3FD3800C2B6D8 /* MyPlansView.swift in Sources */,
 				FD07AC972C625B0B007DF6DB /* ColorManager.swift in Sources */,
 				10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,

@@ -47,34 +47,34 @@ struct PlanView: View {
                   
                     })
                     .padding(.horizontal)
-                    .offset(x:20,y:40)
+                    .offset(x:40,y:40)
                     
                     // 地圖 button
-                    Button(action: {
-                        
-                    }, label: {
-                       
-                            Image(systemName: "location.circle")
-                                .foregroundStyle(.white)
-                                .font(.system(size: 30))
-                  
-                        
-                    })
-                    .padding(.horizontal)
-                    .offset(x:-10,y:40)
+//                    Button(action: {
+//                        
+//                    }, label: {
+//                       
+//                            Image(systemName: "location.circle")
+//                                .foregroundStyle(.white)
+//                                .font(.system(size: 30))
+//                  
+//                        
+//                    })
+//                    .padding(.horizontal)
+//                    .offset(x:-10,y:40)
                     
                     Button(action: {
                         showChatView.toggle()
                     }, label: {
                         Image("agent")
                             .resizable()
-                            .frame(width: 35, height: 35)
-
-               
+                            .frame(width: 30, height: 30, alignment: .center)
+                            .cornerRadius(20)
+                            .padding(.leading, 20)
                        
                     })
                     .padding(.horizontal)
-                    .offset(x:-40,y:40)
+                    .offset(x:-10,y:40)
                     
                 }
                 .ignoresSafeArea()
