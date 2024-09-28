@@ -4,66 +4,122 @@
 //
 //  Created by 陳萭鍒 on 2024/7/8.
 //
-
 import SwiftUI
+import MapKit
 
 struct PlaceChoice: View {
-    @State private var textInput = ""
     @Binding var navigateToPlaceChoice: Bool
-
+    @StateObject private var viewModel = LocationSuggestionViewModel()
+    @State private var userTrackingMode: MapUserTrackingMode = .follow
+    @State private var showSearchBar = false
+    @FocusState private var isSearchFocused: Bool
 
     var body: some View {
-        VStack{
-            HStack{
-                Button(action: {
-                    navigateToPlaceChoice = false
-                }
-               , label: {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .bold()
-                        .frame(width: 15, height: 20)
-                        .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
-                })
-               
-                
-                // Text field
-                TextField("請輸入地點名稱", text: $textInput)
-                    .frame(width: 280)
-                    .font(.system(size: 15))
-                    .padding(10)
-                    .padding(.horizontal,10)
-                    .background(Color.init(hex: "E8E8E8", alpha: 1.0))
-                    .cornerRadius(20)
-                   
-                
+        ZStack(alignment: .top) {
+            Map(coordinateRegion: $viewModel.region,
+                showsUserLocation: true,
+                userTrackingMode: $userTrackingMode,
+                annotationItems: viewModel.selectedLocation.map { [$0] } ?? []) { item in
+                MapMarker(coordinate: item.mapItem.placemark.coordinate, tint: .red)
             }
-            .padding(.horizontal)
+            .edgesIgnoringSafeArea(.all)
             
-            Spacer()
-            
-            Button(action: {
-                navigateToPlaceChoice = false
-            }, label: {
-                Text("確定")
-                    .bold()
-                    .font(.system(size: 25))
-                    .foregroundColor(.white)
-            })
-            .frame(width: 280, height: 50)
-            .background(Color.init(hex: "5E845B", alpha: 1.0))
-            .cornerRadius(10)
-            .padding()
-           
-            
+            VStack(spacing: 0) {
+                HStack {
+                    Button(action: {
+                        navigateToPlaceChoice = false
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black.opacity(0.6))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                    Button(action: {
+                        showSearchBar.toggle()
+                        if showSearchBar {
+                            isSearchFocused = true
+                        }
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black.opacity(0.6))
+                            .clipShape(Circle())
+                    }
+                }
+                .padding()
+                
+                if showSearchBar {
+                    VStack {
+                        TextField("搜尋地點", text: $viewModel.searchText)
+                            .padding(10)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                            .focused($isSearchFocused)
+                        
+                        if !viewModel.suggestions.isEmpty {
+                            ScrollView {
+                                VStack(spacing: 0) {
+                                    ForEach(viewModel.suggestions, id: \.self) { suggestion in
+                                        Button(action: {
+                                            viewModel.selectLocation(suggestion)
+                                            showSearchBar = false
+                                        }) {
+                                            VStack(alignment: .leading) {
+                                                Text(suggestion.title)
+                                                    .font(.headline)
+                                                Text(suggestion.subtitle)
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.gray)
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding()
+                                            .background(Color.white)
+                                        }
+                                        Divider()
+                                    }
+                                }
+                            }
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                Spacer()
+                
+                if let location = viewModel.selectedLocation {
+                    VStack {
+                        Text(location.mapItem.name ?? "")
+                            .font(.headline)
+                        Text(location.mapItem.placemark.title ?? "")
+                            .font(.subheadline)
+                        Button(action: {
+                            print("Selected place: \(location.mapItem.name ?? "")")
+                            navigateToPlaceChoice = false
+                        }) {
+                            Text("確定")
+                                .bold()
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(hex: "5E845B"))
+                                .cornerRadius(10)
+                        }
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                    .padding()
+                }
+            }
         }
-        .navigationBarBackButtonHidden(true)
-
-       
-          
+        .navigationBarHidden(true)
     }
-}
-
-#Preview {
-    PlaceChoice(navigateToPlaceChoice: .constant(false))
 }
