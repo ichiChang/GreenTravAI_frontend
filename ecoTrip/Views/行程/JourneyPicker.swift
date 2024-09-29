@@ -151,7 +151,7 @@ struct JourneyPicker: View {
             let requestBody: [String: Any] = [
                 "Name": recommendation.Name,
                 "StartTime": startTime,
-                "note": chatContent,
+                "note": "",
                 "DayId": dayId,
                 "latency": recommendation.Latency,
                 "address": recommendation.Address,

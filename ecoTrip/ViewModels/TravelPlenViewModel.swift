@@ -36,7 +36,6 @@ class TravelPlanViewModel: ObservableObject {
                 guard let httpResponse = output.response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
-                print("Status code: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 401 {
                     throw URLError(.userAuthenticationRequired)
                 }
@@ -224,6 +223,8 @@ class TravelPlanViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print(token)
+        print(requestBody)
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)

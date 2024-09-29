@@ -18,6 +18,7 @@ struct PlanView: View {
     @State private var isFirstAppear = true
     @State private var navigationPath = NavigationPath()
     @State private var showEditPlan = false
+    @State private var hasExistingSchedule: Bool = false
     
     var body: some View {
         NavigationView {
@@ -121,9 +122,11 @@ struct PlanView: View {
                     Text("Error: \(error)")
                 } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
                     PlaceListView(stops: dayStops.stops)
+                        .onAppear { hasExistingSchedule = true }
                 } else {
                     Text("No plans for this day yet.")
                         .foregroundColor(.gray)
+                        .onAppear { hasExistingSchedule = false }
                 }
                 
                 Spacer()
@@ -154,8 +157,10 @@ struct PlanView: View {
             Demo(showDemo: $showDemo)
         }
         .sheet(isPresented: $showNewPlan) {
-            NewPlanView(showNewPlan: $showNewPlan)
+            NewPlanView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule)
                 .presentationDetents([.height(650)])
+                .environmentObject(viewModel)
+                .environmentObject(authViewModel)
         }
         .sheet(isPresented: $showChatView) {
             ChatView()

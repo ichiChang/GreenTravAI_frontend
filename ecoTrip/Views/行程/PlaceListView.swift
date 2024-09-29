@@ -33,7 +33,7 @@ struct PlaceListView: View {
                 }
             }
             .sheet(isPresented: $showEditView) {
-                NewPlanView(showNewPlan: $showEditView)
+                NewPlanView(showNewPlan: $showEditView, hasExistingSchedule: false)
                     .presentationDetents([.height(650)])
             }
         }

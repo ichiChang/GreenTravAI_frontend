@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		102BC7592CA9326900B4CBF8 /* MapSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102BC7582CA9326900B4CBF8 /* MapSearchView.swift */; };
+		102BC7602CA93BDA00B4CBF8 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 102BC75F2CA93BDA00B4CBF8 /* GooglePlaces */; };
+		102BC7622CA93BDA00B4CBF8 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 102BC7612CA93BDA00B4CBF8 /* GoogleMaps */; };
 		10410B5B2C9BFC170016662D /* DayStops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10410B5A2C9BFC170016662D /* DayStops.swift */; };
 		10410B5D2C9C04840016662D /* TransportationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10410B5C2C9C04840016662D /* TransportationView.swift */; };
 		105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105E35B62C00CB0A0047E2F1 /* TravelPlan.swift */; };
@@ -25,6 +28,12 @@
 		10C55ED52BF0A09C000751EE /* ecoTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55ED42BF0A09C000751EE /* ecoTripTests.swift */; };
 		10C55EDF2BF0A09C000751EE /* ecoTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */; };
 		10C55EE12BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */; };
+		10D38D9E2CA93DAB001AE774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38D9D2CA93DAB001AE774 /* ContentView.swift */; };
+		10D38DA02CA9446D001AE774 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38D9F2CA9446D001AE774 /* MapViewModel.swift */; };
+		10D38DA22CA9447F001AE774 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38DA12CA9447F001AE774 /* PlaceModel.swift */; };
+		10D38DA42CA94907001AE774 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38DA32CA94907001AE774 /* LocationManager.swift */; };
+		10D38DA62CA96BAF001AE774 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38DA52CA96BAF001AE774 /* PlaceDetailView.swift */; };
+		10D38DA82CA99C0F001AE774 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D38DA72CA99C0F001AE774 /* TestView.swift */; };
 		10DA61052C4404A700EAE64B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA61042C4404A700EAE64B /* RootView.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
 		10E814892CA29C8400E3D974 /* LocationSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E814882CA29C8400E3D974 /* LocationSuggestionViewModel.swift */; };
@@ -84,6 +93,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		102BC7582CA9326900B4CBF8 /* MapSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchView.swift; sourceTree = "<group>"; };
 		10410B5A2C9BFC170016662D /* DayStops.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayStops.swift; sourceTree = "<group>"; };
 		10410B5C2C9C04840016662D /* TransportationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportationView.swift; sourceTree = "<group>"; };
 		105E35B62C00CB0A0047E2F1 /* TravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlan.swift; sourceTree = "<group>"; };
@@ -105,6 +115,12 @@
 		10C55EDA2BF0A09C000751EE /* ecoTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecoTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C55EDE2BF0A09C000751EE /* ecoTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITests.swift; sourceTree = "<group>"; };
 		10C55EE02BF0A09C000751EE /* ecoTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecoTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		10D38D9D2CA93DAB001AE774 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		10D38D9F2CA9446D001AE774 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		10D38DA12CA9447F001AE774 /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
+		10D38DA32CA94907001AE774 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		10D38DA52CA96BAF001AE774 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
+		10D38DA72CA99C0F001AE774 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		10DA61042C4404A700EAE64B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		10E814882CA29C8400E3D974 /* LocationSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionViewModel.swift; sourceTree = "<group>"; };
@@ -152,6 +168,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				102BC7622CA93BDA00B4CBF8 /* GoogleMaps in Frameworks */,
+				102BC7602CA93BDA00B4CBF8 /* GooglePlaces in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +190,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		102BC75A2CA93B9900B4CBF8 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				10D38DA52CA96BAF001AE774 /* PlaceDetailView.swift */,
+				10D38DA32CA94907001AE774 /* LocationManager.swift */,
+				10D38DA12CA9447F001AE774 /* PlaceModel.swift */,
+				10D38D9F2CA9446D001AE774 /* MapViewModel.swift */,
+				10D38D9D2CA93DAB001AE774 /* ContentView.swift */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
 		105E35BE2C00CC0F0047E2F1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +234,7 @@
 		10A855892C00CCB8004F0207 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				102BC75A2CA93B9900B4CBF8 /* test */,
 				FDE297772C26646800FE09FC /* MenuView.swift */,
 				FDE297712C1EFCAE00FE09FC /* LandingView.swift */,
 				10DA61042C4404A700EAE64B /* RootView.swift */,
@@ -249,6 +280,7 @@
 				105E35BE2C00CC0F0047E2F1 /* ViewModels */,
 				106EA1E62BF6F74700DC5661 /* Models */,
 				10C55EC32BF0A09B000751EE /* ecoTripApp.swift */,
+				10D38DA72CA99C0F001AE774 /* TestView.swift */,
 				10C55EC72BF0A09C000751EE /* Assets.xcassets */,
 				10C55EC92BF0A09C000751EE /* Preview Content */,
 			);
@@ -304,6 +336,7 @@
 		FD4D02552C3BDEE30037F969 /* 行程 */ = {
 			isa = PBXGroup;
 			children = (
+				102BC7582CA9326900B4CBF8 /* MapSearchView.swift */,
 				FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */,
 				FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */,
 				FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */,
@@ -352,6 +385,8 @@
 			);
 			name = ecoTrip;
 			packageProductDependencies = (
+				102BC75F2CA93BDA00B4CBF8 /* GooglePlaces */,
+				102BC7612CA93BDA00B4CBF8 /* GoogleMaps */,
 			);
 			productName = ecoTrip;
 			productReference = 10C55EC02BF0A09B000751EE /* ecoTrip.app */;
@@ -426,6 +461,8 @@
 			);
 			mainGroup = 10C55EB72BF0A09B000751EE;
 			packageReferences = (
+				102BC75D2CA93BBA00B4CBF8 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+				102BC75E2CA93BCF00B4CBF8 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			productRefGroup = 10C55EC12BF0A09B000751EE /* Products */;
 			projectDirPath = "";
@@ -471,18 +508,22 @@
 			files = (
 				FDAB26092C4E5EE900CED5EC /* LeafView.swift in Sources */,
 				FDC172952C591AF700706856 /* PopUp.swift in Sources */,
+				10D38D9E2CA93DAB001AE774 /* ContentView.swift in Sources */,
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
 				FD5162BB2C8988C300CF0A9B /* PopularPlansView.swift in Sources */,
+				102BC7592CA9326900B4CBF8 /* MapSearchView.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
+				10D38DA02CA9446D001AE774 /* MapViewModel.swift in Sources */,
 				10DA61052C4404A700EAE64B /* RootView.swift in Sources */,
 				FDC172912C58C9F100706856 /* ChatTicket.swift in Sources */,
 				FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */,
 				FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */,
 				FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
+				10D38DA42CA94907001AE774 /* LocationManager.swift in Sources */,
 				FD1D0F7D2C3E6C72002704D6 /* NewJourneyView.swift in Sources */,
 				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,
 				FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */,
@@ -491,9 +532,11 @@
 				FD7090712C2F00E500209E72 /* SiteInfoView.swift in Sources */,
 				FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */,
 				10E814892CA29C8400E3D974 /* LocationSuggestionViewModel.swift in Sources */,
+				10D38DA22CA9447F001AE774 /* PlaceModel.swift in Sources */,
 				1092160B2C2EAF4C0038DD61 /* AuthViewModel.swift in Sources */,
 				FDA587832C3190F1000EFB2C /* SearchView.swift in Sources */,
 				FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */,
+				10D38DA82CA99C0F001AE774 /* TestView.swift in Sources */,
 				FDE297782C26646800FE09FC /* MenuView.swift in Sources */,
 				FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */,
 				FD6189D42C626138004ED264 /* Demo.swift in Sources */,
@@ -515,6 +558,7 @@
 				10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */,
 				105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */,
 				10C40B192C7B522600DF1198 /* ChatViewModel.swift in Sources */,
+				10D38DA62CA96BAF001AE774 /* PlaceDetailView.swift in Sources */,
 				FD601C242C3298D1000443BE /* PlanView.swift in Sources */,
 				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
 				FD5162BD2C898C5400CF0A9B /* OtherAppsView.swift in Sources */,
@@ -858,6 +902,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		102BC75D2CA93BBA00B4CBF8 /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+		102BC75E2CA93BCF00B4CBF8 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		102BC75F2CA93BDA00B4CBF8 /* GooglePlaces */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 102BC75D2CA93BBA00B4CBF8 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlaces;
+		};
+		102BC7612CA93BDA00B4CBF8 /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 102BC75E2CA93BCF00B4CBF8 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 10C55EB82BF0A09B000751EE /* Project object */;
 }

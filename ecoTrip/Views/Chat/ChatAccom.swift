@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatAccom: View {
     @Binding var showChatAccom: Bool
     @State private var showPlacePicker = false
-    @State private var selectedPlace = ""
+    @State private var selectedPlace = "台北市"
     @State private var upperbudget = ""
     @State private var lowerbudget = ""
     @State private var peoplecount = ""
