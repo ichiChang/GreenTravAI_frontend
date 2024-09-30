@@ -219,8 +219,13 @@ struct ChatView: View {
         
         let messageToSend = content ?? newMessage
         if !messageToSend.isEmpty {
-            viewModel.sendMessage(query: messageToSend, token: token)
-            newMessage = ""
+            if isEnabled {
+                viewModel.sendGreenMessage(query: messageToSend, token: token)
+                newMessage = ""
+            }else{
+                viewModel.sendMessage(query: messageToSend, token: token)
+                newMessage = ""
+            }
         }
     }
     
@@ -272,11 +277,16 @@ struct MessageCell: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(contentMessage)
-                .padding(10)
-                .foregroundColor(isCurrentUser ? Color.white : Color.black)
-                .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
-                .cornerRadius(10)
+            if let attributedString = try? AttributedString(markdown: contentMessage, options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)) {
+                Text(attributedString)
+                    .padding(10)
+                    .foregroundColor(isCurrentUser ? Color.white : Color.black)
+                    .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
+                    .cornerRadius(10)
+            } else {
+                Text("無法解析 Markdown")
+            }
+            
         }
         .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
     }
