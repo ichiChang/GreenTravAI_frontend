@@ -71,7 +71,10 @@ struct PlaceChoice: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
+
     }
+
 }
 
 struct GoogleMapViewRepresentable: UIViewRepresentable {

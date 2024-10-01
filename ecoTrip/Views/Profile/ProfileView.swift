@@ -28,10 +28,16 @@ struct ProfileView: View {
             .background(Color.init(hex: "5E845B", alpha: 1.0))
             
             HStack {
-                Circle()
-                    .frame(width: 70, height: 70)
-                    .foregroundColor(Color(hex: "D9D9D9", alpha: 1.0))
-                    .padding()
+                Image("bulldog")
+                     .resizable()
+                     .scaledToFill()
+                     .frame(width: 70, height: 70)
+                     .clipShape(Circle())
+                     .padding()
+                   
+            
+                   
+             
                 if userViewModel.isLoading {
                     ProgressView()
                 } else if let error = userViewModel.error {

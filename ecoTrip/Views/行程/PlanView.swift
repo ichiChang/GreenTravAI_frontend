@@ -153,6 +153,7 @@ struct PlanView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true) // 隱藏返回按鈕
         .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
             Demo(showDemo: $showDemo)
         }

@@ -60,6 +60,7 @@ struct NewPlanView: View {
                 .navigationDestination(isPresented: $navigateToPlaceChoice) {
                     PlaceChoice(selectedPlace: $selectedPlace)
                 }
+
                 
                 
                 Divider()
@@ -149,7 +150,7 @@ struct NewPlanView: View {
                         .frame(width: 300, height: 150)
                         .cornerRadius(20)
                         .colorMultiply(Color.init(hex: "D9D9D9", alpha: 1.0))
-                        .font(.custom("HelveticaNeue", size: 20)) // Adjust font size and font family as needed
+                        .font(.custom("HelveticaNeue", size: 15))
                     
                 }
                 .padding([.horizontal], 30)
@@ -168,6 +169,7 @@ struct NewPlanView: View {
                 .cornerRadius(10)
                 .padding()
             }
+
         }
     }
     private func addNewStop() {
