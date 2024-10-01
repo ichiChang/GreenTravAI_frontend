@@ -13,7 +13,8 @@ struct PlaceListView: View {
     @State private var navigationPath = NavigationPath()
     @State private var showEditView = false
     @State private var draggedPlace: String?
-    
+    var reloadData: () -> Void
+
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
@@ -33,7 +34,7 @@ struct PlaceListView: View {
                 }
             }
             .sheet(isPresented: $showEditView) {
-                NewPlanView(showNewPlan: $showEditView, hasExistingSchedule: false)
+                NewPlanView(showNewPlan: $showEditView, hasExistingSchedule: false, reloadData: reloadData)
                     .presentationDetents([.height(650)])
             }
         }
@@ -43,11 +44,11 @@ struct PlaceListView: View {
     }
 }
 
-struct PlaceListView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlaceListView(stops: [
-            Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil),
-            Stop(id: "2", stopname: "台北市立動物園", StartTime: "2024-09-05 11:00", EndTime: "2024-09-05 11:30", Note: nil, transportationToNext: nil)
-        ])
-    }
-}
+//struct PlaceListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PlaceListView(stops: [
+//            Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil),
+//            Stop(id: "2", stopname: "台北市立動物園", StartTime: "2024-09-05 11:00", EndTime: "2024-09-05 11:30", Note: nil, transportationToNext: nil)
+//        ], reloadData: .constant)
+//    }
+//}

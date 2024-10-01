@@ -121,7 +121,7 @@ struct PlanView: View {
                 } else if let error = viewModel.error {
                     Text("Error: \(error)")
                 } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
-                    PlaceListView(stops: dayStops.stops)
+                    PlaceListView(stops: dayStops.stops, reloadData: reloadData)
                         .onAppear { hasExistingSchedule = true }
                 } else {
                     Text("No plans for this day yet.")
@@ -145,7 +145,6 @@ struct PlanView: View {
                 .cornerRadius(10)
                 .padding()
             }
-            .navigationBarHidden(true)
             .onAppear {
                 if let firstDay = viewModel.days.first,
                    let token = authViewModel.accessToken {
@@ -158,7 +157,7 @@ struct PlanView: View {
             Demo(showDemo: $showDemo)
         }
         .sheet(isPresented: $showNewPlan) {
-            NewPlanView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule)
+            NewPlanView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData)
                 .presentationDetents([.height(650)])
                 .environmentObject(viewModel)
                 .environmentObject(authViewModel)
@@ -205,5 +204,10 @@ struct PlanView: View {
             return outputFormatter.string(from: date)
         }
         return timeString
+    }
+    func reloadData() {
+        if let token = authViewModel.accessToken {
+            viewModel.fetchStopsForDay(dayId: viewModel.days[selectedDayIndex].id, token: token)
+        }
     }
 }

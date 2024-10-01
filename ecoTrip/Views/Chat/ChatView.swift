@@ -71,7 +71,7 @@ struct ChatView: View {
                 // Chat content
                 ScrollViewReader { proxy in
                     ScrollView {
-                        if !isChatView && viewModel.messages.isEmpty {
+                        if !isChatView{
                             // Initial view when no messages
                             VStack {
                                 Spacer()
@@ -104,6 +104,7 @@ struct ChatView: View {
                             }
                             .frame(width: 280)
                             .padding()
+                            
                         } else {
                             // Messages view
                             LazyVStack {
@@ -136,14 +137,16 @@ struct ChatView: View {
                             
                            
                         }
+
                     }
-                    .frame(width: isChatView ? 350 : 300)
                     .padding()
                 }
                 
                 // Input area
                 HStack {
-                    Button(action: sendMessage) {
+                   
+                    Button(action:
+                            sendMessage) {
                         Image(systemName: "plus")
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
@@ -157,8 +160,15 @@ struct ChatView: View {
                         .padding(.leading,10)
                         .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
                         .padding(.top, 10)
-                        .padding(.trailing, 10)
                     
+                    Button(action: sendMessage) {
+                        Image(systemName: "paperplane")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 25))
+                            .padding(.top, 10)
+                            .padding(.trailing ,10)
+
+                    }
                 }
                 .frame(height: 80)
                 .padding(.horizontal)
@@ -210,6 +220,8 @@ struct ChatView: View {
 
     func sendMessage() {
         sendMessage(with: newMessage)
+        isChatView = true
+
     }
     
     func sendMessage(with content: String? = nil) {

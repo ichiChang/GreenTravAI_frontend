@@ -21,7 +21,8 @@ struct NewPlanView: View {
     @State private var selectedPlace: PlaceModel?
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
+    var reloadData: () -> Void
+
     var body: some View {
         VStack{
             
@@ -204,6 +205,7 @@ struct NewPlanView: View {
             if success {
                 showAlert(message: "成功添加新的停留點")
                 showNewPlan = false  // 關閉 NewPlanView
+                reloadData()
             } else {
                 showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
             }
