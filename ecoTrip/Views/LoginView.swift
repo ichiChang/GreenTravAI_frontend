@@ -20,7 +20,7 @@ struct LoginView: View {
             VStack {
                 Spacer()
                 
-                Image(.loginlogo)
+                Image(.loginlogo2)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 73.54,height: 107.46)
