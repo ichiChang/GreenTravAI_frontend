@@ -115,27 +115,6 @@ struct SearchView: View{
                         })
                         .padding(.trailing,10)
                         
-                        
-                        // 超市 button
-                        Button(action: {
-                            self.index1 = 3
-                        }, label: {
-                            HStack {
-                                Image(systemName: "cart.fill")
-                                    .foregroundColor(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                    .frame(width: 20, height: 20)
-                                Text("超市")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                            }
-                            .frame(width: 80, height: 35)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                            )
-                        })
                     }
                     .padding(.horizontal)
                     
@@ -157,11 +136,6 @@ struct SearchView: View{
                     } else if index1 == 2 {
                         // Display accommodations
                         //                        ForEach(placeViewModel.accommodations) { place in
-                        //                            placeCard(place: place)
-                        //                        }
-                    } else if index1 == 3 {
-                        // Display supermarkets
-                        //                        ForEach(placeViewModel.supermarkets) { place in
                         //                            placeCard(place: place)
                         //                        }
                     }

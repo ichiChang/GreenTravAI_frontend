@@ -37,6 +37,7 @@
 		10DA61052C4404A700EAE64B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA61042C4404A700EAE64B /* RootView.swift */; };
 		10DBB5672C2EF6760065B0D1 /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */; };
 		10E814892CA29C8400E3D974 /* LocationSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E814882CA29C8400E3D974 /* LocationSuggestionViewModel.swift */; };
+		FD02EB432CBCE52C007CFBD8 /* EditPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */; };
 		FD07AC952C60C5B9007DF6DB /* AccomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD07AC942C60C5B9007DF6DB /* AccomPicker.swift */; };
 		FD07AC972C625B0B007DF6DB /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD07AC962C625B0B007DF6DB /* ColorManager.swift */; };
 		FD1D0F772C3D1098002704D6 /* PlacePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F762C3D1098002704D6 /* PlacePicker.swift */; };
@@ -124,6 +125,7 @@
 		10DA61042C4404A700EAE64B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		10DBB5662C2EF6760065B0D1 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		10E814882CA29C8400E3D974 /* LocationSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionViewModel.swift; sourceTree = "<group>"; };
+		FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlanView.swift; sourceTree = "<group>"; };
 		FD07AC942C60C5B9007DF6DB /* AccomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccomPicker.swift; sourceTree = "<group>"; };
 		FD07AC962C625B0B007DF6DB /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		FD1D0F762C3D1098002704D6 /* PlacePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePicker.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				FD6189D32C626138004ED264 /* Demo.swift */,
 				FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */,
 				FD8CD7F02C8AB611003F63AD /* NewPlanView.swift */,
+				FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */,
 				10410B5C2C9C04840016662D /* TransportationView.swift */,
 			);
 			path = "行程";
@@ -523,6 +526,7 @@
 				FDAB260B2C4E5F0700CED5EC /* HeartView.swift in Sources */,
 				FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */,
 				105E35B92C00CB520047E2F1 /* Day.swift in Sources */,
+				FD02EB432CBCE52C007CFBD8 /* EditPlanView.swift in Sources */,
 				10D38DA42CA94907001AE774 /* LocationManager.swift in Sources */,
 				FD1D0F7D2C3E6C72002704D6 /* NewJourneyView.swift in Sources */,
 				FD4768812C35355800C01DA6 /* PlaceListView.swift in Sources */,

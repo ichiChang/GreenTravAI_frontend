@@ -15,63 +15,80 @@ struct PlaceChoice: View {
     
     
     var body: some View {
-        ZStack(alignment: .top) {
-            GoogleMapViewRepresentable(viewModel: viewModel)
-                .edgesIgnoringSafeArea(.all)
-            
+       
             VStack {
-                TextField("Search for places", text: $searchText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding()
-                    .onChange(of: searchText) { newValue in
-                        viewModel.searchPlaces(query: newValue)
-                        viewModel.showingSearchResults = !newValue.isEmpty
+                HStack{
+                    
+                    Button{
+                        dismiss()
+                    }label: {
+                        Image(systemName: "chevron.left")
+                            .resizable()
+                            .bold()
+                            .frame(width:10, height: 15)
+                            .foregroundStyle(.black)
+                        
                     }
-                
-                if viewModel.showingSearchResults && !viewModel.searchResults.isEmpty {
-                    List(viewModel.searchResults) { place in
-                        Button(action: {
-                            viewModel.selectPlace(place)
-                            selectedPlace = place
-                        }) {
-                            VStack(alignment: .leading) {
-                                Text(place.name)
-                                    .font(.headline)
-                                Text(place.address)
-                                    .font(.subheadline)
+                    .padding()
+                    
+                    TextField("請輸入地點名稱", text: $searchText)
+                        .padding()
+                        .frame(width: 300, height:35)
+                        .background(Color(hex: "E8E8E8"))
+                        .cornerRadius(20)
+                        .onChange(of: searchText) { newValue in
+                            viewModel.searchPlaces(query: newValue)
+                            viewModel.showingSearchResults = !newValue.isEmpty
+                        }
+                }
+                .padding(.vertical,10)
+              
+                ZStack{
+                    GoogleMapViewRepresentable(viewModel: viewModel)
+                        .edgesIgnoringSafeArea(.all)
+                    VStack{
+                        
+                        if viewModel.showingSearchResults && !viewModel.searchResults.isEmpty {
+                            List(viewModel.searchResults) { place in
+                                Button(action: {
+                                    viewModel.selectPlace(place)
+                                    selectedPlace = place
+                                }) {
+                                    VStack(alignment: .leading) {
+                                        Text(place.name)
+                                            .font(.headline)
+                                        Text(place.address)
+                                            .font(.subheadline)
+                                    }
+                                }
+
+                            }
+                            .scrollContentBackground(.hidden)
+                            .frame(height: 200)
+                            .cornerRadius(10)
+                        }
+                        
+                        Spacer()
+                        if let selectedPlace = viewModel.selectedPlace {
+                            PlaceDetailView(place: selectedPlace)
+                                .transition(.move(edge: .bottom))
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Text("確定")
+                                    .bold()
+                                    .padding()
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                                    .frame(width:150,height:40)
+                                    .background(Color(hex: "5E845B"))
+                                    .cornerRadius(10)
                             }
                         }
                     }
-                    .frame(height: 200)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                }
-                
-                Spacer()
-                
-                if let selectedPlace = viewModel.selectedPlace {
-                    PlaceDetailView(place: selectedPlace)
-                        .padding()
-                        .transition(.move(edge: .bottom))
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Text("確定")
-                            .bold()
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(hex: "5E845B"))
-                            .cornerRadius(10)
-                    }
                 }
             }
-        }
-        .navigationBarBackButtonHidden(true)
+            .navigationBarBackButtonHidden(true)
 
     }
 

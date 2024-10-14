@@ -14,13 +14,14 @@ struct PlaceListView: View {
     @State private var showEditView = false
     @State private var draggedPlace: String?
     var reloadData: () -> Void
+    @State private var selectedPlaceName: String = ""
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
-                        PlaceView(stop: stop, showEditView: $showEditView)
+                        PlaceView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
                             .onDrag({
                                 self.draggedPlace = stop.stopname
                                 return NSItemProvider()
@@ -32,15 +33,17 @@ struct PlaceListView: View {
                         }
                     }
                 }
+                
             }
-            .sheet(isPresented: $showEditView) {
-                NewPlanView(showNewPlan: $showEditView, hasExistingSchedule: false, reloadData: reloadData)
-                    .presentationDetents([.height(650)])
-            }
+           
         }
         .fullScreenCover(isPresented: $navigateToRide) {
             ChangeRideView()
         }
+        .sheet(isPresented: $showEditView) {
+            EditPlanView(stop: $selectedPlaceName)
+                 .presentationDetents([.height(650)])
+         }
     }
 }
 
