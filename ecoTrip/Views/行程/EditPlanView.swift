@@ -1,33 +1,28 @@
 //
-//  NewStopView.swift
+//  EditPlanView.swift
 //  ecoTrip
 //
-//  Created by 陳萭鍒 on 2024/9/6.
+//  Created by 陳萭鍒 on 2024/10/14.
 //
+
+
 
 import SwiftUI
 
-struct NewStopView: View {
-    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var arrivalTime: Date = Date()
-    @State private var departureTime: Date = Date()
+struct EditPlanView: View {
     @State private var textInput = ""
-    @Binding var showNewPlan: Bool
-    @State private var navigateToPlaceChoice = false
     @State var hours: Int = 0
     @State var minutes: Int = 0
-    let hasExistingSchedule: Bool
+    @Environment(\.dismiss) var dismiss
+    @Binding var stop: String
+    @State private var navigateToPlaceChoice = false
     @State private var selectedPlace: PlaceModel?
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-    var reloadData: () -> Void
 
     var body: some View {
-        VStack{
-            
+        VStack(spacing:0){
+          
             Button{
-                showNewPlan = false
+                dismiss()
             }label: {
                 Image(systemName: "chevron.down")
                     .resizable()
@@ -42,9 +37,10 @@ struct NewStopView: View {
             NavigationStack {
                 Button {
                     navigateToPlaceChoice = true
+
                 } label: {
                     HStack {
-                        Text(selectedPlace?.name ?? "選擇地點")
+                        Text(selectedPlace?.name ?? stop)
                             .font(.system(size: 20))
                             .foregroundStyle(.black)
                             .frame(alignment: .leading)
@@ -62,6 +58,7 @@ struct NewStopView: View {
                     PlaceChoice(selectedPlace: $selectedPlace)
                 }
 
+            
                 
                 
                 Divider()
@@ -70,32 +67,8 @@ struct NewStopView: View {
                     .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                     .padding(.bottom)
                 
-                if !hasExistingSchedule {
-                    HStack {
-                        Text("抵達時間")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: 150, alignment: .leading)
-                        
-                        DatePicker(
-                            "",
-                            selection: $arrivalTime,
-                            displayedComponents: .hourAndMinute
-                        )
-                        .labelsHidden()
-                        .frame(width: 145, height: 45)
-                        .scaleEffect(1.3)
-                    }
-                    .frame(width: 295)
-                    
-                    Divider()
-                        .frame(minHeight: 2)
-                        .frame(width: 295)
-                        .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                        .padding(.bottom)
-                }
                 
-                HStack {
+                HStack(spacing:0) {
                     Text("預計停留時間")
                         .font(.system(size: 20))
                         .foregroundStyle(.black)
@@ -105,20 +78,21 @@ struct NewStopView: View {
  
                     Picker("", selection: $hours){
                             ForEach(0..<9, id: \.self) { i in
-                                Text("\(i) hrs").tag(i)
-                                    .font(.system(size: 20))
-                            }
-                        }.pickerStyle(WheelPickerStyle())
-                        Picker("", selection: $minutes){
-                            ForEach(0..<60, id: \.self) { i in
-                                Text("\(i) ").tag(i)
+                                Text(" \(i) hrs").tag(i)
                                     .font(.system(size: 20))
                             }
                         }.pickerStyle(WheelPickerStyle())
                     
+                    Picker("", selection: $minutes){
+                        ForEach(0..<60, id: \.self) { i in
+                            Text("\(i) ").tag(i)
+                                .font(.system(size: 20))
+                        }
+                    }.pickerStyle(WheelPickerStyle())
+                    
                 }
                 .frame(width: 295, height: 120)
-
+                
                 Divider()
                     .frame(minHeight: 2)
                     .frame(width: 295)
@@ -158,7 +132,6 @@ struct NewStopView: View {
                 .padding([.bottom], 30)
                 
                 Button(action: {
-                    addNewStop()
                 }, label: {
                     Text("確定")
                         .bold()
@@ -172,49 +145,7 @@ struct NewStopView: View {
             }
 
         }
-    }
-    private func addNewStop() {
-        guard let selectedPlace = selectedPlace else {
-            showAlert(message: "請選擇地點")
-            return
-        }
 
-        guard let dayId = travelPlanViewModel.dayStops?.day_id else {
-            showAlert(message: "無法獲取當前日期ID")
-            return
-        }
-
-        guard let token = authViewModel.accessToken else {
-            showAlert(message: "請先登入")
-            return
-        }
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-
-        let requestBody: [String: Any] = [
-            "Name": selectedPlace.name,
-            "note": textInput,
-            "DayId": dayId,
-            "latency": hours * 60 + minutes,
-            "address": selectedPlace.address,
-            "prev_stop": travelPlanViewModel.dayStops?.stops.last?.id ?? ""
-        ]
-
-        travelPlanViewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
-            if success {
-                showAlert(message: "成功添加新的停留點")
-                showNewPlan = false  // 關閉 NewPlanView
-                reloadData()
-            } else {
-                showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
-            }
-        }
-    }
-
-    private func showAlert(message: String) {
-        alertMessage = message
-        showAlert = true
     }
 }
 

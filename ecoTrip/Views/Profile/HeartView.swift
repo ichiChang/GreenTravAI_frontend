@@ -203,7 +203,7 @@ struct HeartView: View {
             
             
             HStack {
-                VStack(alignment: .leading,spacing:0) {
+                VStack(alignment: .leading, spacing:10) {
                     Text("綠島畢業旅行").bold()
                         .font(.system(size: 20))
                         .bold()

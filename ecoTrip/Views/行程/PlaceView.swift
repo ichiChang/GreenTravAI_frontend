@@ -10,8 +10,10 @@ import SwiftUI
 struct PlaceView: View {
     let stop: Stop
     @Binding var showEditView: Bool
+    @Binding var selectedPlaceName: String
     
     var body: some View {
+
         HStack {
             VStack(alignment: .leading) {
                 Text(stop.stopname)
@@ -28,11 +30,13 @@ struct PlaceView: View {
                     .padding(.bottom, 5)
             }
             .padding()
+           
             
             Spacer()
             
             Button(action: {
-                showEditView.toggle()
+                selectedPlaceName = stop.stopname
+                showEditView = true
             }) {
                 Image(systemName: "highlighter")
                     .resizable()
@@ -46,6 +50,7 @@ struct PlaceView: View {
         .frame(width: 330, height: 70)
         .background(Color.init(hex: "F5F5F5", alpha: 1.0))
         .cornerRadius(15)
+        
     }
     
     private func formatTime(_ timeString: String) -> String {
@@ -62,8 +67,3 @@ struct PlaceView: View {
     }
 }
 
-struct PlaceView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlaceView(stop: Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil), showEditView: .constant(false))
-    }
-}
