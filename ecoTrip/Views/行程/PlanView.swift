@@ -121,7 +121,7 @@ struct PlanView: View {
                 } else if let error = viewModel.error {
                     Text("Error: \(error)")
                 } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
-                    PlaceListView(stops: dayStops.stops, reloadData: reloadData)
+                    StopListView(stops: dayStops.stops, reloadData: reloadData)
                         .onAppear { hasExistingSchedule = true }
                 } else {
                     Text("No plans for this day yet.")
@@ -157,7 +157,7 @@ struct PlanView: View {
             Demo(showDemo: $showDemo)
         }
         .sheet(isPresented: $showNewPlan) {
-            NewPlanView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData)
+            NewStopView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData)
                 .presentationDetents([.height(650)])
                 .environmentObject(viewModel)
                 .environmentObject(authViewModel)

@@ -126,13 +126,13 @@ class TravelPlanViewModel: ObservableObject {
             return
         }
         
-        let dateFormatter = ISO8601DateFormatter()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let requestBody: [String: Any] = [
             "planname": planName,
             "startdate": dateFormatter.string(from: startDate),
             "enddate": dateFormatter.string(from: endDate)
         ]
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -143,6 +143,7 @@ class TravelPlanViewModel: ObservableObject {
             completion(false, "No access token available")
             return
         }
+        
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
@@ -252,5 +253,8 @@ class TravelPlanViewModel: ObservableObject {
                 }
             }
         }.resume()
+    }
+    func refreshTravelPlans(token: String) {
+        fetchTravelPlans(token: token)
     }
 }

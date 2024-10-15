@@ -12,7 +12,7 @@ struct MyPlansView: View {
     @State private var showNewJourney = false
     @State private var showPlanView = false
     @State private var selectedPlanId: String?
-    @EnvironmentObject var viewModel: TravelPlanViewModel
+    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
@@ -33,17 +33,17 @@ struct MyPlansView: View {
             // Travel plans list
             ScrollView {
                 VStack(spacing: 0) {
-                    if viewModel.isLoading {
+                    if travelPlanViewModel.isLoading {
                         ProgressView()
-                    } else if let error = viewModel.error {
+                    } else if let error = travelPlanViewModel.error {
                         Text("Error: \(error)")
-                    } else if viewModel.travelPlans.isEmpty {
+                    } else if travelPlanViewModel.travelPlans.isEmpty {
                         Text("No travel plans found")
                     } else {
-                        ForEach(viewModel.travelPlans) { plan in
+                        ForEach(travelPlanViewModel.travelPlans) { plan in
                             Button(action: {
                                 selectedPlanId = plan.id
-                                viewModel.selectedTravelPlan = plan
+                                travelPlanViewModel.selectedTravelPlan = plan
                                 showPlanView = true
                             }) {
                                 PlanRowView(plan: plan)
@@ -54,7 +54,7 @@ struct MyPlansView: View {
             }
             .refreshable {
                 if let token = authViewModel.accessToken {
-                    viewModel.fetchTravelPlans(token: token)
+                    travelPlanViewModel.fetchTravelPlans(token: token)
                 }
             }
 
@@ -74,19 +74,19 @@ struct MyPlansView: View {
             .fullScreenCover(isPresented: $showPlanView) {
                 if let _ = selectedPlanId {
                     PlanView()
-                        .environmentObject(viewModel)
+                        .environmentObject(travelPlanViewModel)
                         .environmentObject(authViewModel)
                 }
             }
             .sheet(isPresented: $showNewJourney) {
-                NewJourneyView(showNewJourney: $showNewJourney)
-                    .environmentObject(viewModel)
+                NewTravelPlanView(showNewJourney: $showNewJourney)
+                    .environmentObject(travelPlanViewModel)
                     .environmentObject(authViewModel)
             }
         }
         .onAppear {
             if let token = authViewModel.accessToken {
-                viewModel.fetchTravelPlans(token: token)
+                travelPlanViewModel.fetchTravelPlans(token: token)
             }
         }
     }

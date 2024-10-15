@@ -119,7 +119,6 @@ struct ChatView: View {
                                 }
                                 
                                Button(action: {
-                                   
                                    showJPicker.toggle()
                                }) {
                                    Text("新增至現有旅行計畫")
@@ -361,13 +360,5 @@ extension Color {
             blue:  Double(b) / 255,
             opacity: Double(alpha)
         )
-    }
-}
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView()
-            .environmentObject(ColorManager())
-            .environmentObject(AuthViewModel())
     }
 }

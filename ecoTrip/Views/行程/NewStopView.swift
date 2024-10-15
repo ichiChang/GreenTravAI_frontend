@@ -1,5 +1,5 @@
 //
-//  NewPlanView.swift
+//  NewStopView.swift
 //  ecoTrip
 //
 //  Created by 陳萭鍒 on 2024/9/6.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewPlanView: View {
+struct NewStopView: View {
     @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var arrivalTime: Date = Date()

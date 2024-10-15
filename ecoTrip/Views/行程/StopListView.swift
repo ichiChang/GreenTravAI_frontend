@@ -1,5 +1,5 @@
 //
-//  PlaceList.swift
+//  StopListView.swift
 //  ecoTrip
 //
 //  Created by 陳萭鍒 on 2024/7/3.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaceListView: View {
+struct StopListView: View {
     let stops: [Stop]
     @State private var navigateToRide = false
     @State private var navigationPath = NavigationPath()
@@ -34,7 +34,7 @@ struct PlaceListView: View {
                 }
             }
             .sheet(isPresented: $showEditView) {
-                NewPlanView(showNewPlan: $showEditView, hasExistingSchedule: false, reloadData: reloadData)
+                NewStopView(showNewPlan: $showEditView, hasExistingSchedule: false, reloadData: reloadData)
                     .presentationDetents([.height(650)])
             }
         }
@@ -43,12 +43,3 @@ struct PlaceListView: View {
         }
     }
 }
-
-//struct PlaceListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlaceListView(stops: [
-//            Stop(id: "1", stopname: "國立政治大學", StartTime: "2024-09-05 10:00", EndTime: "2024-09-05 10:30", Note: nil, transportationToNext: nil),
-//            Stop(id: "2", stopname: "台北市立動物園", StartTime: "2024-09-05 11:00", EndTime: "2024-09-05 11:30", Note: nil, transportationToNext: nil)
-//        ], reloadData: .constant)
-//    }
-//}

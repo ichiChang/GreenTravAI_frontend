@@ -16,6 +16,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var userLocationAuthorized = false
     @Published var userLocation: CLLocationCoordinate2D?
     @Published var showingSearchResults = false
+    @Published var isLoading = false
     
     private var placesClient: GMSPlacesClient!
     private var locationManager: CLLocationManager!
@@ -27,7 +28,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         setupLocationManager()
     }
     
-    private func setupLocationManager() {
+    public func setupLocationManager() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -55,6 +56,48 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationUpdateHandler?(location)
         locationManager.stopUpdatingLocation() // Stop after getting the first location
     }
+    func searchNearbyPlaces() {
+        guard let userLocation = userLocation else {
+            print("User location not available")
+            return
+        }
+        
+        isLoading = true
+        let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
+        placesClient.currentPlace(callback: { (likelihoodList, error) in
+            if let error = error {
+                print("Error searching nearby places: \(error.localizedDescription)")
+                self.isLoading = false
+                return
+            }
+            
+            guard let likelihoodList = likelihoodList else {
+                print("No nearby places found")
+                self.isLoading = false
+                return
+            }
+            
+            let dispatchGroup = DispatchGroup()
+            var tempResults: [PlaceModel] = []
+            
+            for likelihood in likelihoodList.likelihoods {
+                let place = likelihood.place
+                dispatchGroup.enter()
+                
+                self.fetchPlaceDetails(placeID: place.placeID!) { placeModel in
+                    if let placeModel = placeModel, placeModel.userRatingsTotal ?? 0 > 50 {
+                        tempResults.append(placeModel)
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.searchResults = tempResults
+                self.isLoading = false
+            }
+        })
+    }
 
     func searchPlaces(query: String) {
         let token = GMSAutocompleteSessionToken.init()
@@ -71,7 +114,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func selectPlace(_ place: PlaceModel) {
-        placesClient.fetchPlace(fromPlaceID: place.id, placeFields: [.coordinate, .rating, .website, .photos], sessionToken: nil) { (gmsPlace, error) in
+        placesClient.fetchPlace(fromPlaceID: place.id, placeFields: [.coordinate, .rating, .website, .photos, .phoneNumber], sessionToken: nil) { (gmsPlace, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 return
@@ -100,6 +143,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                                     name: place.name,
                                     address: place.address,
                                     coordinate: gmsPlace.coordinate,
+                                    phoneNumber: gmsPlace.phoneNumber,
                                     website: gmsPlace.website?.absoluteString,
                                     rating: gmsPlace.rating,
                                     image: placeImage
@@ -114,6 +158,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                             name: place.name,
                             address: place.address,
                             coordinate: gmsPlace.coordinate,
+                            phoneNumber: gmsPlace.phoneNumber,
                             website: gmsPlace.website?.absoluteString,
                             rating: gmsPlace.rating,
                             image: nil // 沒有圖片的情況
@@ -121,6 +166,59 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                         self.showingSearchResults = false
                     }
                 }
+            }
+        }
+    }
+    private func fetchPlaceDetails(placeID: String, completion: @escaping (PlaceModel?) -> Void) {
+        let myProperties = [GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating, GMSPlaceProperty.userRatingsTotal, GMSPlaceProperty.website, GMSPlaceProperty.photos, GMSPlaceProperty.phoneNumber].map {$0.rawValue}
+        let fetchPlaceReq = GMSFetchPlaceRequest(placeID: placeID, placeProperties: myProperties, sessionToken: nil)
+        placesClient.fetchPlace(with: fetchPlaceReq, callback: {
+            (gmsPlace: GMSPlace?, error: Error?) in
+            if let error = error {
+                print("Error fetching place details: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            guard let gmsPlace = gmsPlace else {
+                completion(nil)
+                return
+            }
+            
+            var placeModel = PlaceModel(
+                id: placeID,
+                name: gmsPlace.name ?? "",
+                address: gmsPlace.formattedAddress ?? "",
+                coordinate: gmsPlace.coordinate,
+                phoneNumber: gmsPlace.phoneNumber,
+                website: gmsPlace.website?.absoluteString,
+                rating: gmsPlace.rating,
+                userRatingsTotal: Int(gmsPlace.userRatingsTotal)
+            )
+            
+            if let photoMetadata = gmsPlace.photos?.first {
+                self.loadPlacePhoto(photoMetadata: photoMetadata) { image in
+                    placeModel.image = image
+                    completion(placeModel)
+                }
+            } else {
+                completion(placeModel)
+            }
+        })
+    }
+    private func loadPlacePhoto(photoMetadata: GMSPlacePhotoMetadata, completion: @escaping (Image?) -> Void) {
+        let fetchPhotoRequest = GMSFetchPhotoRequest(photoMetadata: photoMetadata, maxSize: CGSizeMake(4800, 4800))
+        placesClient.fetchPhoto(with: fetchPhotoRequest) { (photo: UIImage?, error: Error?) in
+            if let error = error {
+                print("Error loading photo: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            if let photo = photo {
+                let image = Image(uiImage: photo)
+                completion(image)
+            } else {
+                completion(nil)
             }
         }
     }

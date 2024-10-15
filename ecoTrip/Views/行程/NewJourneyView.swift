@@ -1,5 +1,5 @@
 //
-//  PlanMenuView.swift
+//  NewTravelPlanView.swift
 //  ecoTrip
 //
 //  Created by 陳萭鍒 on 2024/7/10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewJourneyView: View {
+struct NewTravelPlanView: View {
     @StateObject private var viewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showPlacePicker = false
@@ -152,6 +152,7 @@ struct NewJourneyView: View {
                    
                     Button(action: {
                         showNewJourney = false
+                        createNewTravelPlan()
                     }) {
                         Text("確定")
                             .bold()
@@ -230,11 +231,4 @@ struct NewJourneyView: View {
         }
     }
 }
-
-struct PlanMenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewJourneyView(showNewJourney: .constant(true))
-    }
-}
-
 

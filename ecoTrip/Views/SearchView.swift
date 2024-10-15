@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SearchView: View{
     @StateObject private var placeViewModel = PlaceViewModel()
-    @State private var textInput = ""
+    @StateObject private var mapViewModel = MapViewModel()
+    @State private var searchText = ""
     @Binding var index1: Int
     @State private var navigateToSiteInfo = false
     @State private var showres = false
@@ -33,150 +34,95 @@ struct SearchView: View{
                         .padding(.leading, 10)
                     
                     // Text field
-                    TextField(" ", text: $textInput)
-                        .onSubmit {
-                            print(textInput)
+                    TextField("搜尋地點", text: $searchText)
+                        .onChange(of: searchText) { newValue in
+                            mapViewModel.searchPlaces(query: newValue)
                         }
                         .padding(.vertical, 10)
                 }
                 .background(Color.init(hex: "E8E8E8", alpha: 1.0))
                 .cornerRadius(10)
                 .padding()
-                .onAppear {
-                    placeViewModel.fetchPlaces() // Fetch places when the view appears
-                }
                 
                 // Button section
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        // 附近 button
-                        Button(action: {
-                            self.index1 = 0
-                        }, label: {
-                            HStack {
-                                Image(systemName:"mappin.and.ellipse")
-                                    .foregroundColor(index1 == 0 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                    .frame(width: 20, height: 20)
-                                Text("附近")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(index1 == 0 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                            }
-                            .frame(width: 80, height: 35)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(index1 == 0 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                            )
-                        })
-                        .padding(.horizontal,10)
-                        
-                        // 餐廳 button
-                        Button(action: {
-                            self.index1 = 1
-                        }, label: {
-                            HStack {
-                                Image(systemName: "fork.knife")
-                                    .foregroundColor(index1 == 1 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                    .frame(width: 20, height: 20)
-                                Text("餐廳")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(index1 == 1 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                            }
-                            .frame(width: 80, height: 35)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(index1 == 1 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                            )
-                        })
-                        .padding(.trailing,10)
-                        
-                        // 住宿 button
-                        Button(action: {
-                            self.index1 = 2
-                        }, label: {
-                            HStack {
-                                Image(systemName: "bed.double.fill")
-                                    .foregroundColor(index1 == 2 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                    .frame(width: 20, height: 20)
-                                Text("住宿")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(index1 == 2 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                            }
-                            .frame(width: 80, height: 35)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(index1 == 2 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                            )
-                        })
-                        .padding(.trailing,10)
-                        
-                        
-                        // 超市 button
-                        Button(action: {
-                            self.index1 = 3
-                        }, label: {
-                            HStack {
-                                Image(systemName: "cart.fill")
-                                    .foregroundColor(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                                    .frame(width: 20, height: 20)
-                                Text("超市")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0))
-                            }
-                            .frame(width: 80, height: 35)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(index1 == 3 ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-                            )
-                        })
+                        categoryButton(title: "附近", systemName: "mappin.and.ellipse", index: 0)
+                        categoryButton(title: "餐廳", systemName: "fork.knife", index: 1)
+                        categoryButton(title: "住宿", systemName: "bed.double.fill", index: 2)
+                        categoryButton(title: "超市", systemName: "cart.fill", index: 3)
                     }
                     .padding(.horizontal)
-                    
                 }
                 
-                
-                // Display places based on selected index
-                ScrollView {
-                    if index1 == 0 {
-                        // Display all places
-                        ForEach(placeViewModel.places) { place in
-                            placeCard(place: place)
+                if mapViewModel.isLoading {
+                    ProgressView("正在載入地點...")
+                        .padding()
+                } else if mapViewModel.searchResults.isEmpty {
+                    Text("沒有找到地點")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    ScrollView {
+                        ForEach(mapViewModel.searchResults) { placeModel in
+                            placeCard(placeModel: placeModel)
                         }
-                    } else if index1 == 1 {
-                        // Display restaurants
-                        //                        ForEach(placeViewModel.restaurants) { place in
-                        //                            placeCard(place: place)
-                        //                        }
-                    } else if index1 == 2 {
-                        // Display accommodations
-                        //                        ForEach(placeViewModel.accommodations) { place in
-                        //                            placeCard(place: place)
-                        //                        }
-                    } else if index1 == 3 {
-                        // Display supermarkets
-                        //                        ForEach(placeViewModel.supermarkets) { place in
-                        //                            placeCard(place: place)
-                        //                        }
                     }
+                }
+                Spacer()
+            }
+            .onAppear {
+                if mapViewModel.userLocation == nil {
+                    mapViewModel.setupLocationManager()
+                    mapViewModel.searchNearbyPlaces()
+                } else {
+                    mapViewModel.searchNearbyPlaces()
                 }
             }
         }
     }
+    private func categoryButton(title: String, systemName: String, index: Int) -> some View {
+        Button(action: {
+            self.index1 = index
+            switch index {
+            case 0:
+                mapViewModel.searchNearbyPlaces()
+            case 1:
+                mapViewModel.searchPlaces(query: "餐廳")
+            case 2:
+                mapViewModel.searchPlaces(query: "住宿")
+            case 3:
+                mapViewModel.searchPlaces(query: "超市")
+            default:
+                break
+            }
+        }) {
+            HStack {
+                Image(systemName: systemName)
+                    .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+                    .frame(width: 20, height: 20)
+                Text(title)
+                    .font(.system(size: 15))
+                    .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+            }
+            .frame(width: 80, height: 35)
+            .background(Color.white)
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
+            )
+        }
+        .padding(.horizontal, 5)
+    }
     
     // Helper function to display place card
-    func placeCard(place: Place) -> some View {
+    func placeCard(placeModel: PlaceModel) -> some View {
         VStack(spacing: 0) {
             ZStack(alignment:.top) {
                 HStack {
                     // Display lowCarbon icon if the place is low-carbon
-                    if place.lowCarbon {
+                    if false {
                         Image(.greenlabel2)
                             .resizable()
                             .frame(width: 40, height: 40)
@@ -187,7 +133,7 @@ struct SearchView: View{
                     
                     // Heart button for favoriting a place
                     Button(action: {
-                        placeViewModel.toggleFavorite(for: place.id)
+                        // TODO: favorite
                     }, label: {
                         ZStack {
                             Circle()
@@ -195,7 +141,7 @@ struct SearchView: View{
                                 .frame(width: 40, height: 40)
                                 .padding(5)
                             
-                            Image(systemName: placeViewModel.favorites[place.id, default: false] ? "heart.fill" : "heart")
+                            Image(systemName: placeViewModel.favorites[placeModel.id, default: false] ? "heart.fill" : "heart")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
@@ -207,34 +153,27 @@ struct SearchView: View{
                 .zIndex(1)
                 
                 // Place image with NavigationLink to SiteInfoView
-                NavigationLink(destination: SiteInfoView( place: place)) {
-                    AsyncImage(url: URL(string: place.image)) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                                .scaledToFill()
-                                .frame(width: 280, height: 130)
-                                .clipped()
-                        } else if phase.error != nil {
-                            Color.red // Indicates an error.
-                                .frame(width: 280, height: 130)
-                        } else {
-                            Color.gray // Acts as a placeholder.
-                                .frame(width: 280, height: 130)
-                        }
+                NavigationLink(destination: SiteInfoView(placeModel: placeModel)) {
+                    if let image = placeModel.image {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 280, height: 130)
+                            .clipped()
                     }
                 }
             }
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text(place.placename)
+                    Text(placeModel.name)
                         .font(.system(size: 20))
                         .bold()
                         .padding(.top, 15)
                         .padding(.leading, 10)
                         .padding(.bottom, 3)
                     
-                    Text(place.address)
+                    Text(placeModel.address)
                         .font(.system(size: 13))
                         .foregroundColor(.gray)
                         .padding(.leading, 10)
@@ -257,11 +196,5 @@ struct SearchView: View{
         .cornerRadius(20)
         .shadow(radius: 5)
         .padding(20)
-    }
-}
-
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView(index1: .constant(0))
     }
 }
