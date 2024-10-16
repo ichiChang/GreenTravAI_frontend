@@ -19,6 +19,7 @@ struct PlanView: View {
     @State private var navigationPath = NavigationPath()
     @State private var showEditPlan = false
     @State private var hasExistingSchedule: Bool = false
+    @State private var selectedDate: Date = Date()
     
     var body: some View {
         NavigationView {
@@ -88,6 +89,7 @@ struct PlanView: View {
                         ForEach(Array(viewModel.days.enumerated()), id: \.element.id) { index, day in
                             Button(action: {
                                 selectedDayIndex = index
+                                selectedDate = dateFromString(day.date) ?? Date()
                                 if let token = authViewModel.accessToken {
                                     viewModel.fetchStopsForDay(dayId: day.id, token: token)
                                 }
@@ -123,6 +125,7 @@ struct PlanView: View {
                 } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
                     StopListView(stops: dayStops.stops, reloadData: reloadData)
                         .onAppear { hasExistingSchedule = true }
+                    
                 } else {
                     Text("No plans for this day yet.")
                         .foregroundColor(.gray)
@@ -145,22 +148,17 @@ struct PlanView: View {
                 .cornerRadius(10)
                 .padding()
             }
-            .onAppear {
-                if let firstDay = viewModel.days.first,
-                   let token = authViewModel.accessToken {
-                    viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
-                }
-            }
         }
         .navigationBarBackButtonHidden(true) // 隱藏返回按鈕
         .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
             Demo(showDemo: $showDemo)
         }
         .sheet(isPresented: $showNewPlan) {
-            NewStopView(showNewPlan: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData)
+            NewStopView(showNewStop: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData, selectedDate: selectedDate)
                 .presentationDetents([.height(650)])
                 .environmentObject(viewModel)
                 .environmentObject(authViewModel)
+            
         }
         .sheet(isPresented: $showChatView) {
             ChatView()
@@ -170,6 +168,8 @@ struct PlanView: View {
                let token = authViewModel.accessToken {
                 viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token) {
                     if let firstDay = viewModel.days.first {
+                        selectedDate = dateFromString(firstDay.date) ?? Date()
+                        print(selectedDate)
                         viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
                     }
                 }
@@ -204,6 +204,13 @@ struct PlanView: View {
             return outputFormatter.string(from: date)
         }
         return timeString
+    }
+    private func dateFromString(_ dateString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)  // 使用 GMT
+
+        return formatter.date(from: dateString)
     }
     func reloadData() {
         if let token = authViewModel.accessToken {

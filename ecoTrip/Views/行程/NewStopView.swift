@@ -13,7 +13,7 @@ struct NewStopView: View {
     @State private var arrivalTime: Date = Date()
     @State private var departureTime: Date = Date()
     @State private var textInput = ""
-    @Binding var showNewPlan: Bool
+    @Binding var showNewStop: Bool
     @State private var navigateToPlaceChoice = false
     @State var hours: Int = 0
     @State var minutes: Int = 0
@@ -22,12 +22,13 @@ struct NewStopView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     var reloadData: () -> Void
+    let selectedDate: Date
 
     var body: some View {
         VStack{
             
             Button{
-                showNewPlan = false
+                showNewStop = false
             }label: {
                 Image(systemName: "chevron.down")
                     .resizable()
@@ -80,6 +81,7 @@ struct NewStopView: View {
                         DatePicker(
                             "",
                             selection: $arrivalTime,
+                            in: selectedDate...selectedDate.addingTimeInterval(24*60*60),
                             displayedComponents: .hourAndMinute
                         )
                         .labelsHidden()
@@ -170,6 +172,11 @@ struct NewStopView: View {
                 .cornerRadius(10)
                 .padding()
             }
+            .onAppear {
+                // 設置初始的抵達時間為選中日期的開始
+                print(selectedDate)
+                arrivalTime = selectedDate
+            }
 
         }
     }
@@ -192,19 +199,24 @@ struct NewStopView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
 
-        let requestBody: [String: Any] = [
+        var requestBody: [String: Any] = [
             "Name": selectedPlace.name,
             "note": textInput,
             "DayId": dayId,
             "latency": hours * 60 + minutes,
             "address": selectedPlace.address,
-            "prev_stop": travelPlanViewModel.dayStops?.stops.last?.id ?? ""
         ]
+        if let lastStopId = travelPlanViewModel.dayStops?.stops.last?.id, !lastStopId.isEmpty {
+            requestBody["prev_stop"] = lastStopId
+        } else {
+            requestBody["StartTime"] = dateFormatter.string(from: arrivalTime)
+            requestBody["prev_stop"] = NSNull()
+        }
 
         travelPlanViewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
             if success {
                 showAlert(message: "成功添加新的停留點")
-                showNewPlan = false  // 關閉 NewPlanView
+                showNewStop = false  // 關閉 NewPlanView
                 reloadData()
             } else {
                 showAlert(message: "添加失敗：\(error ?? "未知錯誤")")

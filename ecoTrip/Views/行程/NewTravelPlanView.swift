@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NewTravelPlanView: View {
-    @StateObject private var viewModel = TravelPlanViewModel()
+    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showPlacePicker = false
     @State var showDatePicker = false
@@ -166,11 +166,11 @@ struct NewTravelPlanView: View {
           
                     
                   
-                    if viewModel.isLoading {
+                    if travelPlanViewModel.isLoading {
                         ProgressView()
                     }
                     
-                    if let error = viewModel.error {
+                    if let error = travelPlanViewModel.error {
                         Text(error)
                             .foregroundColor(.red)
                     }
@@ -199,18 +199,22 @@ struct NewTravelPlanView: View {
     private func createNewTravelPlan() {
         guard let startDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).min(),
               let endDate = selectedDates.compactMap({ Calendar.current.date(from: $0) }).max() else {
-            viewModel.error = "Please select start and end dates"
+            travelPlanViewModel.error = "Please select start and end dates"
             return
         }
         
-        viewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
+        travelPlanViewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
             if success {
                 // Handle success
+                showNewJourney = false
                 print("Travel plan created successfully")
-                // TODO: 陳雨柔幫把這裡改成跳進編輯行程
+                if let token = authViewModel.accessToken {
+                    travelPlanViewModel.fetchTravelPlans(token: token)
+                }
+                
             } else {
                 // Handle failure
-                viewModel.error = errorMessage ?? "Unknown error occurred"
+                travelPlanViewModel.error = errorMessage ?? "Unknown error occurred"
             }
         }
     }
