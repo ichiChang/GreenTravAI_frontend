@@ -26,6 +26,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         placesClient = GMSPlacesClient.shared()
         setupLocationManager()
+        searchNearbyPlaces()
+        
     }
     
     public func setupLocationManager() {
@@ -57,13 +59,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation() // Stop after getting the first location
     }
     func searchNearbyPlaces() {
-        guard let userLocation = userLocation else {
-            print("User location not available")
-            return
-        }
+        
         
         isLoading = true
-        let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
         placesClient.currentPlace(callback: { (likelihoodList, error) in
             if let error = error {
                 print("Error searching nearby places: \(error.localizedDescription)")
