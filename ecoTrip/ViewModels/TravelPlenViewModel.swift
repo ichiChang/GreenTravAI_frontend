@@ -170,13 +170,6 @@ class TravelPlanViewModel: ObservableObject {
                 
                 if (200...299).contains(httpResponse.statusCode) {
                     // Assuming the newly created travel plan is returned in the response
-                    if let data = data,
-                       let newTravelPlan = try? JSONDecoder().decode(TravelPlan.self, from: data) {
-                        self?.travelPlans.append(newTravelPlan)
-                        completion(true, nil)
-                    } else {
-                        completion(false, "Failed to parse new travel plan")
-                    }
                 } else {
                     completion(false, "Server error: HTTP \(httpResponse.statusCode)")
                 }
@@ -224,8 +217,6 @@ class TravelPlanViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        print(token)
-        print(requestBody)
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)

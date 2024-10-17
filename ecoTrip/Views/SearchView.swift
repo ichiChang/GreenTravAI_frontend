@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct SearchView: View{
-    @StateObject private var placeViewModel = PlaceViewModel()
-    @StateObject private var mapViewModel = MapViewModel()
     @State private var searchText = ""
     @Binding var index1: Int
     @State private var navigateToSiteInfo = false
     @State private var showres = false
     @State private var showaccom = false
+    @StateObject private var mapViewModel = MapViewModel()
     
     var body: some View{
         NavigationView  {
@@ -70,14 +69,6 @@ struct SearchView: View{
                     }
                 }
                 Spacer()
-            }
-            .onAppear {
-                if mapViewModel.userLocation == nil {
-                    mapViewModel.setupLocationManager()
-                    mapViewModel.searchNearbyPlaces()
-                } else {
-                    mapViewModel.searchNearbyPlaces()
-                }
             }
         }
     }
@@ -141,7 +132,7 @@ struct SearchView: View{
                                 .frame(width: 40, height: 40)
                                 .padding(5)
                             
-                            Image(systemName: placeViewModel.favorites[placeModel.id, default: false] ? "heart.fill" : "heart")
+                            Image(systemName:"heart")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))

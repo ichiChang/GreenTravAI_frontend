@@ -15,6 +15,7 @@ struct StopListView: View {
     @State private var draggedPlace: String?
     var reloadData: () -> Void
     @State private var selectedPlaceName: String = ""
+    @State private var selectedDate: Date = Date()
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -36,7 +37,7 @@ struct StopListView: View {
                 
             }
             .sheet(isPresented: $showEditView) {
-                NewStopView(showNewPlan: $showEditView, hasExistingSchedule: false, reloadData: reloadData)
+                NewStopView(showNewStop: $showEditView, hasExistingSchedule: false, reloadData: reloadData, selectedDate: selectedDate)
                     .presentationDetents([.height(650)])
             }
         }

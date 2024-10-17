@@ -50,7 +50,6 @@ struct SiteInfoView: View {
                         }
                     }
                     Button(action: {
-                        // 按鈕動作
                         placeViewModel.toggleFavorite(for: placeModel.id)
                     }) {
                         ZStack {
@@ -67,7 +66,6 @@ struct SiteInfoView: View {
                     }
                 }
                 .padding(.horizontal)
-                    
             }
             .frame(maxWidth: .infinity)
             .background(Color.init(hex: "5E845B", alpha: 1.0))
@@ -101,7 +99,6 @@ struct SiteInfoView: View {
                 Spacer()
                 
                 Button(action: {
-                    // 按鈕動作
                 }) {
                     Text("加入行程")
                         .bold()
