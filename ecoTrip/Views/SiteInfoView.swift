@@ -117,15 +117,17 @@ struct SiteInfoView: View {
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding(.bottom)
             
-            HStack {
-                Image(systemName: "globe")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .padding(10)
-                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                Text(placeModel.website!)
-                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                Spacer()
+            Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
+                HStack {
+                    Image(systemName: "globe")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .padding(10)
+                        .foregroundColor(Color(hex: "444444"))
+                    Text(getDomainPrefix(from: placeModel.website!))
+                        .foregroundColor(Color(hex: "444444"))
+                    Spacer()
+                }
             }
             .padding(.horizontal)
             
@@ -151,22 +153,32 @@ struct SiteInfoView: View {
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding()
             
-            HStack {
-                Image(systemName: "clock")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .padding(10)
-                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                Text("暫時營業時間") // TODO: 營業時間
-                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                Spacer()
+            ScrollView {
+                HStack {
+                    Image(systemName: "clock")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .padding(10)
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    Text(placeModel.currentOpeningHours ?? "暫時營業時間")
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    Spacer()
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
             
             Spacer()
         }
         .navigationBarBackButtonHidden(true)
     }
+    private func getDomainPrefix(from urlString: String) -> String {
+        guard let url = URL(string: urlString),
+              let host = url.host else {
+            return urlString
+        }
+        return host
+    }
+    
 }
 
 

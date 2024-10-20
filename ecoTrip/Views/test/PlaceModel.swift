@@ -21,4 +21,5 @@ struct PlaceModel: Identifiable {
     var rating: Float?
     var image: Image?
     var userRatingsTotal: Int?
+    var currentOpeningHours: String?
 }

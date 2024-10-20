@@ -37,9 +37,15 @@ struct PlanView: View {
                     .offset(x:40,y:40)
                     
                     Spacer()
-                        .frame(width:200)
                     
-               
+                    Text(viewModel.selectedTravelPlan!.planname)
+                        .offset(y:40)
+                        .foregroundStyle((.white))
+                        .font(.system(size: 20))
+                        .bold()
+                    
+                    Spacer()
+                    
                     Button(action: {
                         showDemo.toggle()
                     }, label: {
@@ -123,7 +129,7 @@ struct PlanView: View {
                 } else if let error = viewModel.error {
                     Text("Error: \(error)")
                 } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
-                    StopListView(stops: dayStops.stops, reloadData: reloadData)
+                    StopListView(stops: dayStops.stops, reloadData: reloadData, accessToken: authViewModel.accessToken!)
                         .onAppear { hasExistingSchedule = true }
                     
                 } else {
@@ -169,7 +175,6 @@ struct PlanView: View {
                 viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token) {
                     if let firstDay = viewModel.days.first {
                         selectedDate = dateFromString(firstDay.date) ?? Date()
-                        print(selectedDate)
                         viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
                     }
                 }

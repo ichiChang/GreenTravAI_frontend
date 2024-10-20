@@ -16,6 +16,7 @@
 		105E35BB2C00CB640047E2F1 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105E35BA2C00CB640047E2F1 /* Place.swift */; };
 		105E35BD2C00CB8F0047E2F1 /* Transportation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105E35BC2C00CB8F0047E2F1 /* Transportation.swift */; };
 		106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EA1E72BF6F76100DC5661 /* Stop.swift */; };
+		107CF1C92CC530C3000FBBF5 /* TranspotationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107CF1C82CC530C3000FBBF5 /* TranspotationViewModel.swift */; };
 		108C00DC2C5FAD6700A40CA0 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108C00DB2C5FAD6700A40CA0 /* UserViewModel.swift */; };
 		1092160B2C2EAF4C0038DD61 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092160A2C2EAF4C0038DD61 /* AuthViewModel.swift */; };
 		1092160D2C2EAFD20038DD61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092160C2C2EAFD20038DD61 /* User.swift */; };
@@ -43,10 +44,10 @@
 		FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */; };
 		FD1D0F7D2C3E6C72002704D6 /* NewTravelPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D0F7C2C3E6C72002704D6 /* NewTravelPlanView.swift */; };
 		FD2282EC2CA3FD3800C2B6D8 /* MyPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */; };
-		FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */; };
+		FD28659A2C70DE7F00C23DC4 /* EditTranspotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2865992C70DE7F00C23DC4 /* EditTranspotationView.swift */; };
 		FD3E492B2C79DDED00C3FFAE /* PlanMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */; };
 		FD3F3C7F2C5685B100879509 /* ChatPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3F3C7E2C5685B100879509 /* ChatPlan.swift */; };
-		FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD47687E2C3533B900C01DA6 /* PlaceView.swift */; };
+		FD47687F2C3533B900C01DA6 /* StopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD47687E2C3533B900C01DA6 /* StopView.swift */; };
 		FD4768812C35355800C01DA6 /* StopListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768802C35355800C01DA6 /* StopListView.swift */; };
 		FD4768832C35384E00C01DA6 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */; };
 		FD5162BB2C8988C300CF0A9B /* PopularPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */; };
@@ -99,6 +100,7 @@
 		105E35BA2C00CB640047E2F1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		105E35BC2C00CB8F0047E2F1 /* Transportation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transportation.swift; sourceTree = "<group>"; };
 		106EA1E72BF6F76100DC5661 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		107CF1C82CC530C3000FBBF5 /* TranspotationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranspotationViewModel.swift; sourceTree = "<group>"; };
 		108C00DB2C5FAD6700A40CA0 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		1092160A2C2EAF4C0038DD61 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		1092160C2C2EAFD20038DD61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -129,10 +131,10 @@
 		FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePicker.swift; sourceTree = "<group>"; };
 		FD1D0F7C2C3E6C72002704D6 /* NewTravelPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravelPlanView.swift; sourceTree = "<group>"; };
 		FD2282EB2CA3FD2D00C2B6D8 /* MyPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlansView.swift; sourceTree = "<group>"; };
-		FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeRideView.swift; sourceTree = "<group>"; };
+		FD2865992C70DE7F00C23DC4 /* EditTranspotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTranspotationView.swift; sourceTree = "<group>"; };
 		FD3E492A2C79DDED00C3FFAE /* PlanMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanMenuView.swift; sourceTree = "<group>"; };
 		FD3F3C7E2C5685B100879509 /* ChatPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPlan.swift; sourceTree = "<group>"; };
-		FD47687E2C3533B900C01DA6 /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
+		FD47687E2C3533B900C01DA6 /* StopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopView.swift; sourceTree = "<group>"; };
 		FD4768802C35355800C01DA6 /* StopListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopListView.swift; sourceTree = "<group>"; };
 		FD4768822C35384E00C01DA6 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlansView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				108C00DB2C5FAD6700A40CA0 /* UserViewModel.swift */,
 				10C40B182C7B522600DF1198 /* ChatViewModel.swift */,
 				10E814882CA29C8400E3D974 /* LocationSuggestionViewModel.swift */,
+				107CF1C82CC530C3000FBBF5 /* TranspotationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -339,14 +342,14 @@
 				FD5162BA2C8988C300CF0A9B /* PopularPlansView.swift */,
 				FD1D0F7C2C3E6C72002704D6 /* NewTravelPlanView.swift */,
 				FD601C232C3298D1000443BE /* PlanView.swift */,
-				FD47687E2C3533B900C01DA6 /* PlaceView.swift */,
+				FD47687E2C3533B900C01DA6 /* StopView.swift */,
 				FD4768802C35355800C01DA6 /* StopListView.swift */,
 				FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */,
 				FD1D0F762C3D1098002704D6 /* PlacePicker.swift */,
 				FD1D0F782C3D72A6002704D6 /* DatePick.swift */,
 				FD1D0F7A2C3D798E002704D6 /* RidePicker.swift */,
 				FD6189D32C626138004ED264 /* Demo.swift */,
-				FD2865992C70DE7F00C23DC4 /* ChangeRideView.swift */,
+				FD2865992C70DE7F00C23DC4 /* EditTranspotationView.swift */,
 				FD8CD7F02C8AB611003F63AD /* NewStopView.swift */,
 				FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */,
 				10410B5C2C9C04840016662D /* TransportationView.swift */,
@@ -508,6 +511,7 @@
 				FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */,
 				105E35B72C00CB0A0047E2F1 /* TravelPlan.swift in Sources */,
 				FD5162BB2C8988C300CF0A9B /* PopularPlansView.swift in Sources */,
+				107CF1C92CC530C3000FBBF5 /* TranspotationViewModel.swift in Sources */,
 				FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */,
 				10C55EC42BF0A09B000751EE /* ecoTripApp.swift in Sources */,
 				105E35BB2C00CB640047E2F1 /* Place.swift in Sources */,
@@ -545,7 +549,7 @@
 				FDAB260D2C4E5F2800CED5EC /* SuitcaseView.swift in Sources */,
 				1092160D2C2EAFD20038DD61 /* User.swift in Sources */,
 				FD3F3C7F2C5685B100879509 /* ChatPlan.swift in Sources */,
-				FD47687F2C3533B900C01DA6 /* PlaceView.swift in Sources */,
+				FD47687F2C3533B900C01DA6 /* StopView.swift in Sources */,
 				10410B5D2C9C04840016662D /* TransportationView.swift in Sources */,
 				FDE297722C1EFCAE00FE09FC /* LandingView.swift in Sources */,
 				FD8CD7F12C8AB611003F63AD /* NewStopView.swift in Sources */,
@@ -559,7 +563,7 @@
 				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
 				FD5162BD2C898C5400CF0A9B /* OtherAppsView.swift in Sources */,
 				108C00DC2C5FAD6700A40CA0 /* UserViewModel.swift in Sources */,
-				FD28659A2C70DE7F00C23DC4 /* ChangeRideView.swift in Sources */,
+				FD28659A2C70DE7F00C23DC4 /* EditTranspotationView.swift in Sources */,
 				FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

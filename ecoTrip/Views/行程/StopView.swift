@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaceView: View {
+struct StopView: View {
     let stop: Stop
     @Binding var showEditView: Bool
     @Binding var selectedPlaceName: String

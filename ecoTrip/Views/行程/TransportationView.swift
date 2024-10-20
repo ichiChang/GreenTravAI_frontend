@@ -9,7 +9,12 @@ import SwiftUI
 
 struct TransportationView: View {
     let transportation: Transportation?
-    @State private var navigateToRide = false
+    let fromStopId: String
+    let toStopId: String
+    let fromStopName: String
+    let toStopName: String
+    let token: String
+    @State private var navigateToEdit = false
     
     var body: some View {
         HStack {
@@ -36,7 +41,7 @@ struct TransportationView: View {
             }
             
             Button(action: {
-                navigateToRide = true
+                navigateToEdit = true
             }) {
                 Image(systemName: "highlighter")
                     .resizable()
@@ -49,8 +54,14 @@ struct TransportationView: View {
             Spacer()
         }
         .frame(width: 300)
-        .fullScreenCover(isPresented: $navigateToRide) {
-            ChangeRideView()
+        .fullScreenCover(isPresented: $navigateToEdit) {
+            EditTranspotationView(
+                fromStopId: fromStopId,
+                toStopId: toStopId,
+                fromStopName: fromStopName,
+                toStopName: toStopName,
+                token: token
+            )
         }
     }
     
@@ -65,8 +76,3 @@ struct TransportationView: View {
     }
 }
 
-struct TransportationView_Previews: PreviewProvider {
-    static var previews: some View {
-        TransportationView(transportation: Transportation(LowCarbon: true, Mode: "bicycling", TimeSpent: 15))
-    }
-}

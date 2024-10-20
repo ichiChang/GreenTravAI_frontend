@@ -16,13 +16,14 @@ struct StopListView: View {
     var reloadData: () -> Void
     @State private var selectedPlaceName: String = ""
     @State private var selectedDate: Date = Date()
+    var accessToken: String
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
-                        PlaceView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
+                        StopView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
                             .onDrag({
                                 self.draggedPlace = stop.stopname
                                 return NSItemProvider()
@@ -30,7 +31,14 @@ struct StopListView: View {
                             .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: stop.stopname, places: .constant(stops.map { $0.stopname }), schedules: .constant([]), draggedItem: $draggedPlace))
                         
                         if index < stops.count - 1 {
-                            TransportationView(transportation: stop.transportationToNext)
+                            TransportationView(
+                                transportation: stop.transportationToNext,
+                                fromStopId: stop.id,
+                                toStopId: stops[index + 1].id,
+                                fromStopName: stop.stopname,
+                                toStopName: stops[index + 1].stopname,
+                                token: accessToken
+                            )
                         }
                     }
                 }
@@ -40,9 +48,6 @@ struct StopListView: View {
                 NewStopView(showNewStop: $showEditView, hasExistingSchedule: false, reloadData: reloadData, selectedDate: selectedDate)
                     .presentationDetents([.height(650)])
             }
-        }
-        .fullScreenCover(isPresented: $navigateToRide) {
-            ChangeRideView()
         }
         .sheet(isPresented: $showEditView) {
             EditPlanView(stop: $selectedPlaceName)

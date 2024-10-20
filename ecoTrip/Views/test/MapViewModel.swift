@@ -59,8 +59,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation() // Stop after getting the first location
     }
     func searchNearbyPlaces() {
-        
-        
         isLoading = true
         placesClient.currentPlace(callback: { (likelihoodList, error) in
             if let error = error {
@@ -112,63 +110,54 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func selectPlace(_ place: PlaceModel) {
-        placesClient.fetchPlace(fromPlaceID: place.id, placeFields: [.coordinate, .rating, .website, .photos, .phoneNumber], sessionToken: nil) { (gmsPlace, error) in
+        let myProperties = [GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating, GMSPlaceProperty.userRatingsTotal, GMSPlaceProperty.website, GMSPlaceProperty.photos, GMSPlaceProperty.phoneNumber, GMSPlaceProperty.currentOpeningHours].map {$0.rawValue}
+        let fetchPlaceReq = GMSFetchPlaceRequest(placeID: place.id, placeProperties: myProperties, sessionToken: nil)
+        
+        placesClient.fetchPlace(with: fetchPlaceReq) { [weak self] (gmsPlace: GMSPlace?, error: Error?) in
+            guard let self = self else { return }
+            
             if let error = error {
-                print("Error: \(error.localizedDescription)")
+                print("Error fetching place details: \(error.localizedDescription)")
                 return
             }
             
-            if let gmsPlace = gmsPlace {
-                DispatchQueue.main.async {
-                    var placeImage: Image? = nil // 用於 SwiftUI 的 Image
-
-                    // 如果有圖片，下載第一張圖片
-                    if let photoMetadata = gmsPlace.photos?.first {
-                        self.placesClient.loadPlacePhoto(photoMetadata) { (photo: UIImage?, error: Error?) in
-                            if let error = error {
-                                print("Error loading photo: \(error.localizedDescription)")
-                                return
-                            }
-                            
-                            if let photo = photo {
-                                placeImage = Image(uiImage: photo)
-                            }
-
-                            // 更新 selectedPlace 包含圖片
-                            DispatchQueue.main.async {
-                                self.selectedPlace = PlaceModel(
-                                    id: place.id,
-                                    name: place.name,
-                                    address: place.address,
-                                    coordinate: gmsPlace.coordinate,
-                                    phoneNumber: gmsPlace.phoneNumber,
-                                    website: gmsPlace.website?.absoluteString,
-                                    rating: gmsPlace.rating,
-                                    image: placeImage
-                                )
-                                self.showingSearchResults = false
-                            }
-                        }
-                    } else {
-                        // 沒有圖片的情況下直接更新 selectedPlace
-                        self.selectedPlace = PlaceModel(
-                            id: place.id,
-                            name: place.name,
-                            address: place.address,
-                            coordinate: gmsPlace.coordinate,
-                            phoneNumber: gmsPlace.phoneNumber,
-                            website: gmsPlace.website?.absoluteString,
-                            rating: gmsPlace.rating,
-                            image: nil // 沒有圖片的情況
-                        )
+            guard let gmsPlace = gmsPlace else {
+                print("No place details found")
+                return
+            }
+            
+            var placeModel = PlaceModel(
+                id: place.id,
+                name: place.name,
+                address: place.address,
+                coordinate: gmsPlace.coordinate,
+                distance: place.distance,
+                phoneNumber: gmsPlace.phoneNumber,
+                website: gmsPlace.website?.absoluteString,
+                rating: gmsPlace.rating,
+                image: nil,
+                userRatingsTotal: Int(gmsPlace.userRatingsTotal),
+                currentOpeningHours: gmsPlace.currentOpeningHours?.weekdayText?.joined(separator: "\n")
+            )
+            
+            if let photoMetadata = gmsPlace.photos?.first {
+                self.loadPlacePhoto(photoMetadata: photoMetadata) { image in
+                    placeModel.image = image
+                    DispatchQueue.main.async {
+                        self.selectedPlace = placeModel
                         self.showingSearchResults = false
                     }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.selectedPlace = placeModel
+                    self.showingSearchResults = false
                 }
             }
         }
     }
     private func fetchPlaceDetails(placeID: String, completion: @escaping (PlaceModel?) -> Void) {
-        let myProperties = [GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating, GMSPlaceProperty.userRatingsTotal, GMSPlaceProperty.website, GMSPlaceProperty.photos, GMSPlaceProperty.phoneNumber].map {$0.rawValue}
+        let myProperties = [GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating, GMSPlaceProperty.userRatingsTotal, GMSPlaceProperty.website, GMSPlaceProperty.photos, GMSPlaceProperty.phoneNumber, GMSPlaceProperty.currentOpeningHours].map {$0.rawValue}
         let fetchPlaceReq = GMSFetchPlaceRequest(placeID: placeID, placeProperties: myProperties, sessionToken: nil)
         placesClient.fetchPlace(with: fetchPlaceReq, callback: {
             (gmsPlace: GMSPlace?, error: Error?) in
@@ -191,7 +180,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 phoneNumber: gmsPlace.phoneNumber,
                 website: gmsPlace.website?.absoluteString,
                 rating: gmsPlace.rating,
-                userRatingsTotal: Int(gmsPlace.userRatingsTotal)
+                userRatingsTotal: Int(gmsPlace.userRatingsTotal),
+                currentOpeningHours: gmsPlace.currentOpeningHours?.weekdayText?.joined(separator: "\n")
             )
             
             if let photoMetadata = gmsPlace.photos?.first {
@@ -220,4 +210,5 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
+    
 }
