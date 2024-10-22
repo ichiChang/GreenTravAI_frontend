@@ -76,6 +76,8 @@ struct MyPlansView: View {
                     PlanView()
                         .environmentObject(travelPlanViewModel)
                         .environmentObject(authViewModel)
+                        .presentationDetents([.height(650)])
+
                 }
             }
             .sheet(isPresented: $showNewJourney) {

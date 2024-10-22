@@ -25,7 +25,7 @@ struct NewStopView: View {
     let selectedDate: Date
 
     var body: some View {
-        VStack{
+        VStack(spacing: 0){
             
             Button{
                 showNewStop = false
@@ -38,8 +38,8 @@ struct NewStopView: View {
                 
                 
             }
-            .padding(20)
-            
+            .padding()
+
             NavigationStack {
                 Button {
                     navigateToPlaceChoice = true
@@ -69,7 +69,7 @@ struct NewStopView: View {
                     .frame(minHeight: 2)
                     .frame(width: 295)
                     .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                    .padding(.bottom)
+                    .padding(.bottom,10)
                 
                 if !hasExistingSchedule {
                     HStack {
@@ -86,7 +86,7 @@ struct NewStopView: View {
                         )
                         .labelsHidden()
                         .frame(width: 145, height: 45)
-                        .scaleEffect(1.3)
+                        .scaleEffect(1.1)
                     }
                     .frame(width: 295)
                     
@@ -94,7 +94,7 @@ struct NewStopView: View {
                         .frame(minHeight: 2)
                         .frame(width: 295)
                         .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                        .padding(.bottom)
+                        .padding(.bottom,10)
                 }
                 
                 HStack {
@@ -119,13 +119,13 @@ struct NewStopView: View {
                         }.pickerStyle(WheelPickerStyle())
                     
                 }
-                .frame(width: 295, height: 120)
+                .frame(width: 295, height: 90)
 
                 Divider()
                     .frame(minHeight: 2)
                     .frame(width: 295)
                     .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                    .padding(.bottom)
+                    .padding(.bottom,10)
                 
                 HStack{
                     
@@ -157,7 +157,6 @@ struct NewStopView: View {
                     
                 }
                 .padding([.horizontal], 30)
-                .padding([.bottom], 30)
                 
                 Button(action: {
                     addNewStop()
@@ -167,10 +166,11 @@ struct NewStopView: View {
                         .font(.system(size: 25))
                         .foregroundColor(.white)
                 })
-                .frame(width: 295, height: 42)
+                .frame(width: 295, height: 40)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 .cornerRadius(10)
-                .padding()
+                .padding(.vertical)
+
             }
             .onAppear {
                 // 設置初始的抵達時間為選中日期的開始

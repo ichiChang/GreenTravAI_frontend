@@ -73,6 +73,7 @@
 		FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297732C1F1A9500FE09FC /* LoginView.swift */; };
 		FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297752C1F1AA300FE09FC /* SignupView.swift */; };
 		FDE297782C26646800FE09FC /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE297772C26646800FE09FC /* MenuView.swift */; };
+		FDF3921A2CC77F7300AAFDFB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF392192CC77F7300AAFDFB /* MapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +161,7 @@
 		FDE297732C1F1A9500FE09FC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FDE297752C1F1AA300FE09FC /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		FDE297772C26646800FE09FC /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		FDF392192CC77F7300AAFDFB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		FDF878A62C50D3FF00CC7B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -353,6 +355,7 @@
 				FD8CD7F02C8AB611003F63AD /* NewStopView.swift */,
 				FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */,
 				10410B5C2C9C04840016662D /* TransportationView.swift */,
+				FDF392192CC77F7300AAFDFB /* MapView.swift */,
 			);
 			path = "行程";
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				FDC1728F2C58C9E000706856 /* ChatTransport.swift in Sources */,
 				FD1D0F7B2C3D798E002704D6 /* RidePicker.swift in Sources */,
 				10A855882C00CC9A004F0207 /* TravelPlenViewModel.swift in Sources */,
+				FDF3921A2CC77F7300AAFDFB /* MapView.swift in Sources */,
 				FD9341C32CA53A9B00C71DDA /* JourneyPicker.swift in Sources */,
 				106EA1E82BF6F76100DC5661 /* Stop.swift in Sources */,
 				FD07AC952C60C5B9007DF6DB /* AccomPicker.swift in Sources */,

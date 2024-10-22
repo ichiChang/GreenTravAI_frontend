@@ -20,7 +20,8 @@ struct PlanView: View {
     @State private var showEditPlan = false
     @State private var hasExistingSchedule: Bool = false
     @State private var selectedDate: Date = Date()
-    
+    @State private var showMapView = false
+
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -33,19 +34,21 @@ struct PlanView: View {
                             .foregroundStyle(.white)
                             .font(.system(size: 30))
                     })
-                    .padding()
-                    .offset(x:40,y:40)
+                    .padding(.horizontal)
                     
                     Spacer()
+                        .frame(width:90)
                     
                     Text(viewModel.selectedTravelPlan!.planname)
-                        .offset(y:40)
                         .foregroundStyle((.white))
                         .font(.system(size: 20))
                         .bold()
+
                     
                     Spacer()
-                    
+                        .frame(width:30)
+
+                
                     Button(action: {
                         showDemo.toggle()
                     }, label: {
@@ -54,38 +57,42 @@ struct PlanView: View {
                             .font(.system(size: 30))
                   
                     })
-                    .padding(.horizontal)
-                    .offset(x:40,y:40)
                     
                     // 地圖 button
-//                    Button(action: {
-//                        
-//                    }, label: {
-//                       
-//                            Image(systemName: "location.circle")
-//                                .foregroundStyle(.white)
-//                                .font(.system(size: 30))
-//                  
-//                        
-//                    })
-//                    .padding(.horizontal)
-//                    .offset(x:-10,y:40)
+                    Button(action: {
+                       
+                        showMapView.toggle()
+                    }, label: {
+                       
+                            Image(systemName: "location.circle")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 30))
+                  
+                        
+                    })
+                  .sheet(isPresented: $showMapView) {
+                    if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
+                        MapView(stops: dayStops.stops)
+                        
+                    }
+
+                  }
                     
                     Button(action: {
                         showChatView.toggle()
                     }, label: {
                         Image("agent")
                             .resizable()
-                            .frame(width: 30, height: 30, alignment: .center)
+                            .frame(width: 30, height: 30)
                             .cornerRadius(20)
-                            .padding(.leading, 20)
                        
                     })
-                    .padding(.horizontal)
-                    .offset(x:-10,y:40)
+                    .padding(.trailing,5)
+
+                    
                     
                 }
-                .ignoresSafeArea()
+                .frame(maxWidth: .infinity)
                 .frame(height:50)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 

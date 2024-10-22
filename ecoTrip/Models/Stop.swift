@@ -8,6 +8,7 @@
 import Foundation
 struct Stop: Codable, Identifiable {
     let id: String
+    let Address: String
     let stopname: String
     let StartTime: String
     let EndTime: String

@@ -155,7 +155,7 @@ struct SearchView: View{
                 }
             }
             
-            HStack(spacing: 0 ) {
+            HStack(spacing:0) {
                 VStack(alignment: .leading) {
                     Text(placeModel.name)
                         .font(.system(size: 20))
@@ -171,6 +171,7 @@ struct SearchView: View{
                         .padding(.bottom, 15)
                         .frame(maxWidth: 200)
                 }
+                Spacer()
                 
                 Button(action: {
                     // 按鈕動作
@@ -179,7 +180,8 @@ struct SearchView: View{
                         .resizable()
                         .frame(width: 18, height: 18)
                         .foregroundColor(.black)
-                        .padding(.trailing, 10)
+                        .padding(.trailing, 15)
+
                 }
             }
             .frame(width: 280, height: 60, alignment: .leading)

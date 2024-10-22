@@ -203,19 +203,21 @@ struct HeartView: View {
             
             
             HStack {
-                VStack(alignment: .leading, spacing:10) {
-                    Text("綠島畢業旅行").bold()
+                VStack(alignment: .leading, spacing:5) {
+                    Text("綠島畢業旅行")
+                        .bold()
                         .font(.system(size: 20))
                         .bold()
                         .padding(.top, 15)
                         .padding(.leading, 10)
-                        .padding(.bottom, 5)
+
                     
                     
                     HStack(alignment:.top){
                         Text("4 days ·")
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
+
                         
                         
                         Image(systemName:"hand.thumbsup")
@@ -241,7 +243,7 @@ struct HeartView: View {
                         
                     }
                     .padding(.leading, 10)
-                    .padding(.bottom, 10)
+                    .padding(.bottom)
                     
                 }
                 
