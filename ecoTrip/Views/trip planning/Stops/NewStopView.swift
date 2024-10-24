@@ -216,7 +216,7 @@ struct NewStopView: View {
         travelPlanViewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
             if success {
                 showAlert(message: "成功添加新的停留點")
-                showNewStop = false  // 關閉 NewPlanView
+                showNewStop = false  // 關閉 NewStopView
                 reloadData()
             } else {
                 showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
