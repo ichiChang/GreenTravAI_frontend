@@ -19,6 +19,7 @@ struct StopListView: View {
     var reloadData: () -> Void
     var accessToken: String
     @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
+    @State private var showTransportation = true
 
     init(stops: [Stop], reloadData: @escaping () -> Void, accessToken: String) {
         self.stops = stops
@@ -29,34 +30,51 @@ struct StopListView: View {
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ForEach(Array(stops.enumerated()), id: \.element.id) { index, stop in
-                        StopView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
-                            .opacity(draggedStop == stop.id ? 0.5 : 1.0)
-                            .onDrag {
-                                self.draggedStop = stop.id
-                                return NSItemProvider()
+                ZStack {
+                    if showTransportation {
+                        VStack(spacing: 0) {
+                            ForEach(Array(localStops.enumerated().dropLast()), id: \.element.id) { index, stop in
+                                Spacer()
+                                    .frame(height: 70)
+                                TransportationView(
+                                    transportation: stop.transportationToNext,
+                                    fromStopId: stop.id,
+                                    toStopId: localStops[index + 1].id,
+                                    fromStopName: stop.stopname,
+                                    toStopName: localStops[index + 1].stopname,
+                                    token: accessToken
+                                )
                             }
-                            .onDrop(of: [.text], delegate: StopDropDelegate(
-                                destinationStop: stop,
-                                stops: $localStops,
-                                draggedStopId: $draggedStop,
-                                onReorderComplete: sendReorderRequest
-                            ))
-                        
-                        if index < stops.count - 1 {
-                            TransportationView(
-                                transportation: stop.transportationToNext,
-                                fromStopId: stop.id,
-                                toStopId: stops[index + 1].id,
-                                fromStopName: stop.stopname,
-                                toStopName: stops[index + 1].stopname,
-                                token: accessToken
-                            )
+                            Spacer()
+                                .frame(height: 70)
+                        }
+                    }
+                                    
+                    VStack(spacing: 0) {
+                        ForEach(Array(localStops.enumerated()), id: \.element.id) { index, stop in
+                            StopView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
+                                .opacity(draggedStop == stop.id ? 0.5 : 1.0)
+                                .onDrag {
+                                    self.draggedStop = stop.id
+                                    withAnimation {
+                                        showTransportation = false  // 開始拖曳時隱藏
+                                    }
+                                    return NSItemProvider()
+                                }
+                                .onDrop(of: [.text], delegate: StopDropDelegate(
+                                    destinationStop: stop,
+                                    stops: $localStops,
+                                    draggedStopId: $draggedStop,
+                                    onReorderComplete: sendReorderRequest
+                                ))
+                            
+                            if index < localStops.count - 1 {
+                                Spacer()
+                                    .frame(height: 40) // TransportationView 的高度
+                            }
                         }
                     }
                 }
-                
             }
             .sheet(isPresented: $showEditView) {
                 NewStopView(showNewStop: $showEditView,
@@ -71,7 +89,6 @@ struct StopListView: View {
                  .presentationDetents([.height(650)])
          }
     }
-    // 新增：重新排序後發送到後端的函數
     private func sendReorderRequest() {
         print("Original order:")
         stops.forEach { stop in
@@ -84,7 +101,6 @@ struct StopListView: View {
         }
         
         guard !localStops.isEmpty else { return }
-        guard let dayId = travelPlanViewModel.dayStops?.day_id else { return }
         
         travelPlanViewModel.reorderStops(stops: localStops, token: accessToken) { success, error in
             if !success {
@@ -111,7 +127,6 @@ struct StopDropDelegate: DropDelegate {
     }
     
     func performDrop(info: DropInfo) -> Bool {
-        // 在拖曳結束時呼叫 onReorderComplete
         onReorderComplete()
         draggedStopId = nil
         return true
