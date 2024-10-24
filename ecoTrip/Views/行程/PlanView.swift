@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlanView: View {
-    @EnvironmentObject var viewModel: TravelPlanViewModel
+    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
     @State private var selectedDayIndex = 0
@@ -39,7 +39,7 @@ struct PlanView: View {
                     Spacer()
                         .frame(width:90)
                     
-                    Text(viewModel.selectedTravelPlan!.planname)
+                    Text(travelPlanViewModel.selectedTravelPlan!.planname)
                         .foregroundStyle((.white))
                         .font(.system(size: 20))
                         .bold()
@@ -71,7 +71,7 @@ struct PlanView: View {
                         
                     })
                   .sheet(isPresented: $showMapView) {
-                    if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
+                    if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
                         MapView(stops: dayStops.stops)
                         
                     }
@@ -99,45 +99,37 @@ struct PlanView: View {
                 // Days section
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .bottom, spacing: 0) {
-                        ForEach(Array(viewModel.days.enumerated()), id: \.element.id) { index, day in
+                        ForEach(Array(travelPlanViewModel.days.enumerated()), id: \.element.id) { index, day in
                             Button(action: {
                                 selectedDayIndex = index
                                 selectedDate = dateFromString(day.date) ?? Date()
                                 if let token = authViewModel.accessToken {
-                                    viewModel.fetchStopsForDay(dayId: day.id, token: token)
+                                    travelPlanViewModel.fetchStopsForDay(dayId: day.id, token: token)
                                 }
                             }) {
                                 Text(formatDate(day.date))
                                     .bold()
                                     .font(.system(size: 20))
                                     .foregroundColor(selectedDayIndex == index ? .black : .white)
-                                    .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(viewModel.days.count + 1)), height: 40)
+                                    .frame(maxWidth: .infinity) 
+                                    .frame(height: 40)
                                     .background(selectedDayIndex == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
                             }
                         }
-                        
-                        // Add day button
-                        Button(action: {
-                            // Action to add a new day
-                        }) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.white)
-                                .frame(width: 30, height: 30)
-                        }
-                        .frame(width: max(90, UIScreen.main.bounds.width / CGFloat(viewModel.days.count + 1)), height: 40)
-                        .background(Color.init(hex: "B8B7B7", alpha: 1.0))
                     }
+                    .frame(width: UIScreen.main.bounds.width)
                 }
                 .padding(.bottom)
                 
                 // Content based on selected day
-                if viewModel.isLoading {
+                if travelPlanViewModel.isLoading {
                     ProgressView()
-                } else if let error = viewModel.error {
+                } else if let error = travelPlanViewModel.error {
                     Text("Error: \(error)")
-                } else if let dayStops = viewModel.dayStops, !dayStops.stops.isEmpty {
+                } else if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
                     StopListView(stops: dayStops.stops, reloadData: reloadData, accessToken: authViewModel.accessToken!)
                         .onAppear { hasExistingSchedule = true }
+                        .environmentObject(travelPlanViewModel)
                     
                 } else {
                     Text("No plans for this day yet.")
@@ -169,7 +161,7 @@ struct PlanView: View {
         .sheet(isPresented: $showNewPlan) {
             NewStopView(showNewStop: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData, selectedDate: selectedDate)
                 .presentationDetents([.height(650)])
-                .environmentObject(viewModel)
+                .environmentObject(travelPlanViewModel)
                 .environmentObject(authViewModel)
             
         }
@@ -177,12 +169,12 @@ struct PlanView: View {
             ChatView()
         }
         .onAppear {
-            if let selectedPlan = viewModel.selectedTravelPlan,
+            if let selectedPlan = travelPlanViewModel.selectedTravelPlan,
                let token = authViewModel.accessToken {
-                viewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token) {
-                    if let firstDay = viewModel.days.first {
+                travelPlanViewModel.fetchDaysForPlan(planId: selectedPlan.id, token: token) {
+                    if let firstDay = travelPlanViewModel.days.first {
                         selectedDate = dateFromString(firstDay.date) ?? Date()
-                        viewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
+                        travelPlanViewModel.fetchStopsForDay(dayId: firstDay.id, token: token)
                     }
                 }
             }
@@ -226,7 +218,7 @@ struct PlanView: View {
     }
     func reloadData() {
         if let token = authViewModel.accessToken {
-            viewModel.fetchStopsForDay(dayId: viewModel.days[selectedDayIndex].id, token: token)
+            travelPlanViewModel.fetchStopsForDay(dayId: travelPlanViewModel.days[selectedDayIndex].id, token: token)
         }
     }
 }

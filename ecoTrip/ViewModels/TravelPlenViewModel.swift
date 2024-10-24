@@ -245,6 +245,63 @@ class TravelPlanViewModel: ObservableObject {
             }
         }.resume()
     }
+    func reorderStops(stops: [Stop], token: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/EditStop") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        let reorderedStops = stops.enumerated().map { index, stop in
+            [
+                "stop_id": stop.id,
+                "previous_stop_id": index == 0 ? nil : stops[index - 1].id
+            ]
+        }
+        
+        let requestBody = ["stops": reorderedStops]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        } catch {
+            completion(false, "Failed to encode request body")
+            return
+        }
+        
+        isLoading = true
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                
+                if let error = error {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(false, "Invalid response")
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(false, "No data received")
+                    return
+                }
+                
+                do {
+                    let dayStops = try JSONDecoder().decode(DayStops.self, from: data)
+                    self?.dayStops = dayStops
+                    completion(true, nil)
+                } catch {
+                    completion(false, "Failed to decode response: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
     func refreshTravelPlans(token: String) {
         fetchTravelPlans(token: token)
     }
