@@ -12,7 +12,7 @@ struct PlanView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
     @State private var selectedDayIndex = 0
-    @State private var showNewPlan = false
+    @State private var showNewStop = false
     @State private var showDemo = false
     @State private var showChatView = false
     @State private var isFirstAppear = true
@@ -141,7 +141,7 @@ struct PlanView: View {
                 
                 // Add new plan button
                 Button(action: {
-                    showNewPlan.toggle()
+                    showNewStop.toggle()
                 }) {
                     Text("新增行程")
                         .bold()
@@ -158,8 +158,8 @@ struct PlanView: View {
         .popupNavigationView(horizontalPadding: 40, show: $showDemo) {
             Demo(showDemo: $showDemo)
         }
-        .sheet(isPresented: $showNewPlan) {
-            NewStopView(showNewStop: $showNewPlan, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData, selectedDate: selectedDate)
+        .sheet(isPresented: $showNewStop) {
+            NewStopView(showNewStop: $showNewStop, hasExistingSchedule: hasExistingSchedule, reloadData: reloadData, selectedDate: selectedDate)
                 .presentationDetents([.height(650)])
                 .environmentObject(travelPlanViewModel)
                 .environmentObject(authViewModel)
