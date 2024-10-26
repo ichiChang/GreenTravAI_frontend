@@ -32,7 +32,7 @@ struct ChatView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -173,15 +173,11 @@ struct ChatView: View {
                 .padding(.horizontal)
                 .background(colorManager.mainColor)
             }
-            .background(
-                NavigationLink(
-                    destination: PlanView()
-                        .environmentObject(travelPlanViewModel)
-                        .environmentObject(authViewModel),
-                    isActive: $navigateToPlanView,
-                    label: { EmptyView() }
-                )
-            )
+            .navigationDestination(isPresented: $navigateToPlanView) {
+                           PlanView()
+                               .environmentObject(travelPlanViewModel)
+                               .environmentObject(authViewModel)
+                       }
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(showJPicker: $showJPicker,
                               chatContent: viewModel.messages.last?.content ?? "",

@@ -35,6 +35,8 @@ struct PlanView: View {
                             .font(.system(size: 30))
                     })
                     .padding(.horizontal)
+                    .padding(.bottom,5)
+
                     
                     Spacer()
                         .frame(width:90)
@@ -43,20 +45,22 @@ struct PlanView: View {
                         .foregroundStyle((.white))
                         .font(.system(size: 20))
                         .bold()
+                        .padding(.bottom,5)
+
 
                     
                     Spacer()
-                        .frame(width:30)
+                        .frame(width:40)
 
                 
-                    Button(action: {
-                        showDemo.toggle()
-                    }, label: {
-                        Image(systemName: "questionmark.circle")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 30))
-                  
-                    })
+//                    Button(action: {
+//                        showDemo.toggle()
+//                    }, label: {
+//                        Image(systemName: "questionmark.circle")
+//                            .foregroundStyle(.white)
+//                            .font(.system(size: 30))
+//                  
+//                    })
                     
                     // 地圖 button
                     Button(action: {
@@ -70,6 +74,8 @@ struct PlanView: View {
                   
                         
                     })
+                    .padding(.bottom,5)
+
                   .sheet(isPresented: $showMapView) {
                     if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
                         MapView(stops: dayStops.stops)
@@ -88,6 +94,8 @@ struct PlanView: View {
                        
                     })
                     .padding(.trailing,5)
+                    .padding(.bottom,5)
+
 
                     
                     

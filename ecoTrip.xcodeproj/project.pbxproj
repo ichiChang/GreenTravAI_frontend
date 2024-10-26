@@ -202,6 +202,7 @@
 		101B05132CCA6E4500EF51C3 /* Stops */ = {
 			isa = PBXGroup;
 			children = (
+				FD601C232C3298D1000443BE /* PlanView.swift */,
 				10D38DA52CA96BAF001AE774 /* PlaceDetailView.swift */,
 				FD2865992C70DE7F00C23DC4 /* EditTranspotationView.swift */,
 				FD4768802C35355800C01DA6 /* StopListView.swift */,
@@ -209,7 +210,6 @@
 				10410B5C2C9C04840016662D /* TransportationView.swift */,
 				FD8CD7F02C8AB611003F63AD /* NewStopView.swift */,
 				FD02EB422CBCE51F007CFBD8 /* EditPlanView.swift */,
-				FD601C232C3298D1000443BE /* PlanView.swift */,
 			);
 			path = Stops;
 			sourceTree = "<group>";

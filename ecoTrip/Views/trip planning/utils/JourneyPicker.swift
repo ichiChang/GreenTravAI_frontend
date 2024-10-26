@@ -40,7 +40,7 @@ struct JourneyPicker: View {
             Text(showingDateSelector ? "請選擇日期" : "請選擇旅行計劃")
                 .font(.system(size: 20))
 
-            if showingDateSelector, let plan = viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) {
+            if showingDateSelector, (viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) != nil) {
                 ScrollView {
                     VStack(spacing: 10) {
                         ForEach(viewModel.days) { day in

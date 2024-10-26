@@ -282,7 +282,7 @@ class TravelPlanViewModel: ObservableObject {
                     return
                 }
                 
-                guard let httpResponse = response as? HTTPURLResponse else {
+                guard response is HTTPURLResponse else {
                     completion(false, "Invalid response")
                     return
                 }

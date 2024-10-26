@@ -14,9 +14,6 @@ struct Stop: Codable, Identifiable {
     let EndTime: String
     let Note: String?
     let transportationToNext: Transportation?
-    
-    // Add these fields for geocoded coordinates
-    var latitude: Double?
-    var longitude: Double?
+    let coordinates: [Double]
 }
 

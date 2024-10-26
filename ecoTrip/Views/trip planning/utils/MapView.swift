@@ -3,11 +3,37 @@ import GoogleMaps
 
 struct MapView: View {
     let stops: [Stop]
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        GoogleMapView(stops: stops)
-            .edgesIgnoringSafeArea(.all)
-    }
+        ZStack {
+                  GoogleMapView(stops: stops)
+                      .edgesIgnoringSafeArea(.all)
+                  VStack {
+                      dismissButton
+                      Spacer()
+                  }
+              }
+          }
+    var dismissButton: some View {
+            Button(action: {
+                dismiss()
+            }) {
+                HStack {
+              
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .bold()
+                        .foregroundColor(Color(hex: "838383"))
+                        .background(Circle().foregroundColor(Color(hex: "F5F5F5")).frame(width: 40, height: 40))
+                    Spacer()
+                }
+            }
+            .padding(40)
+        }
+    
+
 }
 
 struct GoogleMapView: UIViewRepresentable {
@@ -16,15 +42,15 @@ struct GoogleMapView: UIViewRepresentable {
     let apiKey = "AIzaSyAMncPb3INeUVKzl3gA8S0DRwgVUUvecwE"
 
     func makeUIView(context: Context) -> GMSMapView {
-        let camera = GMSCameraPosition.camera(withLatitude: 25.0330, longitude: 121.5654, zoom: 10.0)
-        let mapView = GMSMapView(frame: .zero, camera: camera)
+        let mapView = GMSMapView()
         mapView.isMyLocationEnabled = true
+        
+        // 獲取路線
+        fetchDirections(mapView: mapView)
 
-        // 第一步：先顯示所有 stop 的 pin
+        // 顯示所有 stop 的 pin
         addStopPins(mapView: mapView)
         
-        // 第二步：獲取路線並在地圖上畫出來
-        fetchDirections(mapView: mapView)
 
         return mapView
     }
@@ -38,55 +64,93 @@ struct GoogleMapView: UIViewRepresentable {
         // 再次獲取路線並畫出路線
         fetchDirections(mapView: mapView)
     }
+    func imageWithText(text: String) -> UIImage {
+        let font = UIFont.boldSystemFont(ofSize: 14)
+        let textAttributes = [NSAttributedString.Key.font: font]
+        
+        // 根據text的長度調整邊界數值
+        let boundingRect = text.boundingRect(with: CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude),
+                                             options: .usesLineFragmentOrigin,
+                                             attributes: textAttributes,
+                                             context: nil)
+        
+        // 設定label寬度和高度
+        let labelWidth = max(100, ceil(boundingRect.width) + 15)
+        let labelHeight = ceil(boundingRect.height) + 15
+
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: labelHeight))
+        label.backgroundColor = .white
+        label.textColor = .black
+        label.font = font
+        label.textAlignment = .center
+        label.text = text
+        label.layer.cornerRadius = 10
+        label.layer.masksToBounds = true
+        label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.black.cgColor
+
+        // 生成image
+        UIGraphicsBeginImageContextWithOptions(label.frame.size, false, UIScreen.main.scale)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return image!
+    }
+
+    
+    //自定義標記圖像
+    func createCompositeImage(baseImage: UIImage, overlayImage: UIImage, spacing: CGFloat) -> UIImage {
+
+        let width = max(baseImage.size.width, overlayImage.size.width)
+        let height = baseImage.size.height + overlayImage.size.height + spacing
+
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), false, UIScreen.main.scale)
+        
+        let baseImageArea = CGRect(x: (width - baseImage.size.width) / 2, y: overlayImage.size.height + spacing, width: baseImage.size.width, height: baseImage.size.height)
+           let overlayImageArea = CGRect(x: (width - overlayImage.size.width) / 2, y: 0, width: overlayImage.size.width, height: overlayImage.size.height)
+
+
+        baseImage.draw(in: baseImageArea)
+        overlayImage.draw(in: overlayImageArea)
+
+        let combinedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return combinedImage!
+    }
 
     // 添加 stops 的 pin
     func addStopPins(mapView: GMSMapView) {
-        let group = DispatchGroup()
         var bounds = GMSCoordinateBounds()
+        let redMarkerImage = GMSMarker.markerImage(with: .red)
 
-        for stop in stops {
-            group.enter()
-            geocoder.geocodeAddressString(stop.Address) { placemarks, error in
-                defer { group.leave() }
+        for (index, stop) in stops.enumerated() {
+            let latitude = stop.coordinates[1]
+            let longitude = stop.coordinates[0]
+            let customIcon = imageWithText(text: "\(index + 1). \(stop.stopname)")
+            let compositeIcon = createCompositeImage(baseImage: redMarkerImage, overlayImage: customIcon, spacing: 5)
 
-                if let error = error {
-                    print("Geocoding error for \(stop.Address): \(error.localizedDescription)")
-                    return
-                }
 
-                guard let placemark = placemarks?.first, let location = placemark.location else {
-                    print("No valid placemark found for \(stop.Address)")
-                    return
-                }
+            // Add the marker to the map
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            marker.map = mapView
+            marker.icon = compositeIcon
 
-                DispatchQueue.main.async {
-                    // Add the marker to the map
-                    let marker = GMSMarker()
-                    marker.position = location.coordinate
-                    marker.title = stop.stopname
-                    marker.map = mapView
 
-                    // Update the bounds to include this coordinate
-                    bounds = bounds.includingCoordinate(location.coordinate)
-                }
-            }
+            // Update the bounds to include this coordinate
+            bounds = bounds.includingCoordinate(marker.position)
         }
 
-        group.notify(queue: .main) {
-            // Update the camera after all geocoding tasks have finished
-            let update = GMSCameraUpdate.fit(bounds, withPadding: 50)
-            mapView.animate(with: update)
-            print("All pins added and camera updated.")
-        }
+        // Update the camera after all markers have been added
+        let update = GMSCameraUpdate.fit(bounds, withPadding: 100)
+        mapView.moveCamera(update)
+        print("All pins added and camera updated.")
     }
 
 
-
-
-
-
-
-    // 獲取路線並畫出多線段
+    // 獲取路線
     func fetchDirections(mapView: GMSMapView) {
         guard stops.count >= 2 else {
             print("Not enough stops to create a route.")
