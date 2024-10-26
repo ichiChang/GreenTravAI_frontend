@@ -19,7 +19,7 @@ struct TransportationView: View {
     var body: some View {
         HStack {
             Spacer()
-                .frame(width: 30)
+                .frame(width: 40)
             Rectangle()
                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                 .frame(width: 7, height: 40)

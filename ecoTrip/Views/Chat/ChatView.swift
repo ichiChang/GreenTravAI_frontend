@@ -144,27 +144,21 @@ struct ChatView: View {
                 // Input area
                 HStack {
                    
-                    Button(action:
-                            sendMessage) {
-                        Image(systemName: "plus")
-                            .foregroundStyle(.white)
-                            .font(.system(size: 30))
-                            .padding(.top, 5)
-                            .padding(.leading, 5)
-                        
-                    }
+                   
                     
                     TextField("Aa", text: $newMessage)
                         .padding(10)
                         .padding(.leading,10)
                         .background(RoundedRectangle(cornerRadius: 30).fill(Color.init(hex: "F5EFCF", alpha: 1.0)))
-                        .padding(.top, 10)
+                        .padding(.top, 5)
+                        .padding(.leading, 5)
                     
                     Button(action: sendMessage) {
                         Image(systemName: "paperplane")
                             .foregroundStyle(.white)
                             .font(.system(size: 25))
                             .padding(.top, 10)
+                            .padding(.leading, 5)
                             .padding(.trailing ,10)
 
                     }

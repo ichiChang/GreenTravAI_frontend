@@ -52,22 +52,30 @@ struct StopListView: View {
                                     
                     VStack(spacing: 0) {
                         ForEach(Array(localStops.enumerated()), id: \.element.id) { index, stop in
-                            StopView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
-                                .opacity(draggedStop == stop.id ? 0.5 : 1.0)
-                                .onDrag {
-                                    self.draggedStop = stop.id
-                                    withAnimation {
-                                        showTransportation = false  // 開始拖曳時隱藏
+                            HStack(alignment: .center, spacing: 10) {
+                               
+                                    Text("\(index + 1).")
+                                        .font(.system(size: 20, weight: .bold))
+                                        .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                
+                                    
+
+                                StopView(stop: stop, showEditView: $showEditView, selectedPlaceName: $selectedPlaceName)
+                                    .opacity(draggedStop == stop.id ? 0.5 : 1.0)
+                                    .onDrag {
+                                        self.draggedStop = stop.id
+                                        withAnimation {
+                                            showTransportation = false  // 開始拖曳時隱藏
+                                        }
+                                        return NSItemProvider()
                                     }
-                                    return NSItemProvider()
-                                }
-                                .onDrop(of: [.text], delegate: StopDropDelegate(
-                                    destinationStop: stop,
-                                    stops: $localStops,
-                                    draggedStopId: $draggedStop,
-                                    onReorderComplete: sendReorderRequest
-                                ))
-                            
+                                    .onDrop(of: [.text], delegate: StopDropDelegate(
+                                        destinationStop: stop,
+                                        stops: $localStops,
+                                        draggedStopId: $draggedStop,
+                                        onReorderComplete: sendReorderRequest
+                                    ))
+                            }
                             if index < localStops.count - 1 {
                                 Spacer()
                                     .frame(height: 40) // TransportationView 的高度

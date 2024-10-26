@@ -50,7 +50,7 @@ struct PlanView: View {
 
                     
                     Spacer()
-                        .frame(width:40)
+                        .frame(width:50)
 
                 
 //                    Button(action: {

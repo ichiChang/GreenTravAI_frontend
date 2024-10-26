@@ -23,74 +23,58 @@ struct JourneyPicker: View {
     
     var body: some View {
         NavigationStack {
-            Button(action: {
-                showJPicker = false
-            }, label: {
-                HStack{
-                    Image(systemName: "xmark")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
-                    Spacer()
-                }
-                .frame(width: 280)
-            })
-            .padding()
-
-            Text(showingDateSelector ? "請選擇日期" : "請選擇旅行計劃")
-                .font(.system(size: 20))
-
-            if showingDateSelector, (viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) != nil) {
-                ScrollView {
-                    VStack(spacing: 10) {
-                        ForEach(viewModel.days) { day in
-                            DateRowView(day: day, selectedDayId: $selectedDayId)
+            VStack(spacing: 20) {
+                // Close button
+                Button(action: {
+                    showJPicker = false
+                }, label: {
+                    HStack {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color(hex: "8F785C", alpha: 1.0))
+                        Spacer()
+                    }
+                    .frame(width: 280)
+                })
+                .padding()
+                
+                // Title text
+                Text(showingDateSelector ? "請選擇日期" : "請選擇旅行計劃")
+                    .font(.system(size: 20))
+                
+                // Travel plans list or date selector
+                if showingDateSelector, (viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) != nil) {
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(viewModel.days) { day in
+                                DateRowView(day: day, selectedDayId: $selectedDayId)
+                            }
                         }
                     }
-                }
-            } else {
-                // Travel plans list
-                ScrollView {
-                    VStack(spacing: 0) {
-                        if viewModel.isLoading {
-                            ProgressView()
-                        } else if let error = viewModel.error {
-                            Text("Error: \(error)")
-                        } else if viewModel.travelPlans.isEmpty {
-                            Text("No travel plans found")
-                        } else {
-                            ForEach(viewModel.travelPlans) { plan in
-                                Button(action: {
-                                    selectedPlanId = plan.id
-                                    viewModel.selectedTravelPlan = plan
-                                }) {
+                } else {
+                    // Travel plans list
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            if viewModel.isLoading {
+                                ProgressView()
+                            } else if let error = viewModel.error {
+                                Text("Error: \(error)")
+                            } else if viewModel.travelPlans.isEmpty {
+                                Text("No travel plans found")
+                            } else {
+                                ForEach(viewModel.travelPlans) { plan in
                                     PlanRowView2(plan: plan, selectedPlanId: $selectedPlanId)
                                 }
                             }
                         }
                     }
                 }
-            }
-
-            if showingDateSelector && selectedDayId != nil {
-                // Confirm button
-                Button(action: {
-                    addContentToTravelPlan()
-                }) {
-                    Text("添加到旅行計劃")
-                        .bold()
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 40)
-                        .background(Color(hex: "8F785C", alpha: 1.0))
-                        .cornerRadius(15)
-                }
-                .padding()
-            } else {
+                
                 // Confirm button
                 Button(action: {
                     if showingDateSelector && selectedDayId != nil {
-                        showJPicker = false
+                        addContentToTravelPlan()
                     } else {
                         showingDateSelector = true
                         if let planId = selectedPlanId, let token = authViewModel.accessToken {
@@ -158,7 +142,6 @@ struct JourneyPicker: View {
                 "prev_stop": prevStop
             ]
 
-
             viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
                 if success {
                     alertMessage = "成功添加到旅行計劃。是否查看該行程？"
@@ -173,23 +156,6 @@ struct JourneyPicker: View {
     private func showAlert(message: String) {
         alertMessage = message
         showAlert = true
-    }
-
-    private func datesBetween(startDate: String, endDate: String) -> [String] {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        guard let start = formatter.date(from: startDate),
-              let end = formatter.date(from: endDate) else { return [] }
-        
-        var dates = [formatter.string(from: start)]
-        var currentDate = start
-        
-        while currentDate < end {
-            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
-            dates.append(formatter.string(from: currentDate))
-        }
-        
-        return dates
     }
 }
 

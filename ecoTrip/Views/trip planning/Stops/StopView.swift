@@ -47,7 +47,7 @@ struct StopView: View {
             }
             .padding()
         }
-        .frame(width: 330, height: 70)
+        .frame(width: 310, height: 70)
         .background(Color.init(hex: "F5F5F5", alpha: 1.0))
         .cornerRadius(15)
         
