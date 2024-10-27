@@ -26,12 +26,12 @@ struct LowCarbonView: View {
                         ZStack {
                             Circle()
                                 .foregroundColor(.white)
-                                .frame(width: 40, height: 40)
+                                .frame(width: 30, height: 30)
                                 .padding(5)
                             
                             Image(systemName: "heart")
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .frame(width: 15, height: 15)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                                 .bold()
                         }

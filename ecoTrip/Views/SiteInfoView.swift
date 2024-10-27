@@ -16,20 +16,7 @@ struct SiteInfoView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment:.top){
-                
-                
-            if let image = placeModel.image {
-                
-                image
-                    .resizable()
-                    .frame(maxWidth: .infinity)
-                    .frame(maxHeight: 300)
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                
-            }
-            
+             
                 HStack(spacing:0) {
                     Button(action: {
                         dismiss()
@@ -80,14 +67,23 @@ struct SiteInfoView: View {
                         }
                     }
                 }
-                .padding(.top,30)
+                .padding(.top)
                 .padding(.horizontal)
+                .zIndex(1)
+                
+                if let image = placeModel.image {
+                    
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 300)
+                        .clipped()
+                    
+                }
+
 
             }
-            .frame(maxWidth: .infinity)
 
-                
-         
             
             HStack {
                 VStack(alignment: .leading) {
@@ -116,13 +112,13 @@ struct SiteInfoView: View {
                         .cornerRadius(15)
                 }
             }
-            .padding()
+            .padding(.horizontal)
           
             
             Divider()
                 .frame(minHeight: 2)
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                .padding(.bottom,30)
+                .padding(.vertical,30)
             
             Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
                 HStack {
@@ -185,5 +181,4 @@ struct SiteInfoView: View {
     }
     
 }
-
 
