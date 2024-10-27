@@ -16,7 +16,7 @@ struct ecoTripApp: App {
     
     init() {
         // 從配置文件或環境變量讀取 API key
-        if let filePath = Bundle.main.path(forResource: "Config", ofType: "plist"),
+        if let filePath = Bundle.main.path(forResource: "APIkey", ofType: "plist"),
            let plist = NSDictionary(contentsOfFile: filePath),
            let apiKey = plist["GoogleMapsAPIKey"] as? String {
             GMSServices.provideAPIKey(apiKey)

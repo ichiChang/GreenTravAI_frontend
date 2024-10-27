@@ -77,12 +77,13 @@ struct SiteInfoView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(height: 300)
-                        .clipped()
                     
                 }
 
 
             }
+            .ignoresSafeArea()
+            .padding(.bottom)
 
             
             HStack {
