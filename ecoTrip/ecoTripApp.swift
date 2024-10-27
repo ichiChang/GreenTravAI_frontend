@@ -15,8 +15,11 @@ struct ecoTripApp: App {
     @StateObject private var authViewModel = AuthViewModel.shared
     
     init() {
-        GMSServices.provideAPIKey("AIzaSyCsd9YigsuYiAt2G5XSiPGVZL5uJKltUPI")
-        GMSPlacesClient.provideAPIKey("AIzaSyCsd9YigsuYiAt2G5XSiPGVZL5uJKltUPI")
+        // 從配置文件或環境變量讀取 API key
+        if let apiKey = Bundle.main.infoDictionary?["GoogleMapsAPIKey"] as? String {
+            GMSServices.provideAPIKey(apiKey)
+            GMSPlacesClient.provideAPIKey(apiKey)
+        }
     }
     
     var body: some Scene {
@@ -25,6 +28,5 @@ struct ecoTripApp: App {
                 .environmentObject(colorManager)
                 .environmentObject(authViewModel)
         }
-        
     }
 }
