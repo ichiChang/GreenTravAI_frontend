@@ -20,11 +20,10 @@ struct ProfileView: View {
         VStack(alignment:.center) {
             
             HStack {
-                Image("memoji")
+                Image("olivia")
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())
-                     .padding(3)
                      .overlay(
                           Circle()
                               .stroke(Color.black, lineWidth: 3) // 設定外框為黑色，並調整線寬
