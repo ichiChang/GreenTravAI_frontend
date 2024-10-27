@@ -76,7 +76,7 @@ struct ProfileView: View {
                if selectedIcon == .suitcase {
                    SuitcaseView()
                } else if selectedIcon == .leaf {
-                   LeafView()
+                   LeafView(userViewModel: userViewModel)
                } else if selectedIcon == .heart {
                    HeartView()
                }
@@ -122,11 +122,5 @@ struct IconView: View {
         case .heart:
             return "heart"
         }
-    }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
     }
 }
