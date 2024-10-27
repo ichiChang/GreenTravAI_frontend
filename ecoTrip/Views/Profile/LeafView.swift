@@ -20,7 +20,7 @@ struct LeafView: View {
                         .padding(.top)
                     
                     
-                    Text("\(userViewModel.emissionReduction) 克")
+                    Text("\(Int(userViewModel.emissionReduction)) 克")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                         .padding()
@@ -38,29 +38,29 @@ struct LeafView: View {
                     
                     
                     VStack(alignment: .leading) {
-                        Text("3,000 克二氧化碳相當於")
+                        Text("\(Int(userViewModel.emissionReduction)) 克二氧化碳相當於")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
                         
                         // 減少碳排放的相等項目
                         VStack(alignment:.center) {
-                            ItemRow(iconName: "car.fill", description: "駕駛汽油車 20 km 的碳排放")
+                            ItemRow(iconName: "car.fill", description: "駕駛汽油車 \(userViewModel.emissionReduction/150) km 的碳排放")
                             Divider()
                                 .frame(minHeight: 1)
                                 .frame(width: 320)
                                 .overlay(Color.init(hex: "999999", alpha: 1.0))
-                            ItemRow(iconName: "tree.fill", description: "21 平方公尺的森林一年內在大氣中所移除的二氧化碳")
+                            ItemRow(iconName: "tree.fill", description: "\(userViewModel.emissionReduction/207.5) 平方公尺的森林一年內在大氣中所移除的二氧化碳")
                             Divider()
                                 .frame(minHeight: 1)
                                 .frame(width: 320)
                                 .overlay(Color.init(hex: "999999", alpha: 1.0))
-                            ItemRow(iconName: "lightbulb.max.fill", description: "一個 9W LED 燈泡使用 8 小時 的碳排放")
+                            ItemRow(iconName: "lightbulb.max.fill", description: "一個 9W LED 燈泡使用 \(userViewModel.emissionReduction/4.75) 小時 的碳排放")
                             Divider()
                                 .frame(minHeight: 1)
                                 .frame(width: 320)
                                 .overlay(Color.init(hex: "999999", alpha: 1.0))
-                            ItemRow(iconName: "waterbottle.fill", description: "減少生產 8 個 500ml 的 PET 寶特瓶")
+                            ItemRow(iconName: "waterbottle.fill", description: "減少生產 \(userViewModel.emissionReduction/82.8) 個 500ml 的 PET 寶特瓶")
                         }
                     }
                     .padding()
@@ -103,6 +103,11 @@ struct LeafView: View {
                     
                     Spacer()
                         .frame(height: 40)
+                }
+            }
+            .onAppear {
+                if let token = authViewModel.accessToken {
+                    userViewModel.fetchEcoContribution(token: token)
                 }
             }
         }

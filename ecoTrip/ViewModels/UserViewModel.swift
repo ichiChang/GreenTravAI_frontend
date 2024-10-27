@@ -9,9 +9,9 @@ import SwiftUI
 import Combine
 
 struct EcoContribution: Codable {
-    let emission_reduction: Int
-    let green_spot_rate: Int
-    let green_trans_rate: Int
+    let emission_reduction: Double
+    let green_spot_rate: Double
+    let green_trans_rate: Double
 }
 class UserViewModel: ObservableObject {
     @Published var user: User?
@@ -19,9 +19,9 @@ class UserViewModel: ObservableObject {
     @Published var isLoading = false
     
     // Add new properties for eco contribution
-    @Published var emissionReduction: Int = 0
-    @Published var greenSpotRate: CGFloat = 0
-    @Published var greenTransRate: CGFloat = 0
+    @Published var emissionReduction: Double = 0
+    @Published var greenSpotRate: Double = 0
+    @Published var greenTransRate: Double = 0
     
     private var cancellables = Set<AnyCancellable>()
     
