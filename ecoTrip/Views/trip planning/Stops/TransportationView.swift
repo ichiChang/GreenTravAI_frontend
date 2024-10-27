@@ -55,7 +55,7 @@ struct TransportationView: View {
         }
         .frame(width: 300)
         .fullScreenCover(isPresented: $navigateToEdit) {
-            EditTranspotationView(
+            EditTransportationView(
                 fromStopId: fromStopId,
                 toStopId: toStopId,
                 fromStopName: fromStopName,

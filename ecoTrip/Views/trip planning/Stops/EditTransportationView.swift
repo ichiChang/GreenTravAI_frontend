@@ -1,5 +1,5 @@
 //
-//  ChangeRideView.swift
+//  EditTransportationView.swift
 //  ecoTrip
 //
 //  Created by 陳萭鍒 on 2024/8/17.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct EditTranspotationView: View {
-    @StateObject private var viewModel = TransportationViewModel()
+struct EditTransportationView: View {
+    @StateObject private var transportationViewModel = TransportationViewModel()
     @State private var selectedIndex: Int? = nil
     @Environment(\.dismiss) var dismiss
     @State private var showAlert = false
@@ -89,11 +89,11 @@ struct EditTranspotationView: View {
             .padding(.bottom)
             
             // 交通工具
-            if viewModel.isLoading {
+            if transportationViewModel.isLoading {
                 ProgressView()
             } else {
-                ForEach(viewModel.transportationModes.indices, id: \.self) { index in
-                    let mode = viewModel.transportationModes[index]
+                ForEach(transportationViewModel.transportationModes.indices, id: \.self) { index in
+                    let mode = transportationViewModel.transportationModes[index]
                     VStack {
                         HStack {
                             Image(systemName: getTransportationIcon(for: mode.mode))
@@ -101,9 +101,18 @@ struct EditTranspotationView: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                             
-                            Text("\(mode.timeSpent) 分鐘")
-                                .frame(maxWidth: 70, alignment: .trailing)
-                                .padding(.horizontal)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("\(mode.timeSpent) 分鐘")
+                                    .font(.system(size: 16, weight: .medium))
+                                
+                                if mode.emissionReduction > 0 {
+                                    Text("減少 \(mode.emissionReduction) 克碳排放")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.green)
+                                }
+                            }
+                            .frame(maxWidth: 160, alignment: .leading)
+                            .padding(.horizontal)
                             
                             Spacer()
                             
@@ -119,7 +128,7 @@ struct EditTranspotationView: View {
                         .frame(width: 320)
                         .padding(10)
                     }
-                    if index < viewModel.transportationModes.count - 1 {
+                    if index < transportationViewModel.transportationModes.count - 1 {
                         Divider()
                             .frame(minHeight: 2)
                             .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
@@ -131,8 +140,8 @@ struct EditTranspotationView: View {
             
             Button(action: {
                 if let selectedIndex = selectedIndex {
-                    let selectedMode = viewModel.transportationModes[selectedIndex]
-                    viewModel.updateTransportation(fromStopId: fromStopId, mode: selectedMode.mode, timeSpent: selectedMode.timeSpent, token: token) { success in
+                    let selectedMode = transportationViewModel.transportationModes[selectedIndex]
+                    transportationViewModel.updateTransportation(fromStopId: fromStopId, mode: selectedMode.mode, timeSpent: selectedMode.timeSpent, token: token) { success in
                         if success {
                             alertMessage = "交通方式更新成功"
                         } else {
@@ -160,7 +169,7 @@ struct EditTranspotationView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            viewModel.fetchTransportations(fromStopId: fromStopId, toStopId: toStopId, token: token)
+            transportationViewModel.fetchTransportations(fromStopId: fromStopId, toStopId: toStopId, token: token)
         }
     }
     

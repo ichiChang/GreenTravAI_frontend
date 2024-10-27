@@ -8,52 +8,61 @@
 import SwiftUI
 
 struct LeafView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @ObservedObject var userViewModel: UserViewModel
     @State private var ecoPercentage: CGFloat = 80
-    @State private var piePercentage1: CGFloat = 83
-    @State private var piePercentage2: CGFloat = 68
-    @State private var progressBarPercentage: CGFloat = 42
-
+    
     var body: some View {
-        VStack(alignment:.center) {
-            Text("您的環保程度已超越\(Int(ecoPercentage))%用戶！")
-                .bold()
-                .font(.system(size: 23))
-            Spacer()
-                .frame(height:60)
-            
-            HStack(spacing:30){
-                VStack{
-                    PieChart(percentage: piePercentage1)
-                        .frame(width: 120, height: 120)
-                    Text("選擇大眾運輸比例")
-                        .bold()
-                        .font(.system(size: 18))
-                        .padding(.vertical)
+        VStack(alignment: .center) {
+            if userViewModel.isLoading {
+                ProgressView()
+            } else if let error = userViewModel.error {
+                Text(error)
+                    .foregroundColor(.red)
+            } else {
+                Text("您的環保程度已超越\(Int(ecoPercentage))%用戶！")
+                    .bold()
+                    .font(.system(size: 23))
+                
+                Spacer()
+                    .frame(height: 60)
+                
+                HStack(spacing: 30) {
+                    VStack {
+                        PieChart(percentage: userViewModel.greenTransRate)
+                            .frame(width: 120, height: 120)
+                        Text("選擇低碳排交通方式比例")
+                            .bold()
+                            .font(.system(size: 18))
+                            .padding(.vertical)
+                    }
                     
-                    
+                    VStack {
+                        PieChart(percentage: userViewModel.greenSpotRate)
+                            .frame(width: 120, height: 120)
+                        Text("選擇綠色景點比例")
+                            .bold()
+                            .font(.system(size: 18))
+                            .padding(.vertical)
+                    }
                 }
                 
-                VStack{
-                    PieChart(percentage: piePercentage2)
-                        .frame(width: 120, height: 120)
-                    Text("選擇綠色景點比例")
-                        .bold()
-                        .font(.system(size: 18))
-                        .padding(.vertical)
-                }
+                Spacer()
+                    .frame(height: 40)
+                
+                ProgressBar(percentage: min(CGFloat(userViewModel.emissionReduction) / 10, 100))
+                    .frame(width: 300, height: 20)
+                
+                Text("減少了 \(userViewModel.emissionReduction) 克碳排放")
+                    .bold()
+                    .font(.system(size: 18))
+                    .padding(.top)
             }
-            
-            Spacer()
-                .frame(height:40)
-            
-            
-            ProgressBar(percentage: progressBarPercentage)
-                .frame(width: 300, height: 20) // Adjust size as needed
-            
-            Text("規劃的行程所降低的碳排放量")
-                .bold()
-                .font(.system(size: 18))
-                .padding(.top)
+        }
+        .onAppear {
+            if let token = authViewModel.accessToken {
+                userViewModel.fetchEcoContribution(token: token)
+            }
         }
     }
 }
@@ -104,9 +113,4 @@ struct ProgressBar: View {
               .padding(.leading, 5)  // Space between the bar and the text
         }
     }
-}
-
-
-#Preview {
-    LeafView()
 }

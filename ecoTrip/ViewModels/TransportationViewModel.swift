@@ -1,5 +1,5 @@
 //
-//  TranspotationViewModel.swift
+//  TransportationViewModel.swift
 //  ecoTrip
 //
 //  Created by Ichi Chang on 2024/10/20.
@@ -12,6 +12,7 @@ struct TransportationMode: Identifiable {
     let id = UUID()
     let mode: String
     let timeSpent: Int
+    let emissionReduction: Int
 }
 
 class TransportationViewModel: ObservableObject {
@@ -36,7 +37,7 @@ class TransportationViewModel: ObservableObject {
         
         URLSession.shared.dataTaskPublisher(for: request)
             .map(\.data)
-            .decode(type: [String: Int].self, decoder: JSONDecoder())
+            .decode(type: [String: [String: Int]].self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 self.isLoading = false
@@ -47,7 +48,13 @@ class TransportationViewModel: ObservableObject {
                     self.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] response in
-                self?.transportationModes = response.map { TransportationMode(mode: $0.key, timeSpent: $0.value) }
+                self?.transportationModes = response.map {
+                    TransportationMode(
+                        mode: $0.key,
+                        timeSpent: $0.value["Timespent"] ?? 0,
+                        emissionReduction: $0.value["emission_reduction_amount"] ?? 0
+                    )
+                }
             }
             .store(in: &cancellables)
     }
