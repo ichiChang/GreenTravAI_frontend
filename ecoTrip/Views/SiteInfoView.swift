@@ -13,6 +13,24 @@ struct SiteInfoView: View {
     @Environment(\.dismiss) var dismiss
     let placeModel: PlaceModel
     
+    private let lowCarbonPlaces: [PlaceModel] = [
+        PlaceModel(
+            id: "1",
+            name: "BaganHood 蔬食餐酒館",
+            address: "110台北市信義區忠孝東路四段553巷46弄11號",
+            phoneNumber: "02 3762 2557", website: "https://www.thefuturetw.com/", image: Image("parkImage"),
+            currentOpeningHours: "星期日    11:30–16:00, 17:00–22:00 "
+        ),
+        PlaceModel(
+            id: "2",
+            name: "Eco-Friendly Cafe",
+            address: "456 Eco Rd",
+            phoneNumber: "098-765-4321", website: "https://ecofriendlycafe.com",
+            currentOpeningHours: "8:00 AM - 5:00 PM"
+        )
+        // Add more entries as needed
+    ]
+    
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topLeading) {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMaps
 
 struct PlanView: View {
     @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
@@ -21,6 +22,8 @@ struct PlanView: View {
     @State private var hasExistingSchedule: Bool = false
     @State private var selectedDate: Date = Date()
     @State private var showMapView = false
+    
+
 
     var body: some View {
         NavigationView {
@@ -68,9 +71,9 @@ struct PlanView: View {
                         showMapView.toggle()
                     }, label: {
                        
-                            Image(systemName: "location.circle")
+                            Image(systemName: "map.fill")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 30))
+                                .font(.system(size: 25))
                   
                         
                     })
@@ -93,7 +96,7 @@ struct PlanView: View {
                             .cornerRadius(20)
                        
                     })
-                    .padding(.trailing,5)
+                    .padding(.trailing,10)
                     .padding(.bottom,5)
 
 

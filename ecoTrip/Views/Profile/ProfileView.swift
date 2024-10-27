@@ -17,44 +17,46 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                
-                Spacer()
-             
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.init(hex: "5E845B", alpha: 1.0))
+        VStack(alignment:.center) {
             
             HStack {
-                Image("bulldog")
-                     .resizable()
-                     .scaledToFill()
-                     .frame(width: 70, height: 70)
-                     .clipShape(Circle())
-                     .padding()
-                   
-            
-                   
-             
+                Image("olivia")
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                     .overlay(
+                          Circle()
+                              .stroke(Color.black, lineWidth: 3) // 設定外框為黑色，並調整線寬
+                      )
+                     .frame(width:90,height:90)
+                     .padding(.horizontal)
+
                 if userViewModel.isLoading {
                     ProgressView()
                 } else if let error = userViewModel.error {
                     Text(error)
                         .foregroundColor(.red)
                 } else if let user = userViewModel.user {
-                    Text(user.username)
-                        .bold()
-                        .font(.system(size: 25))
-                        .foregroundColor(.black)
+                    VStack(alignment:.leading,spacing: 10){
+                        Text("Olivia Lin")
+                            .bold()
+                            .font(.system(size: 25))
+                            .foregroundColor(.black)
+                        
+                        Text("olivia1839")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 15))
+                        + Text("@gmail.com")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 15))
+                    }
                 } else {
                     Text("User not found")
                         .foregroundColor(.gray)
                 }
                 Spacer()
             }
-            .padding(.horizontal)
+            .padding()
 
 
 
