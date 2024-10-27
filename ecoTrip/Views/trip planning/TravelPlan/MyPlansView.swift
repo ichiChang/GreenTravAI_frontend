@@ -70,7 +70,7 @@ struct MyPlansView: View {
                     .background(Color(hex: "8F785C", alpha: 1.0))
                     .cornerRadius(15)
             }
-            .padding(10)
+            .padding(.bottom,30)
             .fullScreenCover(isPresented: $showPlanView) {
                 if let _ = selectedPlanId {
                     PlanView()

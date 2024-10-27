@@ -60,7 +60,7 @@ struct CustomTabs: View {
 
     var body: some View {
    
-        HStack(alignment: .bottom, spacing: 10) {
+        HStack(alignment: .bottom, spacing: 30) {
             Button(action: {
                 self.index = 0
                 // Reset other views and ensure SearchView is visible
@@ -70,7 +70,6 @@ struct CustomTabs: View {
                 Image(index == 0 ? "searchGreen" : "searchWhite")
                     .resizable()
                     .frame(width: 35, height: 35)
-                    .padding(10)
             })
 
             // Other buttons should also reset showSearchView when they are active
@@ -82,7 +81,6 @@ struct CustomTabs: View {
                 Image(index == 1 ? "squareGreen" : "square")
                     .resizable()
                     .frame(width: 40, height: 40)
-                    .padding(10)
             })
 
             Button(action: {
@@ -93,7 +91,6 @@ struct CustomTabs: View {
                 Image(systemName: "suitcase")
                     .resizable()
                     .frame(width: 35, height: 35)
-                    .padding(10)
                     .foregroundColor(index == 2 ? Color(hex: "B1D1A9", alpha: 1.0) : .white)
             
             })
@@ -106,8 +103,7 @@ struct CustomTabs: View {
             }, label: {
                 Image(index == 3 ? "agent" : "agent")
                     .resizable()
-                    .frame(width: 40, height: 40)
-                    .padding(10)
+                    .frame(width: 42, height: 42)
             })
 
             Button(action: {
@@ -117,12 +113,12 @@ struct CustomTabs: View {
             }, label: {
                 Image(index == 4 ? "userInfogreen" : "UserInfo")
                     .resizable()
-                    .frame(width: 40, height: 40)
-                    .padding(10)
+                    .frame(width: 45, height: 45)
             })
+
         }
         .frame(maxWidth: .infinity)
-        .padding()
+        .padding(10)
         .background(Color(hex: "5E845B"))
         .navigationBarBackButtonHidden(true)
 

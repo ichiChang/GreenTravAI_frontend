@@ -10,11 +10,13 @@ import SwiftUI
 struct SearchView: View{
     @State private var searchText = ""
     @Binding var index1: Int
+    @State private var navigateToLowCarbon = true
     @State private var navigateToSiteInfo = false
     @State private var showres = false
     @State private var showaccom = false
     @StateObject private var mapViewModel = MapViewModel()
     
+   
     var body: some View{
         NavigationView  {
             VStack(alignment: .center) {
@@ -46,6 +48,7 @@ struct SearchView: View{
                 // Button section
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
+                        categoryButton(title: "低碳", systemName: "carbon.dioxide.cloud.fill", index: 4)
                         categoryButton(title: "附近", systemName: "mappin.and.ellipse", index: 0)
                         categoryButton(title: "餐廳", systemName: "fork.knife", index: 1)
                         categoryButton(title: "住宿", systemName: "bed.double.fill", index: 2)
@@ -54,7 +57,9 @@ struct SearchView: View{
                     .padding(.horizontal)
                 }
                 
-                if mapViewModel.isLoading {
+                if navigateToLowCarbon {
+                    LowCarbonListView()
+                } else if mapViewModel.isLoading {
                     ProgressView("正在載入地點...")
                         .padding()
                 } else if mapViewModel.searchResults.isEmpty {
@@ -71,23 +76,30 @@ struct SearchView: View{
                 Spacer()
             }
         }
+        .onAppear {
+            index1 = 4 // Default to "低碳"
+        }
     }
     private func categoryButton(title: String, systemName: String, index: Int) -> some View {
         Button(action: {
             self.index1 = index
-            switch index {
-            case 0:
-                mapViewModel.searchNearbyPlaces()
-            case 1:
-                mapViewModel.searchPlaces(query: "餐廳")
-            case 2:
-                mapViewModel.searchPlaces(query: "住宿")
-            case 3:
-                mapViewModel.searchPlaces(query: "超市")
-            default:
-                break
-            }
-        }) {
+            if index == 4 {
+                navigateToLowCarbon = true
+            }else{
+                navigateToLowCarbon = false
+                switch index {
+                case 0:
+                    mapViewModel.searchNearbyPlaces()
+                case 1:
+                    mapViewModel.searchPlaces(query: "餐廳")
+                case 2:
+                    mapViewModel.searchPlaces(query: "住宿")
+                case 3:
+                    mapViewModel.searchPlaces(query: "超市")
+                default:
+                    break
+                }
+            }}) {
             HStack {
                 Image(systemName: systemName)
                     .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
