@@ -13,28 +13,24 @@ struct SiteInfoView: View {
     @Environment(\.dismiss) var dismiss
     let placeModel: PlaceModel
     
-    private let lowCarbonPlaces: [PlaceModel] = [
-        PlaceModel(
-            id: "1",
-            name: "BaganHood 蔬食餐酒館",
-            address: "110台北市信義區忠孝東路四段553巷46弄11號",
-            phoneNumber: "02 3762 2557", website: "https://www.thefuturetw.com/", image: Image("parkImage"),
-            currentOpeningHours: "星期日    11:30–16:00, 17:00–22:00 "
-        ),
-        PlaceModel(
-            id: "2",
-            name: "Eco-Friendly Cafe",
-            address: "456 Eco Rd",
-            phoneNumber: "098-765-4321", website: "https://ecofriendlycafe.com",
-            currentOpeningHours: "8:00 AM - 5:00 PM"
-        )
-        // Add more entries as needed
-    ]
-    
     var body: some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .topLeading) {
-                HStack {
+            ZStack(alignment:.top){
+                
+                
+            if let image = placeModel.image {
+                
+                image
+                    .resizable()
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: 300)
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                
+            }
+            
+                HStack(spacing:0) {
                     Button(action: {
                         dismiss()
                     }) {
@@ -42,7 +38,7 @@ struct SiteInfoView: View {
                             Circle()
                                 .foregroundColor(.white)
                                 .frame(width: 35, height: 35)
-                                .padding()
+                                .padding(10)
                             
                             Image(systemName: "chevron.left")
                                 .resizable()
@@ -59,22 +55,23 @@ struct SiteInfoView: View {
                             Circle()
                                 .foregroundColor(.white)
                                 .frame(width: 35, height: 35)
-                                .padding()
-                            Image(systemName: "location.fill")
+                                .padding(10)
+                            Image(systemName: "map.fill")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
                                 .bold()
                         }
                     }
+                    
                     Button(action: {
                         placeViewModel.toggleFavorite(for: placeModel.id)
                     }) {
                         ZStack {
                             Circle()
                                 .foregroundColor(.white)
-                                .frame(width:40,height: 40)
-                                .padding(5)
+                                .frame(width:35,height: 35)
+                                .padding(10)
                             Image(systemName: placeViewModel.favorites[placeModel.id, default: false] ? "heart.fill" : "heart")
                                 .resizable()
                                 .frame(width:20,height: 20)
@@ -83,22 +80,14 @@ struct SiteInfoView: View {
                         }
                     }
                 }
+                .padding(.top,30)
                 .padding(.horizontal)
+
             }
             .frame(maxWidth: .infinity)
-            .background(Color.init(hex: "5E845B", alpha: 1.0))
+
                 
-                
-                
-            if let image = placeModel.image {
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.gray)
-                    .ignoresSafeArea()
-                
-            }
-            
+         
             
             HStack {
                 VStack(alignment: .leading) {
@@ -133,17 +122,15 @@ struct SiteInfoView: View {
             Divider()
                 .frame(minHeight: 2)
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                .padding(.bottom)
+                .padding(.bottom,30)
             
             Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
                 HStack {
                     Image(systemName: "globe")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(10)
-                        .foregroundColor(Color(hex: "444444"))
+                        .padding(.horizontal)                     .foregroundColor(Color(hex: "444444"))
                     Text(getDomainPrefix(from: placeModel.website!))
-                        .foregroundColor(Color(hex: "444444"))
                     Spacer()
                 }
             }
@@ -151,6 +138,7 @@ struct SiteInfoView: View {
             
             Divider()
                 .frame(minHeight: 2)
+                .frame(width: 330)
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding()
             
@@ -158,8 +146,7 @@ struct SiteInfoView: View {
                 Image(systemName: "phone.fill")
                     .resizable()
                     .frame(width: 25, height: 25)
-                    .padding(10)
-                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    .padding(.horizontal)                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                 Text(placeModel.phoneNumber!) // TODO: 電話
                     .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                 Spacer()
@@ -168,22 +155,22 @@ struct SiteInfoView: View {
             
             Divider()
                 .frame(minHeight: 2)
+                .frame(width: 330)
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding()
             
-            ScrollView {
+     
                 HStack {
                     Image(systemName: "clock")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(10)
-                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                        .padding(.horizontal)                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Text(placeModel.currentOpeningHours ?? "暫時營業時間")
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Spacer()
                 }
                 .padding(.horizontal)
-            }
+            
             
             Spacer()
         }
