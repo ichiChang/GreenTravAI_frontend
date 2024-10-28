@@ -78,6 +78,7 @@ class UserViewModel: ObservableObject {
                 if httpResponse.statusCode != 200 {
                     throw URLError(.badServerResponse)
                 }
+                
                 return output.data
             }
             .decode(type: EcoContribution.self, decoder: JSONDecoder())

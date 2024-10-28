@@ -16,7 +16,7 @@ struct SiteInfoView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment:.top){
-             
+                
                 HStack(spacing:0) {
                     Button(action: {
                         dismiss()
@@ -79,12 +79,12 @@ struct SiteInfoView: View {
                         .frame(height: 300)
                     
                 }
-
-
+                
+                
             }
             .ignoresSafeArea()
             .padding(.bottom)
-
+            
             
             HStack {
                 VStack(alignment: .leading) {
@@ -114,14 +114,14 @@ struct SiteInfoView: View {
                 }
             }
             .padding(.horizontal)
-          
+            
             
             Divider()
                 .frame(minHeight: 2)
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding(.vertical,30)
             
-            Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
+            Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.google.com")!) {
                 HStack {
                     Image(systemName: "globe")
                         .resizable()
@@ -143,8 +143,9 @@ struct SiteInfoView: View {
                 Image(systemName: "phone.fill")
                     .resizable()
                     .frame(width: 25, height: 25)
-                    .padding(.horizontal)                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                Text(placeModel.phoneNumber!) // TODO: 電話
+                    .padding(.horizontal)
+                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                Text(placeModel.phoneNumber ?? "未有電話資訊")
                     .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                 Spacer()
             }
@@ -156,17 +157,20 @@ struct SiteInfoView: View {
                 .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                 .padding()
             
-     
+            
+            ScrollView {
                 HStack {
                     Image(systemName: "clock")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(.horizontal)                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                    Text(placeModel.currentOpeningHours ?? "暫時營業時間")
+                        .padding(.horizontal)
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    Text(placeModel.currentOpeningHours ?? "未有營業時間資訊")
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Spacer()
                 }
                 .padding(.horizontal)
+            }
             
             
             Spacer()
