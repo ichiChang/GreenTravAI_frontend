@@ -33,6 +33,7 @@ struct PlaceChoice: View {
                     
                     TextField("請輸入地點名稱", text: $searchText)
                         .padding()
+                        .font(.system(size: 15))
                         .frame(width: 300, height:35)
                         .background(Color(hex: "E8E8E8"))
                         .cornerRadius(20)

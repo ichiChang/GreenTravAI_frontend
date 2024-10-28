@@ -23,8 +23,8 @@ struct SearchView: View{
                 HStack {
                     Spacer()
                 }
+                .frame(height:40)
                 .frame(maxWidth: .infinity)
-                .padding()
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
                 
                 // Search bar
@@ -36,6 +36,7 @@ struct SearchView: View{
                     
                     // Text field
                     TextField("搜尋地點", text: $searchText)
+                        .font(.system(size: 15))
                         .onChange(of: searchText) { newValue in
                             mapViewModel.searchPlaces(query: newValue)
                         }
@@ -61,10 +62,12 @@ struct SearchView: View{
                     LowCarbonListView()
                 } else if mapViewModel.isLoading {
                     ProgressView("正在載入地點...")
+                        .font(.system(size: 15))
                         .padding()
                 } else if mapViewModel.searchResults.isEmpty {
                     Text("沒有找到地點")
                         .foregroundColor(.gray)
+                        .font(.system(size: 15))
                         .padding()
                 } else {
                     ScrollView {

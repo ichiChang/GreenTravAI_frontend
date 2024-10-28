@@ -69,7 +69,7 @@ struct CustomTabs: View {
             }, label: {
                 Image(index == 0 ? "searchGreen" : "searchWhite")
                     .resizable()
-                    .frame(width: 35, height: 35)
+                    .frame(width: 40, height: 40)
             })
 
             // Other buttons should also reset showSearchView when they are active
@@ -113,7 +113,7 @@ struct CustomTabs: View {
             }, label: {
                 Image(index == 4 ? "userInfogreen" : "UserInfo")
                     .resizable()
-                    .frame(width: 45, height: 45)
+                    .frame(width: 43, height: 43)
             })
 
         }

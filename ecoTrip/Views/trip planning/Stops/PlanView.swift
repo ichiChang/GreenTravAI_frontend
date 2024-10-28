@@ -34,26 +34,36 @@ struct PlanView: View {
                         dismiss()
                     }, label: {
                         Image(systemName: "chevron.left")
+                            .bold()
                             .foregroundStyle(.white)
-                            .font(.system(size: 30))
+                            .frame(width: 30, height: 30)
                     })
                     .padding(.horizontal)
                     .padding(.bottom,5)
-
                     
+                    Button(action: {
+             
+                    }, label: {
+                        Image("agent")
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                            .cornerRadius(20)
+                       
+                    })
+                    .opacity(0)
+                    .padding(.trailing,10)
+
                     Spacer()
-                        .frame(width:90)
                     
                     Text(travelPlanViewModel.selectedTravelPlan!.planname)
                         .foregroundStyle((.white))
                         .font(.system(size: 20))
                         .bold()
                         .padding(.bottom,5)
+                        .frame(alignment: .center)
 
-
-                    
                     Spacer()
-                        .frame(width:50)
+                    
 
                 
 //                    Button(action: {
@@ -72,13 +82,14 @@ struct PlanView: View {
                     }, label: {
                        
                             Image(systemName: "map.fill")
+                                .resizable()
                                 .foregroundStyle(.white)
-                                .font(.system(size: 25))
-                  
+                                .frame(width: 25, height: 25)
+
                         
                     })
+                    .padding(.trailing,5)
                     .padding(.bottom,5)
-
                   .sheet(isPresented: $showMapView) {
                     if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
                         MapView(stops: dayStops.stops)
