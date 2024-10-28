@@ -67,11 +67,13 @@ struct SiteInfoView: View {
                         }
                     }
                 }
+
                 .padding()
                 .padding(.bottom)
                 .background(Color.init(hex: "5E845B", alpha: 1.0))
             }
             .frame(height:50)
+
             
             if let image = placeModel.image {
                 
@@ -84,8 +86,8 @@ struct SiteInfoView: View {
                 
                 
             }
+
             ScrollView{
-                
                 
                 HStack {
                     VStack(alignment: .leading) {
@@ -149,6 +151,7 @@ struct SiteInfoView: View {
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Spacer()
                 }
+
                 .padding(.horizontal)
                 
                 Divider()
@@ -157,13 +160,14 @@ struct SiteInfoView: View {
                     .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                     .padding()
                 
-                
+            
                 HStack {
                     Image(systemName: "clock")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(.horizontal)                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                    Text(placeModel.currentOpeningHours ?? "暫時營業時間")
+                        .padding(.horizontal)
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    Text(placeModel.currentOpeningHours ?? "未有營業時間資訊")
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Spacer()
                 }
@@ -174,6 +178,7 @@ struct SiteInfoView: View {
                 
             }
             .navigationBarBackButtonHidden(true)
+
         }
     }
     private func getDomainPrefix(from urlString: String) -> String {
