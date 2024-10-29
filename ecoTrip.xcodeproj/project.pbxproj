@@ -57,6 +57,7 @@
 		FD8C9E4C2C03278B00C5BBF0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */; };
 		FD8C9E4E2C03281400C5BBF0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C9E4D2C03281400C5BBF0 /* File.swift */; };
 		FD8CD7F12C8AB611003F63AD /* NewStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8CD7F02C8AB611003F63AD /* NewStopView.swift */; };
+		FD8EA53F2CD083AA00EEA5C5 /* LowCarbonSiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8EA53E2CD083A900EEA5C5 /* LowCarbonSiteInfoView.swift */; };
 		FD9341C32CA53A9B00C71DDA /* JourneyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */; };
 		FD9879AD2CCDE88700584F50 /* LowCarbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9879AC2CCDE88700584F50 /* LowCarbonView.swift */; };
 		FD9DCF8F2C3BE0090044C14B /* PlaceChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */; };
@@ -145,6 +146,7 @@
 		FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		FD8C9E4D2C03281400C5BBF0 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		FD8CD7F02C8AB611003F63AD /* NewStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStopView.swift; sourceTree = "<group>"; };
+		FD8EA53E2CD083A900EEA5C5 /* LowCarbonSiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowCarbonSiteInfoView.swift; sourceTree = "<group>"; };
 		FD9341C22CA53A7E00C71DDA /* JourneyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyPicker.swift; sourceTree = "<group>"; };
 		FD9879AC2CCDE88700584F50 /* LowCarbonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowCarbonView.swift; sourceTree = "<group>"; };
 		FD9DCF8E2C3BE0090044C14B /* PlaceChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceChoice.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				FD7090702C2F00E500209E72 /* SiteInfoView.swift */,
 				FDA587822C3190F0000EFB2C /* SearchView.swift */,
 				FD9879AC2CCDE88700584F50 /* LowCarbonView.swift */,
+				FD8EA53E2CD083A900EEA5C5 /* LowCarbonSiteInfoView.swift */,
 				FD5162BC2C898C5400CF0A9B /* OtherAppsView.swift */,
 				FD3F3C7D2C56856800879509 /* Chat */,
 				FD4D02552C3BDEE30037F969 /* trip planning */,
@@ -583,6 +586,7 @@
 				FDC172932C58C9FE00706856 /* ChatAccom.swift in Sources */,
 				FD5162BD2C898C5400CF0A9B /* OtherAppsView.swift in Sources */,
 				108C00DC2C5FAD6700A40CA0 /* UserViewModel.swift in Sources */,
+				FD8EA53F2CD083AA00EEA5C5 /* LowCarbonSiteInfoView.swift in Sources */,
 				FD28659A2C70DE7F00C23DC4 /* EditTransportationView.swift in Sources */,
 				FD1D0F792C3D72A6002704D6 /* DatePick.swift in Sources */,
 			);

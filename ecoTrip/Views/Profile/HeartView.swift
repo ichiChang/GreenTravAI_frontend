@@ -58,11 +58,17 @@ struct HeartView: View {
                     // 按鈕動作
                 }, label: {
                     HStack {
-                        Image(.greenlabel2)
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.black)
-                            .padding(10)
+                        ZStack {
+                            Circle()  // 白色圓形背景
+                                .foregroundColor(.white)
+                                .frame(width: 30, height: 30)
+                            
+                            Image(systemName: "leaf.circle")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                        }
+                        .padding(10)
                         
                         Spacer()
                     }

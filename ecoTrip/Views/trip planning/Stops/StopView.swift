@@ -11,17 +11,34 @@ struct StopView: View {
     let stop: Stop
     @Binding var showEditView: Bool
     @Binding var selectedPlaceName: String
-    
+    let lowCarbonPlaces = ["臺北市立動物園", "Blue磚塊廚房", "陽明山國家公園", "臺大農場農藝分場", "meet蘋果咖啡館", "Chinese Whispers 悄悄話餐酒館", "Chao 炒炒蔬食熱炒", "福華國際文教會館", "小公館人文旅舍", "初點良食 Dim sum shop", "臺北典藏植物園", "芝山文化生態綠園"]
+
     var body: some View {
 
         HStack {
             VStack(alignment: .leading) {
-                Text(stop.stopname)
-                    .bold()
-                    .font(.system(size: 20))
-                    .padding(.top, 10)
-                    .padding(.leading, 10)
-                    .padding(.bottom, 3)
+                HStack(alignment:.center){
+                    Text(stop.stopname)
+                        .bold()
+                        .font(.system(size: 20))
+                        .padding(.top, 10)
+                        .padding(.leading, 10)
+                        .padding(.bottom, 3)
+                    if lowCarbonPlaces.contains(stop.stopname) {
+                        ZStack {
+                            Circle()  // 白色圓形背景
+                                .foregroundColor(.white)
+                                .frame(width: 25, height: 25)
+
+                            Image(systemName: "leaf.circle")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                        }
+                        .padding(.top, 10)
+
+                     }
+                }
                 Text("\(formatTime(stop.StartTime)) - \(formatTime(stop.EndTime))")
                     .bold()
                     .font(.system(size: 15))

@@ -1,18 +1,20 @@
 //
-//  SiteInfoView.swift
+//  LowCarbonSiteInfoView.swift
 //  ecoTrip
 //
-//  Created by 陳萭鍒 on 2024/6/28.
+//  Created by 陳萭鍒 on 2024/10/29.
 //
+
 
 import SwiftUI
 import MapKit
 
-struct SiteInfoView: View {
-    @StateObject private var placeViewModel = PlaceViewModel()
+struct LowCarbonSiteInfoView: View {
     @Environment(\.dismiss) var dismiss
-    let placeModel: PlaceModel
-    
+    var name: String
+    var address: String
+    var image: Image
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment:.top){
@@ -52,14 +54,13 @@ struct SiteInfoView: View {
                     }
                     
                     Button(action: {
-                        placeViewModel.toggleFavorite(for: placeModel.id)
                     }) {
                         ZStack {
                             Circle()
                                 .foregroundColor(.white)
                                 .frame(width:35,height: 35)
                                 .padding(10)
-                            Image(systemName: placeViewModel.favorites[placeModel.id, default: false] ? "heart.fill" : "heart")
+                            Image(systemName: "heart")
                                 .resizable()
                                 .frame(width:20,height: 20)
                                 .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
@@ -74,8 +75,7 @@ struct SiteInfoView: View {
             }
             .frame(height:50)
 
-            
-            if let image = placeModel.image {
+ 
                 
                 image
                     .resizable()
@@ -85,19 +85,19 @@ struct SiteInfoView: View {
                     .padding(.bottom)
                 
                 
-            }
+            
 
             ScrollView{
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(placeModel.name).bold()
+                        Text(name).bold()
                             .font(.system(size: 20))
                             .padding(.top, 10)
                             .padding(.leading, 10)
                             .padding(.bottom, 5)
                         
-                        Text(placeModel.address)
+                        Text(address)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
@@ -124,13 +124,13 @@ struct SiteInfoView: View {
                     .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                     .padding(.vertical)
                 
-                Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
+                Link(destination: URL(string: "https://www.zoo.gov.taipei/") ?? URL(string: "https://www.example.com")!) {
                     HStack {
                         Image(systemName: "globe")
                             .resizable()
                             .frame(width: 25, height: 25)
                             .padding(.horizontal)                     .foregroundColor(Color(hex: "444444"))
-                        Text(getDomainPrefix(from: placeModel.website!))
+                        Text("https://www.zoo.gov.taipei/")
                             .font(.system(size: 15))
 
                         Spacer()
@@ -148,8 +148,9 @@ struct SiteInfoView: View {
                     Image(systemName: "phone.fill")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(.horizontal)                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                    Text(placeModel.phoneNumber!) // TODO: 電話
+                        .padding(.horizontal)
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                    Text("02 2938 2300") // TODO: 電話
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                         .font(.system(size: 15))
 
@@ -171,7 +172,7 @@ struct SiteInfoView: View {
                         .frame(width: 25, height: 25)
                         .padding(.horizontal)
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                    Text(placeModel.currentOpeningHours ?? "未有營業時間資訊")
+                    Text("星期一: 09:00–17:00\n星期二: 09:00–17:00\n星期三: 09:00–17:00\n星期四: 09:00–17:00\n星期五: 09:00–17:00\n星期六: 09:00–17:00\n星期日: 09:00–17:00")
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                         .font(.system(size: 15))
 

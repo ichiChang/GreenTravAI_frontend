@@ -11,11 +11,16 @@ struct LowCarbonView: View {
             ZStack(alignment: .top) {
                 HStack {
                     // Display lowCarbon icon
-                    Image(.greenlabel2)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.black)
-                        .padding(10)
+                    ZStack {
+                        Circle()  // 白色圓形背景
+                            .foregroundColor(.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "leaf.circle")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                    .padding(10)
                     
                     Spacer()
                     
@@ -41,11 +46,14 @@ struct LowCarbonView: View {
                 .zIndex(1)
                 
                 // Place image
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 280, height: 130)
-                    .clipped()
+                NavigationLink(destination: LowCarbonSiteInfoView(name: name, address: address, image: image)) {
+                    
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 280, height: 130)
+                        .clipped()
+                }
             }
             
             HStack(spacing: 0) {
