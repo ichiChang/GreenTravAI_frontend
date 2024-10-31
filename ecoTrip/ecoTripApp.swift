@@ -29,6 +29,8 @@ struct ecoTripApp: App {
             RootView()
                 .environmentObject(colorManager)
                 .environmentObject(authViewModel)
+                .environmentObject(TransportationViewModel()) 
+
         }
     }
 }

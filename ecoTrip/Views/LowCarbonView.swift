@@ -14,11 +14,13 @@ struct LowCarbonView: View {
                     ZStack {
                         Circle()  // 白色圓形背景
                             .foregroundColor(.white)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 35, height: 35)
                         
                         Image(systemName: "leaf.circle")
                             .resizable()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+
                     }
                     .padding(10)
                     
@@ -96,12 +98,12 @@ struct LowCarbonView: View {
 // Main list view for displaying multiple low-carbon places
 struct LowCarbonListView: View {
     let places = [
-        (name: "臺北市立動物園", address: "116台北市文山區新光路二段30號", image: Image("1")),
         (name: "Blue磚塊廚房", address: "106台北市大安區敦南街38號", image: Image("2")),
         (name: "陽明山國家公園", address: "台北市士林區竹子湖路1-20號", image: Image("3")),
         (name: "臺大農場農藝分場", address: "106台北市大安區基隆路四段42巷5號", image: Image("4")),
         (name: "meet蘋果咖啡館", address: "100台北市中正區博愛路86號", image: Image("5")),
         (name: "Chinese Whispers 悄悄話餐酒館", address: "106台北市大安區仁愛路四段345巷2弄11號", image: Image("6")),
+        (name: "臺北市立動物園", address: "116台北市文山區新光路二段30號", image: Image("1")),
         (name: "Chao 炒炒蔬食熱炒", address: "106070台北市大安區大安路一段52巷21號", image: Image("7")),
         (name: "福華國際文教會館", address: "106台北市大安區新生南路三段30號", image: Image("8")),
         (name: "小公館人文旅舍", address: "105台北市松山區南京東路五段399號5F", image: Image("9")),

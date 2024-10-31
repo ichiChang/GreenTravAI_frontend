@@ -63,6 +63,7 @@ struct SearchView: View{
                 } else if mapViewModel.isLoading {
                     ProgressView("正在載入地點...")
                         .font(.system(size: 15))
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
                         .padding()
                 } else if mapViewModel.searchResults.isEmpty {
                     Text("沒有找到地點")

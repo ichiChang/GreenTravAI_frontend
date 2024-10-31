@@ -24,7 +24,8 @@ class ChatViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var error: String?
     @Published var lastRecommendation: Recommendation?
-    
+    @Published var lastCurrentUserMessageID: String? = nil
+
     private var cancellables = Set<AnyCancellable>()
 
     func sendMessage(query: String, token: String) {
@@ -33,6 +34,9 @@ class ChatViewModel: ObservableObject {
             return
         }
 
+        isLoading = true
+        error = nil
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -41,36 +45,43 @@ class ChatViewModel: ObservableObject {
         let body = ["query": query]
         request.httpBody = try? JSONEncoder().encode(body)
 
-        isLoading = true
-        error = nil
+        // Delay the execution of the network request by 3 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            URLSession.shared.dataTaskPublisher(for: request)
+                .map(\.data)
+                .decode(type: ApiResponse.self, decoder: JSONDecoder())
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    self.isLoading = false
+                    if case .failure(let error) = completion {
+                        self.error = error.localizedDescription
+                    }
+                } receiveValue: { response in
+                   let newUUID = UUID()  // Create a new UUID for the user message
+                   self.messages.append(Message(id: newUUID, content: query, isCurrentUser: true))
+                   self.lastCurrentUserMessageID = newUUID.uuidString  // Store as string
 
-        URLSession.shared.dataTaskPublisher(for: request)
-            .map(\.data)
-            .decode(type: ApiResponse.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                self.isLoading = false
-                if case .failure(let error) = completion {
-                    self.error = error.localizedDescription
-                }
-            } receiveValue: { response in
-                self.messages.append(Message(content: query, isCurrentUser: true))
-                
-                var botMessage = response.Message
-                
-                if let recommendations = response.Recommendation {
-                    for recommendation in recommendations {
-                        botMessage += "\n\n地點：\(recommendation.Name)\n地址：\(recommendation.Address)\n建議停留時間：\(self.formatLatency(recommendation.Latency))"
+                    var botMessage = response.Message
+                    
+                    if let recommendations = response.Recommendation {
+                        for recommendation in recommendations {
+                            botMessage += "\n\n地點：\(recommendation.Name)\n地址：\(recommendation.Address)\n建議停留時間：\(self.formatLatency(recommendation.Latency))"
+                        }
+                        if let first = recommendations.first {
+                            self.lastRecommendation = first
+                        }
                     }
-                    if let first = recommendations.first {
-                        self.lastRecommendation = first
-                    }
+                    
+                    self.messages.append(Message(content: botMessage, isCurrentUser: false))
+
                 }
-                
-                self.messages.append(Message(content: botMessage, isCurrentUser: false))
-            }
-            .store(in: &cancellables)
+                .store(in: &self.cancellables)
+        }
     }
+
+    
+    
+    
     func sendGreenMessage(query: String, token: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/easyGreenMessage") else {
             self.error = "Invalid URL"

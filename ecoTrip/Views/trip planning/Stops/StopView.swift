@@ -24,7 +24,7 @@ struct StopView: View {
                         .padding(.top, 10)
                         .padding(.leading, 10)
                         .padding(.bottom, 3)
-                    if lowCarbonPlaces.contains(stop.stopname) {
+                    if stop.Isgreen == true{
                         ZStack {
                             Circle()  // 白色圓形背景
                                 .foregroundColor(.white)

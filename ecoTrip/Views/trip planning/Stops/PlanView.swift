@@ -22,8 +22,7 @@ struct PlanView: View {
     @State private var hasExistingSchedule: Bool = false
     @State private var selectedDate: Date = Date()
     @State private var showMapView = false
-    
-
+    @EnvironmentObject var transportationViewModel: TransportationViewModel
 
     var body: some View {
         NavigationView {
@@ -72,7 +71,7 @@ struct PlanView: View {
 //                        Image(systemName: "questionmark.circle")
 //                            .foregroundStyle(.white)
 //                            .font(.system(size: 30))
-//                  
+//
 //                    })
                     
                     // 地圖 button
@@ -133,7 +132,7 @@ struct PlanView: View {
                                     .bold()
                                     .font(.system(size: 20))
                                     .foregroundColor(selectedDayIndex == index ? .black : .white)
-                                    .frame(maxWidth: .infinity) 
+                                    .frame(maxWidth: .infinity)
                                     .frame(height: 40)
                                     .background(selectedDayIndex == index ? .white : Color.init(hex: "8F785C", alpha: 1.0))
                             }
@@ -146,12 +145,15 @@ struct PlanView: View {
                 // Content based on selected day
                 if travelPlanViewModel.isLoading {
                     ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
                 } else if let error = travelPlanViewModel.error {
                     Text("Error: \(error)")
                 } else if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
                     StopListView(stops: dayStops.stops, reloadData: reloadData, accessToken: authViewModel.accessToken!)
                         .onAppear { hasExistingSchedule = true }
                         .environmentObject(travelPlanViewModel)
+                        .environmentObject(transportationViewModel) 
                     
                 } else {
                     Text("No plans for this day yet.")

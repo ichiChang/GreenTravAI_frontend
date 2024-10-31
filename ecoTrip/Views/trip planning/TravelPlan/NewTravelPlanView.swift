@@ -168,6 +168,8 @@ struct NewTravelPlanView: View {
                   
                     if travelPlanViewModel.isLoading {
                         ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
                     }
                     
                     if let error = travelPlanViewModel.error {

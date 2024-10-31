@@ -51,5 +51,8 @@ struct PlanMenuView: View {
                 PopularPlansView()
             }
         }
+        .navigationBarBackButtonHidden(true)
+
     }
+
 }

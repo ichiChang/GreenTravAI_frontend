@@ -15,5 +15,6 @@ struct Stop: Codable, Identifiable {
     let Note: String?
     let transportationToNext: Transportation?
     let coordinates: [Double]
+    let Isgreen: Bool?
 }
 

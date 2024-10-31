@@ -1,5 +1,5 @@
 //
-//  TravelPlenViewModel.swift
+//  TravelPlanViewModel.swift
 //  ecoTrip
 //
 //  Created by Ichi Chang on 2024/5/24.
@@ -245,6 +245,40 @@ class TravelPlanViewModel: ObservableObject {
             }
         }.resume()
     }
+    
+    func copyPlan(token: String, completion: @escaping (Bool, String?) -> Void) {
+          guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/CreateAll_demo") else {
+              completion(false, "Invalid URL")
+              return
+          }
+          
+          var request = URLRequest(url: url)
+          request.httpMethod = "POST"
+          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+          request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+          
+          URLSession.shared.dataTask(with: request) { data, response, error in
+              if let error = error {
+                  DispatchQueue.main.async {
+                      completion(false, "Network error: \(error.localizedDescription)")
+                  }
+                  return
+              }
+              
+              guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                  DispatchQueue.main.async {
+                      completion(false, "Server error")
+                  }
+                  return
+              }
+              
+              DispatchQueue.main.async {
+                  completion(true, nil)
+              }
+          }.resume()
+      }
+    
     func reorderStops(stops: [Stop], token: String, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/EditStop") else {
             completion(false, "Invalid URL")

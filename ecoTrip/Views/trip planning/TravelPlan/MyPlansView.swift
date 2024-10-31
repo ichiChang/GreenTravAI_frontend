@@ -35,6 +35,8 @@ struct MyPlansView: View {
                 VStack(spacing: 0) {
                     if travelPlanViewModel.isLoading {
                         ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
                     } else if let error = travelPlanViewModel.error {
                         Text("Error: \(error)")
                     } else if travelPlanViewModel.travelPlans.isEmpty {

@@ -20,6 +20,7 @@ struct StopListView: View {
     var accessToken: String
     @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @State private var showTransportation = true
+    @EnvironmentObject var transportationViewModel: TransportationViewModel
 
     init(stops: [Stop], reloadData: @escaping () -> Void, accessToken: String) {
         self.stops = stops
@@ -42,12 +43,15 @@ struct StopListView: View {
                                     toStopId: localStops[index + 1].id,
                                     fromStopName: stop.stopname,
                                     toStopName: localStops[index + 1].stopname,
-                                    token: accessToken
+                                    token: accessToken,
+                                    reloadData: reloadData 
                                 )
+                                .environmentObject(transportationViewModel)
                             }
                             Spacer()
                                 .frame(height: 70)
                         }
+                       
                     }
                                     
                     VStack(spacing: 0) {

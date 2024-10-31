@@ -278,8 +278,3 @@ private func formatSelectedDates(_ dates: Set<DateComponents>) -> String {
         return ""
     }
 }
-#Preview {
-    ChatAccom(showChatAccom:  .constant(true))
-        .environmentObject(ColorManager()) // 提供 ColorManager 給預覽
-
-}

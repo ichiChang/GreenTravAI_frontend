@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditTransportationView: View {
-    @StateObject private var transportationViewModel = TransportationViewModel()
+    @EnvironmentObject var transportationViewModel: TransportationViewModel
     @State private var selectedIndex: Int? = nil
     @Environment(\.dismiss) var dismiss
     @State private var showAlert = false
@@ -18,7 +18,8 @@ struct EditTransportationView: View {
     let fromStopName: String
     let toStopName: String
     let token: String
-    
+    var reloadData: () -> Void
+
     var body: some View {
         VStack(spacing: 0) {
             // Top bar with back button
@@ -91,6 +92,8 @@ struct EditTransportationView: View {
             // 交通工具
             if transportationViewModel.isLoading {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
             } else {
                 ForEach(transportationViewModel.transportationModes.indices, id: \.self) { index in
                     let mode = transportationViewModel.transportationModes[index]
@@ -106,12 +109,13 @@ struct EditTransportationView: View {
                                     .font(.system(size: 16, weight: .medium))
                                 
                                 if mode.emissionReduction > 0 {
-                                    Text("減少 \(mode.emissionReduction) 克碳排放")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.green)
+                                    Text("相比開車減少 \(mode.emissionReduction) 克碳排放量")
+                                        .font(.system(size: 15))
+                                        .bold()
+                                        .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
                                 }
                             }
-                            .frame(maxWidth: 160, alignment: .leading)
+                            .frame(alignment: .leading)
                             .padding(.horizontal)
                             
                             Spacer()
@@ -144,10 +148,11 @@ struct EditTransportationView: View {
                     transportationViewModel.updateTransportation(fromStopId: fromStopId, mode: selectedMode.mode, timeSpent: selectedMode.timeSpent, token: token) { success in
                         if success {
                             alertMessage = "交通方式更新成功"
+                            reloadData()
+
                         } else {
                             alertMessage = "更新失敗，請稍後再試"
                         }
-                        showAlert = true
                         dismiss()
                     }
                 } else {
@@ -171,6 +176,10 @@ struct EditTransportationView: View {
         .onAppear {
             transportationViewModel.fetchTransportations(fromStopId: fromStopId, toStopId: toStopId, token: token)
         }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("提示"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+
     }
     
     private func getTransportationIcon(for mode: String) -> String {

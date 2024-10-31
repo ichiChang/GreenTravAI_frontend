@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @StateObject private var userViewModel = UserViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var selectedIcon: IconType = .suitcase
+    @State private var selectedIcon: IconType = .leaf
 
     enum IconType: String {
         case suitcase, leaf, heart
@@ -33,10 +33,12 @@ struct ProfileView: View {
 
                 if userViewModel.isLoading {
                     ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
                 } else if let error = userViewModel.error {
                     Text(error)
                         .foregroundColor(.red)
-                } else if let user = userViewModel.user {
+                } else if userViewModel.user != nil {
                     VStack(alignment:.leading,spacing: 10){
                         Text("Olivia Lin")
                             .bold()

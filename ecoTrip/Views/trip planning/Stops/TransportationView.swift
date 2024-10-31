@@ -14,8 +14,11 @@ struct TransportationView: View {
     let fromStopName: String
     let toStopName: String
     let token: String
+    let reloadData: () -> Void
+
     @State private var navigateToEdit = false
-    
+    @EnvironmentObject var transportationViewModel: TransportationViewModel
+
     var body: some View {
         HStack {
             Spacer()
@@ -60,8 +63,9 @@ struct TransportationView: View {
                 toStopId: toStopId,
                 fromStopName: fromStopName,
                 toStopName: toStopName,
-                token: token
-            )
+                token: token,
+                reloadData: reloadData
+            ).environmentObject(transportationViewModel)
         }
     }
     

@@ -15,6 +15,8 @@ struct SuitcaseView: View {
         VStack {
             if viewModel.isLoading {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+
             } else if let error = viewModel.error {
                 Text("Error: \(error)")
             } else if viewModel.travelPlans.isEmpty {
