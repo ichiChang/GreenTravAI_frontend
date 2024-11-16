@@ -97,7 +97,7 @@ struct StopListView: View {
             }
         }
         .sheet(isPresented: $showEditView) {
-            EditPlanView(stop: $selectedPlaceName)
+            EditStopView(stop: $selectedPlaceName)
                  .presentationDetents([.height(650)])
          }
     }
