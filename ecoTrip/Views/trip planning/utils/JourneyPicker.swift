@@ -135,11 +135,11 @@ struct JourneyPicker: View {
             let prevStop = lastStop?.id ?? ""
 
             let requestBody: [String: Any] = [
-                "Name": recommendation.Name,
+                "Name": recommendation.Location,
                 "StartTime": startTime,
-                "note": "",
+                "note": recommendation.description,
                 "DayId": dayId,
-                "latency": recommendation.Latency,
+                "latency": recommendation.latency,
                 "address": recommendation.Address,
                 "prev_stop": prevStop
             ]
