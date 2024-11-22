@@ -11,6 +11,7 @@ struct StopView: View {
     let stop: Stop
     @Binding var showEditView: Bool
     @Binding var selectedPlaceName: String
+    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     let lowCarbonPlaces = ["臺北市立動物園", "Blue磚塊廚房", "陽明山國家公園", "臺大農場農藝分場", "meet蘋果咖啡館", "Chinese Whispers 悄悄話餐酒館", "Chao 炒炒蔬食熱炒", "福華國際文教會館", "小公館人文旅舍", "初點良食 Dim sum shop", "臺北典藏植物園", "芝山文化生態綠園"]
 
     var body: some View {
@@ -52,7 +53,7 @@ struct StopView: View {
             Spacer()
             
             Button(action: {
-                selectedPlaceName = stop.stopname
+                travelPlanViewModel.stopBeEdited = stop
                 showEditView = true
             }) {
                 Image(systemName: "highlighter")

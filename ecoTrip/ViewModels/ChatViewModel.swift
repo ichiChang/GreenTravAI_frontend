@@ -24,10 +24,16 @@ struct ApiResponse: Codable {
     let response: ResponseContent
 }
 
+struct AccommodationResult: Codable {
+    let link: String
+    let name: String
+    let summary: String
+}
+
 struct ResponseContent: Codable {
     let Plans: [PlanRecommendation]
-    let Text_ans: String
-    let results: [String]
+    let Text_ans: String?
+    let results: [AccommodationResult]
 }
 
 class ChatViewModel: ObservableObject {
@@ -91,12 +97,27 @@ class ChatViewModel: ObservableObject {
                         
                     }
                 }
+                if !response.response.results.isEmpty {
+                    for (index, accommodation) in response.response.results.enumerated() {
+                        fullMessage += """
+                                        **\(accommodation.name)**
+                                        \(accommodation.summary)
+                                        [查看詳情](\(accommodation.link))
+                                        """
+                        
+                        if index < response.response.results.count - 1 {
+                            fullMessage += "\n\n"
+                        }
+                    }
+                }
                 
                 // Add Text_ans after recommendations
-                if !fullMessage.isEmpty {
-                    fullMessage += "\n"
+                if let textAns = response.response.Text_ans, !textAns.isEmpty {
+                    if !fullMessage.isEmpty {
+                        fullMessage += "\n\n"
+                    }
+                    fullMessage += textAns
                 }
-                fullMessage += response.response.Text_ans
                 
                 // Add as a single message
                 self.messages.append(Message(content: fullMessage, isCurrentUser: false))
@@ -109,6 +130,14 @@ class ChatViewModel: ObservableObject {
             self.error = "Invalid URL"
             return
         }
+        
+        // Immediately add user message
+        let newUUID = UUID()
+        self.messages.append(Message(id: newUUID, content: query, isCurrentUser: true))
+        self.lastCurrentUserMessageID = newUUID.uuidString
+        
+        isLoading = true
+        error = nil
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -136,21 +165,38 @@ class ChatViewModel: ObservableObject {
                     
                     for recommendation in firstPlan.Recommendation {
                         fullMessage += """
-                                地點：\(recommendation.Location)
-                                地址：\(recommendation.Address)
-                                活動：\(recommendation.Activity)
-                                描述：\(recommendation.description)
-                                建議停留時間：\(recommendation.latency)分鐘
-                                
-                                """
+                                                **\(recommendation.Location)**
+                                                地址：\(recommendation.Address)
+                                                \(recommendation.description)
+                                                建議停留時間：\(recommendation.latency)分鐘
+                                                """
+                        
+                        // Add double line break after each recommendation except the last one
+                        fullMessage += "\n\n"
+                        
+                    }
+                }
+                if !response.response.results.isEmpty {
+                    for (index, accommodation) in response.response.results.enumerated() {
+                        fullMessage += """
+                                        **\(accommodation.name)**
+                                        \(accommodation.summary)
+                                        [查看詳情](\(accommodation.link))
+                                        """
+                        
+                        if index < response.response.results.count - 1 {
+                            fullMessage += "\n\n"
+                        }
                     }
                 }
                 
                 // Add Text_ans after recommendations
-                if !fullMessage.isEmpty {
-                    fullMessage += "\n"
+                if let textAns = response.response.Text_ans, !textAns.isEmpty {
+                    if !fullMessage.isEmpty {
+                        fullMessage += "\n\n"
+                    }
+                    fullMessage += textAns
                 }
-                fullMessage += response.response.Text_ans
                 
                 // Add as a single message
                 self.messages.append(Message(content: fullMessage, isCurrentUser: false))

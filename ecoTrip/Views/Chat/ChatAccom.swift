@@ -235,7 +235,6 @@ struct ChatAccom: View {
             
             //確定按鈕
             Button {
-                
                 let message = "請推薦我 \(formatSelectedDates(selectedDates))「\(selectedPlace)」熱門住宿選擇\n住宿類型：\(selectedAccom)\n入住人數：\(peoplecount)\n預算：\(lowerbudget)~\(upperbudget)"
                     onSubmit?(message) // Pass the formatted message back to ChatView
                 showChatAccom = false

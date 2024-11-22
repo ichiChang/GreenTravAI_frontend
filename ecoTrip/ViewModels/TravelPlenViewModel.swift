@@ -15,6 +15,7 @@ class TravelPlanViewModel: ObservableObject {
     @Published var dayStops: DayStops?
     @Published var isLoading: Bool = false
     @Published var error: String?
+    @Published var stopBeEdited: Stop?
 
     private var cancellables: Set<AnyCancellable> = []
 
