@@ -30,14 +30,14 @@ struct CustomAlertView: View {
                 VStack(spacing: 20) {
                     Text(title)
                         .font(.title2).bold()
-                        .padding()
+                        .foregroundStyle(.tint)
+                        .padding(8)
 
                     VStack {
                         Text(message)
-                            .padding()
-                        Text("是否查看該行程？")
                     }
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true) // Ensures text can expand vertically as needed
 
                     HStack {
                         Button(action: {
@@ -90,8 +90,8 @@ struct CustomAlertView_Previews: PreviewProvider {
     static var previews: some View {
         CustomAlertView(
             isPresented: .constant(true),
-            title: "行程添加成功",
-            message: "您的行程已成功添加至旅行計劃中。",
+            title: "行程新增成功",
+            message: "您的行程已成功新增至旅行計劃中。",
             primaryButtonText: "查看行程",
             secondaryButtonText: "取消",
             primaryButtonAction: { print("查看行程") },

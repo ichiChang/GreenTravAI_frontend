@@ -148,7 +148,8 @@ struct SiteInfoView: View {
                     Image(systemName: "phone.fill")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(.horizontal)                    .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                        .padding(.horizontal)
+                        .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                     Text(placeModel.phoneNumber!) // TODO: 電話
                         .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
                         .font(.system(size: 15))

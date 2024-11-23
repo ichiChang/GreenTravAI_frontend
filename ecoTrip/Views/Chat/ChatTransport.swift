@@ -13,8 +13,8 @@ struct ChatTransport: View {
     @Binding var showChatTransport: Bool
     @State private var showPlacePicker1 = false
     @State private var showPlacePicker2 = false
-    @State private var selectedPlace1 = ""
-    @State private var selectedPlace2 = ""
+    @State private var selectedPlace1 = "台北市"
+    @State private var selectedPlace2 = "台北市"
     @State private var arrivalTime = Date()
     @State private var departureTime = Date()
     @State private var navigateToTimeChoice = false

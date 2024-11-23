@@ -11,15 +11,15 @@ import Combine
 struct ChatView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = ChatViewModel()
-    
+    @State private var scrollProxy: ScrollViewProxy?
+
     @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
     @State private var isChatView = false
     @State private var showJPicker = false
     @State private var showAlert = false
-    @State private var showPlanMenuView = false // State to control navigation
-    
+    @State private var showPlanMenuView = false
     
     // Four PopUps
     @State private var showChatPlan = false
@@ -115,11 +115,7 @@ struct ChatView: View {
                                     MessageView(currentMessage: message)
                                         .id(message.id)
                                 }
-                                .onChange(of: viewModel.messages) { _ in
-                                    withAnimation {
-                                        proxy.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
-                                    }
-                                }
+
                                 
                                 if !viewModel.lastRecommendations.isEmpty {
                                     VStack(spacing: 10) {
@@ -128,18 +124,30 @@ struct ChatView: View {
                                                 viewModel.selectedRecommendation = recommendation
                                                 showJPicker.toggle()
                                             }) {
-                                                Text("新增\(recommendation.Location)至現有規劃")
-                                                    .bold()
-                                                    .font(.system(size: 15))
-                                                    .foregroundColor(.white)
-                                                    .frame(width: 250, height: 40)
-                                                    .background(Color(hex: "8F785C", alpha: 1.0))
-                                                    .cornerRadius(15)
+                                                HStack {
+                                                    Text("新增")
+                                                        .bold()
+                                                    Text(recommendation.Location)
+                                                        .bold()
+                                                        .underline()
+                                                    Text("至現有規劃")
+                                                        .bold()
+                                                }
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 15))
+                                                .frame(width: 250)
+                                                .padding(10)
+                                                .background(Color(hex: "8F785C", alpha: 1.0))
+                                                .cornerRadius(15)
+                                                .multilineTextAlignment(.center)
                                             }
                                         }
                                     }
                                     .padding(10)
+                                    .id(viewModel.lastRecommendations.first?.Location ?? "Recommendations")
+
                                 }
+
                                 
                                 // Loading indicator
                                 if viewModel.isLoading {
@@ -167,12 +175,21 @@ struct ChatView: View {
                         }
                     }
                     .padding()
+                    .onAppear {
+                        // Save the proxy reference when ScrollView appears
+                        self.scrollProxy = proxy
+                        
+                        // Scroll to the latest message if there are any messages
+                        if let lastMessageId = viewModel.messages.last?.id {
+                            withAnimation {
+                                proxy.scrollTo(lastMessageId, anchor: .bottom)
+                            }
+                        }
+                    }
                 }
                 
                 // Input area
                 HStack {
-                    
-                    
                     
                     TextField("Aa", text: $newMessage)
                         .padding(10)
@@ -257,13 +274,25 @@ struct ChatView: View {
         if !messageToSend.isEmpty {
             if isEnabled {
                 viewModel.sendGreenMessage(query: messageToSend, token: token)
-                newMessage = ""
-            }else{
+            } else {
                 viewModel.sendMessage(query: messageToSend, token: token)
-                newMessage = ""
+            }
+            newMessage = ""
+            
+            // Scroll to the latest message after it is added
+            DispatchQueue.main.async {
+                withAnimation {
+                    if !viewModel.lastRecommendations.isEmpty {
+                        scrollProxy?.scrollTo(viewModel.lastRecommendations.first?.Location ?? "Recommendations", anchor: .top)
+                    } else if let lastMessageId = viewModel.messages.last?.id {
+                        scrollProxy?.scrollTo(lastMessageId, anchor: .bottom)
+                    }
+                }
             }
         }
     }
+
+
     
     func handleButtonTap(buttonLabel: String) {
         switch buttonLabel {

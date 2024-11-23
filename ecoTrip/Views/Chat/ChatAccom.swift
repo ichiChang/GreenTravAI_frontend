@@ -18,7 +18,7 @@ struct ChatAccom: View {
     @State var selectedDates: Set<DateComponents> = []
     @State private var schedule = ""
     @State private var showAccomPicker = false
-    @State private var selectedAccom = ""
+    @State private var selectedAccom = "自行安排"
     @EnvironmentObject var colorManager: ColorManager
     var onSubmit: ((String) -> Void)?
 

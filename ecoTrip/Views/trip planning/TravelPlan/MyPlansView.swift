@@ -40,7 +40,7 @@ struct MyPlansView: View {
                     } else if let error = travelPlanViewModel.error {
                         Text("Error: \(error)")
                     } else if travelPlanViewModel.travelPlans.isEmpty {
-                        Text("No travel plans found")
+                        Text("目前還沒有建立任何旅行計劃")
                     } else {
                         ForEach(travelPlanViewModel.travelPlans) { plan in
                             Button(action: {

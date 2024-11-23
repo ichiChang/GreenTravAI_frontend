@@ -9,8 +9,9 @@ struct JourneyPicker: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @Binding var showJPicker: Bool
     @State private var chatContent: String
-    @State private var showAlert = false
-    @State private var alertMessage = ""
+    @State private var showCustomAlert = false // State to control CustomAlertView
+    @State private var alertTitle = "" // Custom alert title
+    @State private var alertMessage = "" // Custom alert message
     @State private var recommendation: Recommendation?
     @Binding var navigateToPlanView: Bool
 
@@ -94,23 +95,17 @@ struct JourneyPicker: View {
                 }
                 .padding()
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("提示"),
-                message: Text(alertMessage),
-                primaryButton: .default(Text("查看行程")) {
-                    // 确保 selectedTravelPlan 被正确设置
+            .popupNavigationView(horizontalPadding: 40, show: $showCustomAlert) {
+                CustomAlertView(isPresented: $showCustomAlert, title: alertTitle, message: alertMessage, primaryButtonText: "查看行程", secondaryButtonText: "取消", primaryButtonAction: {
                     if let selectedPlan = viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) {
                         viewModel.selectedTravelPlan = selectedPlan
                     }
                     navigateToPlanView = true
                     showJPicker = false
-                },
-                secondaryButton: .cancel(Text("取消")) {
+                }, secondaryButtonAction: {
                     showJPicker = false
-                }
-            )
+                })
+            }
         }
         .onAppear {
             if let token = authViewModel.accessToken {
@@ -123,7 +118,7 @@ struct JourneyPicker: View {
         guard let dayId = selectedDayId,
               let token = authViewModel.accessToken,
               let recommendation = recommendation else {
-            showAlert(message: "無法添加內容：缺少必要資訊")
+            showAlert(title: "無法添加內容", message: "無法添加內容：缺少必要資訊")
             return
         }
 
@@ -146,18 +141,20 @@ struct JourneyPicker: View {
 
             viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
                 if success {
-                    alertMessage = "成功添加到旅行計劃。是否查看該行程？"
-                    showAlert = true
+                    alertTitle = "行程增加成功"
+                    alertMessage = "您的行程已成功新增至旅行計劃中。\n是否查看該行程？"
+                    showCustomAlert = true
                 } else {
-                    showAlert(message: "添加失敗：\(error ?? "未知錯誤")")
+                    showAlert(title: "行程增加失敗", message: "添加失敗：\(error ?? "未知錯誤")")
                 }
             }
         }
     }
 
-    private func showAlert(message: String) {
+    private func showAlert(title: String, message: String) {
+        alertTitle = title
         alertMessage = message
-        showAlert = true
+        showCustomAlert = true
     }
 }
 
@@ -242,3 +239,4 @@ struct PlanRowView2: View {
         }
     }
 }
+

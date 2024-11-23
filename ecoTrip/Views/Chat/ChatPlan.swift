@@ -10,10 +10,10 @@ import SwiftUI
 struct ChatPlan: View {
     @Binding var showChatPlan: Bool
     @State private var showPlacePicker = false
-    @State private var selectedPlace = ""
+    @State private var selectedPlace = "台北市"
     @State private var showDurationPicker = false
     @State private var showRidePicker = false
-    @State private var selectedRide = ""
+    @State private var selectedRide = "自行安排"
     @State private var duration = ""
     @State private var upperbudget = ""
     @State private var lowerbudget = ""
@@ -85,8 +85,6 @@ struct ChatPlan: View {
                 }
                 
                 //旅遊天數
-                
-                
                 
                 Text("*旅遊天數")
                     .bold()
@@ -211,7 +209,8 @@ struct ChatPlan: View {
             //確定按鈕
             Button {
                 let message = "請幫我規劃「 \(selectedPlace)」 \(duration)天行程\n預算：\(lowerbudget)～\(upperbudget)\n主要交通方式：\(selectedRide)"
-                            onSubmit?(message) // Pass the formatted message back to ChatView
+                            onSubmit?(message)
+                
                 showChatPlan = false
 
             } label: {
