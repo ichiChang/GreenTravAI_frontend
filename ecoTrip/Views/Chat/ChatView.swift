@@ -387,3 +387,13 @@ extension Color {
         )
     }
 }
+
+// Preview provider for ChatView
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView()
+            .environmentObject(AuthViewModel())
+            .environmentObject(TravelPlanViewModel())
+            .environmentObject(ColorManager())
+    }
+}
