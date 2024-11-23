@@ -11,7 +11,7 @@ import Combine
 struct ChatView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = ChatViewModel()
-
+    
     @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
@@ -19,15 +19,15 @@ struct ChatView: View {
     @State private var showJPicker = false
     @State private var showAlert = false
     @State private var showPlanMenuView = false // State to control navigation
-
-
+    
+    
     // Four PopUps
     @State private var showChatPlan = false
     @State private var showChatTransport = false
     @State private var showChatTicket = false
     @State private var showChatAccom = false
     @State private var navigateToMyPlans = false
-
+    
     @State private var navigateToPlanView = false
     @State private var selectedPlanId: String?
     
@@ -111,58 +111,58 @@ struct ChatView: View {
                             
                         } else {
                             LazyVStack {
-                                if viewModel.isLoading {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
-                                        .padding()
-
-                                } else {
-                                    ForEach(viewModel.messages) { message in
-                                        MessageView(currentMessage: message)
-                                            .id(message.id)
+                                ForEach(viewModel.messages) { message in
+                                    MessageView(currentMessage: message)
+                                        .id(message.id)
+                                }
+                                .onChange(of: viewModel.messages) { _ in
+                                    withAnimation {
+                                        proxy.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
                                     }
-                                    .onChange(of: viewModel.messages) { _ in
-                                        if let idString = viewModel.lastCurrentUserMessageID, let uuid = UUID(uuidString: idString) {
-                                                     withAnimation {
-                                                         proxy.scrollTo(idString, anchor: .bottom)
-                                            }
-                                        }
-                                    }
-                                    
-                                    Button(action: {
-                                                if let token = authViewModel.accessToken { // 使用可選綁定來安全地獲取 token
-                                                    self.showAlert = true // 只有在 token 存在時才設置 showAlert 為 true
-                                                    travelPlanViewModel.copyPlan(token: token) { success, error in
-                                                        if success {
-                                                            print("Plan copied successfully")
-                                                        } else {
-                                                            print("Error copying plan: \(error ?? "Unknown error")")
-                                                        }
-                                                    }
-                                                } else {
-                                                    print("No token available")
-                                                }
+                                }
+                                
+                                if !viewModel.lastRecommendations.isEmpty {
+                                    VStack(spacing: 10) {
+                                        ForEach(viewModel.lastRecommendations, id: \.Location) { recommendation in
+                                            Button(action: {
+                                                viewModel.selectedRecommendation = recommendation
+                                                showJPicker.toggle()
                                             }) {
-                                                Text("複製此旅行計劃")
+                                                Text("新增\(recommendation.Location)至現有規劃")
                                                     .bold()
                                                     .font(.system(size: 15))
                                                     .foregroundColor(.white)
-                                                    .frame(width: 150, height: 40)
+                                                    .frame(width: 250, height: 40)
                                                     .background(Color(hex: "8F785C", alpha: 1.0))
                                                     .cornerRadius(15)
                                             }
-                                            .padding(10)
-                                            .alert(isPresented: $showAlert) {
-                                                Alert(
-                                                    title: Text("成功複製此旅行計劃"),
-                                                    primaryButton: .default(Text("查看此旅行計劃"), action: {
-                                                        navigateToMyPlans = true
-                                                    }),
-                                                    secondaryButton: .cancel(Text("確認"))
-                                                )
-                                            }
+                                        }
+                                    }
+                                    .padding(10)
                                 }
-
+                                
+                                // Loading indicator
+                                if viewModel.isLoading {
+                                    HStack(alignment: .top, spacing: 10) {
+                                        Image(.travelAgent)
+                                            .resizable()
+                                            .frame(width: 30, height: 30, alignment: .center)
+                                            .cornerRadius(20)
+                                            .padding(.leading, 20)
+                                        
+                                        HStack {
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
+                                                .padding(10)
+                                        }
+                                        .background(Color.init(hex: "F5EFCF", alpha: 1.0))
+                                        .cornerRadius(10)
+                                        .frame(width: 270, alignment: .leading)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding(.top, 12)
+                                }
                             }
                         }
                     }
@@ -171,8 +171,8 @@ struct ChatView: View {
                 
                 // Input area
                 HStack {
-                   
-                   
+                    
+                    
                     
                     TextField("Aa", text: $newMessage)
                         .padding(10)
@@ -188,7 +188,7 @@ struct ChatView: View {
                             .padding(.top, 10)
                             .padding(.leading, 5)
                             .padding(.trailing ,10)
-
+                        
                     }
                 }
                 .frame(height: 80)
@@ -196,22 +196,24 @@ struct ChatView: View {
                 .background(colorManager.mainColor)
             }
             .navigationDestination(isPresented: $navigateToPlanView) {
-                           PlanView()
-                               .environmentObject(travelPlanViewModel)
-                               .environmentObject(authViewModel)
-                       }
-            .navigationDestination(isPresented: $navigateToMyPlans) {
-                            PlanMenuView()
-                                .environmentObject(travelPlanViewModel)
-                                .environmentObject(authViewModel)
-            }
-            .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
-                JourneyPicker(showJPicker: $showJPicker,
-                              chatContent: viewModel.messages.last?.content ?? "",
-                              recommendation: viewModel.lastRecommendation,
-                              navigateToPlanView: $navigateToPlanView)
+                PlanView()
                     .environmentObject(travelPlanViewModel)
                     .environmentObject(authViewModel)
+            }
+            .navigationDestination(isPresented: $navigateToMyPlans) {
+                PlanMenuView()
+                    .environmentObject(travelPlanViewModel)
+                    .environmentObject(authViewModel)
+            }
+            .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
+                JourneyPicker(
+                    showJPicker: $showJPicker,
+                    chatContent: viewModel.messages.last?.content ?? "",
+                    recommendation: viewModel.selectedRecommendation,
+                    navigateToPlanView: $navigateToPlanView
+                )
+                .environmentObject(travelPlanViewModel)
+                .environmentObject(authViewModel)
             }
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
@@ -239,11 +241,11 @@ struct ChatView: View {
             }
         }
     }
-
+    
     func sendMessage() {
         sendMessage(with: newMessage)
         isChatView = true
-
+        
     }
     
     func sendMessage(with content: String? = nil) {
@@ -318,7 +320,7 @@ struct MessageCell: View {
                     .background(isCurrentUser ? Color.init(hex: "8F785C", alpha: 1.0) : Color.init(hex: "F5EFCF", alpha: 1.0))
                     .cornerRadius(10)
                     .multilineTextAlignment(.leading)
-
+                
             } else {
                 Text("無法解析 Markdown")
             }
@@ -333,14 +335,14 @@ struct ColoredToggleStyle: ToggleStyle {
     var onColor = Color.green
     var offColor = Color(UIColor.systemGray5)
     var thumbColor = Color.white
-
+    
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             Text(label)
                 .foregroundColor(.white)
                 .font(.system(size: 15))
                 .bold()
-      
+            
             Button(action: { configuration.isOn.toggle() }) {
                 RoundedRectangle(cornerRadius: 16, style: .circular)
                     .fill(configuration.isOn ? onColor : offColor)
@@ -377,7 +379,7 @@ extension Color {
         default:
             (r, g, b) = (1, 1, 0)
         }
-
+        
         self.init(
             .sRGB,
             red: Double(r) / 255,

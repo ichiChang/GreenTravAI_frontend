@@ -88,18 +88,12 @@ struct StopListView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showEditView) {
-                NewStopView(showNewStop: $showEditView,
-                            hasExistingSchedule: false,
-                            reloadData: reloadData,
-                            selectedDate: selectedDate)
-                    .presentationDetents([.height(650)])
-            }
         }
         .sheet(isPresented: $showEditView) {
-            EditPlanView(stop: $selectedPlaceName)
-                 .presentationDetents([.height(650)])
-         }
+            EditStopView()
+                .environmentObject(travelPlanViewModel)  
+                .presentationDetents([.height(650)])
+        }
     }
     private func sendReorderRequest() {
         print("Original order:")
