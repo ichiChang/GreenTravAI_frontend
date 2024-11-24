@@ -40,8 +40,6 @@ class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var isLoading: Bool = false
     @Published var error: String?
-    @Published var lastRecommendations: [Recommendation] = []
-    @Published var selectedRecommendation: Recommendation?
     @Published var lastCurrentUserMessageID: String? = nil
     
     private var cancellables = Set<AnyCancellable>()
@@ -51,66 +49,68 @@ class ChatViewModel: ObservableObject {
             self.error = "Invalid URL"
             return
         }
-        
+
         // Immediately add user message
         let newUUID = UUID()
-        self.messages.append(Message(id: newUUID, content: query, isCurrentUser: true))
+        self.messages.append(Message(content: query, isCurrentUser: true))
         self.lastCurrentUserMessageID = newUUID.uuidString
-        
+
         isLoading = true
         error = nil
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
+
         let body = ["query": query]
         request.httpBody = try? JSONEncoder().encode(body)
-        
+
         URLSession.shared.dataTaskPublisher(for: request)
             .map(\.data)
             .decode(type: ApiResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink(receiveCompletion: { completion in
                 self.isLoading = false
                 if case .failure(let error) = completion {
                     self.error = error.localizedDescription
                 }
-            } receiveValue: { response in
+            }, receiveValue: { response in
                 var fullMessage = ""
-                
-                // Add recommendations first if available
+                var recommendations: [Recommendation] = []
+                var accommodationResults: [AccommodationResult] = []
+
+                // Extract recommendations
                 if let firstPlan = response.response.Plans.first {
-                    self.lastRecommendations = firstPlan.Recommendation
-                    
-                    for recommendation in firstPlan.Recommendation {
+                    recommendations = firstPlan.Recommendation
+                    for recommendation in recommendations {
                         fullMessage += """
-                                                **\(recommendation.Location)**
-                                                地址：\(recommendation.Address)
-                                                \(recommendation.description)
-                                                建議停留時間：\(recommendation.latency)分鐘
-                                                """
-                        
-                        // Add double line break after each recommendation except the last one
+                        **\(recommendation.Location)**
+                        地址：\(recommendation.Address)
+                        \(recommendation.description)
+                        建議停留時間：\(recommendation.latency)分鐘
+                        """
+
                         fullMessage += "\n\n"
-                        
                     }
                 }
-                if !response.response.results.isEmpty {
-                    for (index, accommodation) in response.response.results.enumerated() {
+
+                // Extract accommodation results
+                accommodationResults = response.response.results
+                if !accommodationResults.isEmpty {
+                    for (index, accommodation) in accommodationResults.enumerated() {
                         fullMessage += """
-                                        **\(accommodation.name)**
-                                        \(accommodation.summary)
-                                        [查看詳情](\(accommodation.link))
-                                        """
-                        
-                        if index < response.response.results.count - 1 {
+                        **\(accommodation.name)**
+                        \(accommodation.summary)
+                        [查看詳情](\(accommodation.link))
+                        """
+
+                        if index < accommodationResults.count - 1 {
                             fullMessage += "\n\n"
                         }
                     }
                 }
-                
+
                 // Add Text_ans after recommendations
                 if let textAns = response.response.Text_ans, !textAns.isEmpty {
                     if !fullMessage.isEmpty {
@@ -118,12 +118,14 @@ class ChatViewModel: ObservableObject {
                     }
                     fullMessage += textAns
                 }
-                
-                // Add as a single message
-                self.messages.append(Message(content: fullMessage, isCurrentUser: false))
-            }
+
+                // Create assistant message with recommendations
+                let assistantMessage = Message(content: fullMessage, isCurrentUser: false, recommendations: recommendations)
+                self.messages.append(assistantMessage)
+            })
             .store(in: &cancellables)
     }
+
     
     func sendGreenMessage(query: String, token: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/chatbot") else {
@@ -161,7 +163,6 @@ class ChatViewModel: ObservableObject {
                 
                 // Add recommendations first if available
                 if let firstPlan = response.response.Plans.first {
-                    self.lastRecommendations = firstPlan.Recommendation
                     
                     for recommendation in firstPlan.Recommendation {
                         fullMessage += """

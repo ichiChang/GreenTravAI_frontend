@@ -20,7 +20,8 @@ struct ChatView: View {
     @State private var showJPicker = false
     @State private var showAlert = false
     @State private var showPlanMenuView = false
-    
+    @State private var selectedRecommendation: Recommendation?
+
     // Four PopUps
     @State private var showChatPlan = false
     @State private var showChatTransport = false
@@ -34,7 +35,7 @@ struct ChatView: View {
     @EnvironmentObject var colorManager: ColorManager
     @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-    
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -112,41 +113,14 @@ struct ChatView: View {
                         } else {
                             LazyVStack {
                                 ForEach(viewModel.messages) { message in
-                                    MessageView(currentMessage: message)
-                                        .id(message.id)
+                                    MessageView(currentMessage: message, onRecommendationTap: { recommendation in
+                                        self.selectedRecommendation = recommendation
+                                        self.showJPicker.toggle()
+                                    })
+                                    .id(message.id)
                                 }
 
-                                
-                                if !viewModel.lastRecommendations.isEmpty {
-                                    VStack(spacing: 10) {
-                                        ForEach(viewModel.lastRecommendations, id: \.Location) { recommendation in
-                                            Button(action: {
-                                                viewModel.selectedRecommendation = recommendation
-                                                showJPicker.toggle()
-                                            }) {
-                                                HStack {
-                                                    Text("新增")
-                                                        .bold()
-                                                    Text(recommendation.Location)
-                                                        .bold()
-                                                        .underline()
-                                                    Text("至現有規劃")
-                                                        .bold()
-                                                }
-                                                .foregroundColor(.white)
-                                                .font(.system(size: 15))
-                                                .frame(width: 250)
-                                                .padding(10)
-                                                .background(Color(hex: "8F785C", alpha: 1.0))
-                                                .cornerRadius(15)
-                                                .multilineTextAlignment(.center)
-                                            }
-                                        }
-                                    }
-                                    .padding(10)
-                                    .id(viewModel.lastRecommendations.first?.Location ?? "Recommendations")
 
-                                }
 
                                 
                                 // Loading indicator
@@ -225,13 +199,14 @@ struct ChatView: View {
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(
                     showJPicker: $showJPicker,
-                    chatContent: viewModel.messages.last?.content ?? "",
-                    recommendation: viewModel.selectedRecommendation,
+                    chatContent: selectedRecommendation?.description ?? "",
+                    recommendation: selectedRecommendation,
                     navigateToPlanView: $navigateToPlanView
                 )
                 .environmentObject(travelPlanViewModel)
                 .environmentObject(authViewModel)
             }
+            
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
                     sendMessage(with: message)
@@ -269,7 +244,6 @@ struct ChatView: View {
         guard let token = authViewModel.accessToken else {
             return
         }
-        
         let messageToSend = content ?? newMessage
         if !messageToSend.isEmpty {
             if isEnabled {
@@ -278,19 +252,19 @@ struct ChatView: View {
                 viewModel.sendMessage(query: messageToSend, token: token)
             }
             newMessage = ""
+        
             
             // Scroll to the latest message after it is added
             DispatchQueue.main.async {
                 withAnimation {
-                    if !viewModel.lastRecommendations.isEmpty {
-                        scrollProxy?.scrollTo(viewModel.lastRecommendations.first?.Location ?? "Recommendations", anchor: .top)
-                    } else if let lastMessageId = viewModel.messages.last?.id {
+                    if let lastMessageId = viewModel.messages.last?.id {
                         scrollProxy?.scrollTo(lastMessageId, anchor: .bottom)
                     }
                 }
             }
         }
     }
+
 
 
     
@@ -312,29 +286,69 @@ struct ChatView: View {
 
 struct MessageView: View {
     var currentMessage: Message
-    
+    var onRecommendationTap: ((Recommendation) -> Void)?
+
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            if !currentMessage.isCurrentUser {
-                Image(.travelAgent)
-                    .resizable()
-                    .frame(width: 30, height: 30, alignment: .center)
-                    .cornerRadius(20)
-                    .padding(.leading, 20)
-                
-                MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
-                    .frame(width: 270, alignment: .leading)
-                Spacer()
-            } else {
-                Spacer()
-                MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
-                    .frame(width: 250, alignment: .trailing)
-                    .padding(.trailing, 20)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top, spacing: 10) {
+                if !currentMessage.isCurrentUser {
+                    Image(.travelAgent)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(20)
+                        .padding(.leading, 20)
+
+                    MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
+                        .frame(width: 270, alignment: .leading)
+                    Spacer()
+                } else {
+                    Spacer()
+                    MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
+                        .frame(width: 250, alignment: .trailing)
+                        .padding(.trailing, 20)
+                }
+            }
+            .padding(.top, 12)
+
+            // Display recommendations if any
+            if !currentMessage.recommendations.isEmpty {
+                HStack{
+                    Spacer()
+
+                    VStack(spacing: 10) {
+                        ForEach(currentMessage.recommendations, id: \.Location) { recommendation in
+                            
+                            Button(action: {
+                                onRecommendationTap?(recommendation)
+                            }) {
+                                HStack {
+                                    Text("新增")
+                                        .bold()
+                                    Text(recommendation.Location)
+                                        .bold()
+                                        .underline()
+                                    Text("至現有規劃")
+                                        .bold()
+                                }
+                                .foregroundColor(.white)
+                                .font(.system(size: 15))
+                                .frame(width: 240)
+                                .padding(10)
+                                .background(Color(hex: "8F785C"))
+                                .cornerRadius(15)
+                                .multilineTextAlignment(.center)
+                            }
+                            
+                        }
+                    }
+                }
+                .frame(width: 330)
+
             }
         }
-        .padding(.top, 12)
     }
 }
+
 
 struct MessageCell: View {
     var contentMessage: String
