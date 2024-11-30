@@ -15,7 +15,14 @@ struct SearchView: View{
     @State private var showres = false
     @State private var showaccom = false
     @StateObject private var mapViewModel = MapViewModel()
+
+    // Add State Variables
+    @State private var showJPicker = false
+    @State private var selectedRecommendation: Recommendation?
+    @State private var navigateToPlanView = false
     
+    @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
    
     var body: some View{
         NavigationView  {
@@ -83,48 +90,64 @@ struct SearchView: View{
         .onAppear {
             index1 = 4 // Default to "低碳"
         }
-    }
-    private func categoryButton(title: String, systemName: String, index: Int) -> some View {
-        Button(action: {
-            self.index1 = index
-            if index == 4 {
-                navigateToLowCarbon = true
-            }else{
-                navigateToLowCarbon = false
-                switch index {
-                case 0:
-                    mapViewModel.searchNearbyPlaces()
-                case 1:
-                    mapViewModel.searchPlaces(query: "餐廳")
-                case 2:
-                    mapViewModel.searchPlaces(query: "住宿")
-                case 3:
-                    mapViewModel.searchPlaces(query: "超市")
-                default:
-                    break
-                }
-            }}) {
-            HStack {
-                Image(systemName: systemName)
-                    .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
-                    .frame(width: 20, height: 20)
-                Text(title)
-                    .font(.system(size: 15))
-                    .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
-            }
-            .frame(width: 80, height: 35)
-            .background(Color.white)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
+        .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
+            JourneyPicker(
+                showJPicker: $showJPicker,
+                chatContent: selectedRecommendation?.description ?? "",
+                recommendation: selectedRecommendation,
+                navigateToPlanView: $navigateToPlanView
             )
+            .environmentObject(travelPlanViewModel)
+            .environmentObject(authViewModel)
         }
-        .padding(.horizontal, 5)
+        .navigationDestination(isPresented: $navigateToPlanView) {
+            PlanView()
+                .environmentObject(travelPlanViewModel)
+                .environmentObject(authViewModel)
+        }
+        
     }
+private func categoryButton(title: String, systemName: String, index: Int) -> some View {
+    Button(action: {
+        self.index1 = index
+        if index == 4 {
+            navigateToLowCarbon = true
+        }else{
+            navigateToLowCarbon = false
+            switch index {
+            case 0:
+                mapViewModel.searchNearbyPlaces()
+            case 1:
+                mapViewModel.searchPlaces(query: "餐廳")
+            case 2:
+                mapViewModel.searchPlaces(query: "住宿")
+            case 3:
+                mapViewModel.searchPlaces(query: "超市")
+            default:
+                break
+            }
+        }}) {
+        HStack {
+            Image(systemName: systemName)
+                .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+                .frame(width: 20, height: 20)
+            Text(title)
+                .font(.system(size: 15))
+                .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
+        }
+        .frame(width: 80, height: 35)
+        .background(Color.white)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
+        )
+    }
+    .padding(.horizontal, 5)
+}
     
-    // Helper function to display place card
-    func placeCard(placeModel: PlaceModel) -> some View {
+// Helper function to display place card
+func placeCard(placeModel: PlaceModel) -> some View {
         VStack(spacing: 0) {
             ZStack(alignment:.top) {
                 HStack {
@@ -196,7 +219,16 @@ struct SearchView: View{
                 Spacer()
                 
                 Button(action: {
-                    // 按鈕動作
+                    // Convert placeModel to Recommendation
+                    let recommendation = Recommendation(
+                        Activity: placeModel.name,
+                        Address: placeModel.address,
+                        Location: placeModel.name,
+                        description: "推薦的地方",
+                        latency: "30"
+                    )
+                    selectedRecommendation = recommendation
+                    showJPicker.toggle()
                 }) {
                     Image(systemName: "plus")
                         .resizable()
@@ -208,9 +240,13 @@ struct SearchView: View{
             }
             .frame(width: 280, height: 60, alignment: .leading)
             .background(Color.white)
+            .navigationBarBackButtonHidden(true)
+
+
         }
         .cornerRadius(20)
         .shadow(radius: 5)
         .padding(20)
     }
 }
+

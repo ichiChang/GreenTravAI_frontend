@@ -110,7 +110,7 @@ struct EditTransportationView: View {
                                 
                                 if mode.emissionReduction > 0 {
                                     Text("相比開車減少 \(mode.emissionReduction) 克碳排放量")
-                                        .font(.system(size: 15))
+                                        .font(.system(size: 12))
                                         .bold()
                                         .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
                                 }
@@ -176,9 +176,16 @@ struct EditTransportationView: View {
         .onAppear {
             transportationViewModel.fetchTransportations(fromStopId: fromStopId, toStopId: toStopId, token: token)
         }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("提示"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        .popupNavigationView(horizontalPadding: 40, show: $showAlert,useDefaultFrame: false) {
+            CustomAlertView(
+                isPresented: $showAlert,
+                title: "提示",
+                message: alertMessage,
+                primaryButtonText: "OK",
+                primaryButtonAction: { showAlert = false }
+            )
         }
+
 
     }
     
@@ -191,5 +198,19 @@ struct EditTransportationView: View {
         case "two_wheeler": return "scooter"
         default: return "questionmark.circle"
         }
+    }
+}
+
+struct EditTransportationView_Previews: PreviewProvider {
+    static var previews: some View {
+        EditTransportationView(
+            fromStopId: "001",
+            toStopId: "002",
+            fromStopName: "袖珍博物館",
+            toStopName: "故宮博物院",
+            token: "token123",
+            reloadData: {}
+        )
+        .environmentObject(TransportationViewModel())
     }
 }

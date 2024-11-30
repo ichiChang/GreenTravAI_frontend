@@ -206,7 +206,6 @@ struct ChatView: View {
                 .environmentObject(travelPlanViewModel)
                 .environmentObject(authViewModel)
             }
-            
             .popupNavigationView(horizontalPadding: 40, show: $showChatPlan) {
                 ChatPlan(showChatPlan: $showChatPlan, onSubmit: { message in
                     sendMessage(with: message)

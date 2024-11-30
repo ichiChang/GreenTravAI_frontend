@@ -18,6 +18,7 @@ struct MenuView: View {
     @State var showSearchView = true  // Set default view to SearchView
     @EnvironmentObject var authViewModel: AuthViewModel
 
+
     var body: some View {
         
         VStack(spacing:0) {
@@ -69,7 +70,7 @@ struct CustomTabs: View {
             }, label: {
                 Image(index == 0 ? "searchGreen" : "searchWhite")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 35, height: 35)
             })
 
             // Other buttons should also reset showSearchView when they are active
@@ -133,10 +134,5 @@ struct CustomTabs: View {
 }
 
 
-struct MenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuView()
-            .environmentObject(AuthViewModel())
-    }
-}
+
 

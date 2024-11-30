@@ -5,7 +5,12 @@ struct LowCarbonView: View {
     var name: String
     var address: String
     var image: Image
-
+    @State private var showJPicker = false
+    @State private var selectedRecommendation: Recommendation?
+    @State private var navigateToPlanView = false
+    
+    @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .top) {
@@ -77,7 +82,16 @@ struct LowCarbonView: View {
                 Spacer()
                 
                 Button(action: {
-                    // 按鈕動作
+                    // Convert placeModel to Recommendation
+                    let recommendation = Recommendation(
+                        Activity: name,
+                        Address: address,
+                        Location: name,
+                        description: "推薦的地方",
+                        latency: "30"
+                    )
+                    selectedRecommendation = recommendation
+                    showJPicker.toggle()
                 }) {
                     Image(systemName: "plus")
                         .resizable()
@@ -88,10 +102,26 @@ struct LowCarbonView: View {
             }
             .frame(width: 280, height: 60, alignment: .leading)
             .background(Color.white)
+
         }
         .cornerRadius(20)
         .shadow(radius: 5)
         .padding(20)
+        .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
+            JourneyPicker(
+                showJPicker: $showJPicker,
+                chatContent: selectedRecommendation?.description ?? "",
+                recommendation: selectedRecommendation,
+                navigateToPlanView: $navigateToPlanView
+            )
+            .environmentObject(travelPlanViewModel)
+            .environmentObject(authViewModel)
+        }
+        .navigationDestination(isPresented: $navigateToPlanView) {
+            PlanView()
+                .environmentObject(travelPlanViewModel)
+                .environmentObject(authViewModel)
+        }
     }
 }
 

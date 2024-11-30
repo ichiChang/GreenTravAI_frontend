@@ -14,6 +14,7 @@ struct Recommendation: Codable {
     let Location: String
     let description: String
     let latency: String
+
 }
 
 struct PlanRecommendation: Codable {

@@ -95,7 +95,7 @@ struct JourneyPicker: View {
                 }
                 .padding()
             }
-            .popupNavigationView(horizontalPadding: 40, show: $showCustomAlert) {
+            .popupNavigationView(horizontalPadding: 40, show: $showCustomAlert,useDefaultFrame: false) {
                 CustomAlertView(isPresented: $showCustomAlert, title: alertTitle, message: alertMessage, primaryButtonText: "查看行程", secondaryButtonText: "取消", primaryButtonAction: {
                     if let selectedPlan = viewModel.travelPlans.first(where: { $0.id == selectedPlanId }) {
                         viewModel.selectedTravelPlan = selectedPlan

@@ -82,16 +82,17 @@ struct MyPlansView: View {
 
                 }
             }
-            .sheet(isPresented: $showNewJourney) {
-                NewTravelPlanView(showNewJourney: $showNewJourney)
-                    .environmentObject(travelPlanViewModel)
-                    .environmentObject(authViewModel)
-            }
+
         }
         .onAppear {
             if let token = authViewModel.accessToken {
                 travelPlanViewModel.fetchTravelPlans(token: token)
             }
+        }
+        .popupNavigationView(horizontalPadding: 40, show: $showNewJourney) {
+            NewTravelPlanView(showNewJourney: $showNewJourney)
+                .environmentObject(travelPlanViewModel)
+                .environmentObject(authViewModel)
         }
     }
 }
@@ -144,5 +145,13 @@ struct PlanRowView: View {
         } else {
             return dateString
         }
+    }
+}
+
+struct MyPlansView_Previews: PreviewProvider {
+    static var previews: some View {
+        MyPlansView()
+            .environmentObject(AuthViewModel())
+            .environmentObject(TravelPlanViewModel())
     }
 }

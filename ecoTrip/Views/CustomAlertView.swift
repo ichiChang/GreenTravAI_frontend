@@ -1,10 +1,3 @@
-//
-//  CustomAlertView.swift
-//  ecoTrip
-//
-//  Created by 陳萭鍒 on 2024/11/22.
-//
-
 import SwiftUI
 
 struct CustomAlertView: View {
@@ -12,9 +5,9 @@ struct CustomAlertView: View {
     let title: String
     let message: String
     let primaryButtonText: String
-    let secondaryButtonText: String
+    var secondaryButtonText: String?  // Optional secondary button text
     var primaryButtonAction: () -> Void
-    var secondaryButtonAction: () -> Void
+    var secondaryButtonAction: () -> Void = {}  // Default empty action for secondary button
 
     var body: some View {
         ZStack {
@@ -39,22 +32,23 @@ struct CustomAlertView: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true) // Ensures text can expand vertically as needed
 
-                    HStack {
-                        Button(action: {
-                            withAnimation {
-                                secondaryButtonAction()
-                                isPresented = false
+                    HStack(spacing: 10) {
+                        if let secondaryText = secondaryButtonText {
+                            Button(action: {
+                                withAnimation {
+                                    secondaryButtonAction()
+                                    isPresented = false
+                                }
+                            }) {
+                                Text(secondaryText)
+                                    .font(.headline)
+                                    .foregroundStyle(.tint)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Material.regular)
+                                    .background(.gray)
+                                    .clipShape(RoundedRectangle(cornerRadius: 30))
                             }
-                        }) {
-                            Text(secondaryButtonText)
-                            .font(.headline)
-                            .foregroundStyle(.tint)
-                            .padding()
-                            .lineLimit(1)
-                            .frame(maxWidth: .infinity)
-                            .background(Material.regular)
-                            .background(.gray)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
                         }
 
                         Button(action: {
@@ -67,12 +61,13 @@ struct CustomAlertView: View {
                                 .font(.headline).bold()
                                 .foregroundStyle(Color.white)
                                 .padding()
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: secondaryButtonText == nil ? 120 : .infinity / 2) // Adjust width dynamically
                                 .background(.tint)
                                 .clipShape(RoundedRectangle(cornerRadius: 30.0))
                         }
+                        .frame(width: secondaryButtonText == nil ? 120 : nil)  // Set fixed width if no secondary button
                     }
+                    .frame(maxWidth: .infinity)
                 }
                 .padding()
                 .background(Color.white)
@@ -93,7 +88,7 @@ struct CustomAlertView_Previews: PreviewProvider {
             title: "行程新增成功",
             message: "您的行程已成功新增至旅行計劃中。",
             primaryButtonText: "查看行程",
-            secondaryButtonText: "取消",
+            secondaryButtonText: "取消",  // No secondary button text
             primaryButtonAction: { print("查看行程") },
             secondaryButtonAction: { print("取消") }
         )
