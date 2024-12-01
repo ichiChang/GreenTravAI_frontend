@@ -90,8 +90,8 @@ struct StopListView: View {
             }
         }
         .sheet(isPresented: $showEditView) {
-            EditStopView()
-                .environmentObject(travelPlanViewModel)  
+            EditStopView(accessToken: accessToken, reloadData: reloadData)
+                .environmentObject(travelPlanViewModel)
                 .presentationDetents([.height(650)])
         }
     }

@@ -337,6 +337,51 @@ class TravelPlanViewModel: ObservableObject {
             }
         }.resume()
     }
+    func editStop(stopId: String, name: String, note: String, address: String, latency: Int, token: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/\(stopId)") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        let requestBody: [String: Any] = [
+            "Name": name,
+            "note": note,
+            "address": address,
+            "latency": latency
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        } catch {
+            completion(false, "Failed to encode request body")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(false, "Invalid response")
+                    return
+                }
+                
+                if (200...299).contains(httpResponse.statusCode) {
+                    completion(true, nil)
+                } else {
+                    completion(false, "Server error: HTTP \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
     func refreshTravelPlans(token: String) {
         fetchTravelPlans(token: token)
     }
