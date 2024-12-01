@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchView: View{
+struct SearchView: View {
     @State private var searchText = ""
     @Binding var index1: Int
     @State private var navigateToLowCarbon = true
@@ -16,31 +16,31 @@ struct SearchView: View{
     @State private var showaccom = false
     @StateObject private var mapViewModel = MapViewModel()
 
-    // Add State Variables
+    // State Variables
     @State private var showJPicker = false
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToPlanView = false
-    
+
     @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-   
-    var body: some View{
-        NavigationView  {
+
+    var body: some View {
+        NavigationStack {
             VStack(alignment: .center) {
                 HStack {
                     Spacer()
                 }
-                .frame(height:40)
+                .frame(height: 40)
                 .frame(maxWidth: .infinity)
-                .background(Color.init(hex: "5E845B", alpha: 1.0))
-                
+                .background(Color(hex: "5E845B"))
+
                 // Search bar
                 HStack {
                     // Search icon
                     Image(systemName: "magnifyingglass")
                         .frame(width: 45, height: 45)
                         .padding(.leading, 10)
-                    
+
                     // Text field
                     TextField("搜尋地點", text: $searchText)
                         .font(.system(size: 15))
@@ -49,10 +49,10 @@ struct SearchView: View{
                         }
                         .padding(.vertical, 10)
                 }
-                .background(Color.init(hex: "E8E8E8", alpha: 1.0))
+                .background(Color(hex: "E8E8E8"))
                 .cornerRadius(10)
                 .padding()
-                
+
                 // Button section
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
@@ -64,13 +64,19 @@ struct SearchView: View{
                     }
                     .padding(.horizontal)
                 }
-                
+
                 if navigateToLowCarbon {
-                    LowCarbonListView()
+                    LowCarbonListView(
+                        showJPicker: $showJPicker,
+                        selectedRecommendation: $selectedRecommendation,
+                        navigateToPlanView: $navigateToPlanView
+                    )
                 } else if mapViewModel.isLoading {
                     ProgressView("正在載入地點...")
                         .font(.system(size: 15))
-                        .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
+                        .progressViewStyle(
+                            CircularProgressViewStyle(tint: Color(hex: "5E845B"))
+                        )
                         .padding()
                 } else if mapViewModel.searchResults.isEmpty {
                     Text("沒有找到地點")
@@ -86,6 +92,11 @@ struct SearchView: View{
                 }
                 Spacer()
             }
+            .navigationDestination(isPresented: $navigateToPlanView) {
+                PlanView()
+                    .environmentObject(travelPlanViewModel)
+                    .environmentObject(authViewModel)
+            }
         }
         .onAppear {
             index1 = 4 // Default to "低碳"
@@ -100,73 +111,73 @@ struct SearchView: View{
             .environmentObject(travelPlanViewModel)
             .environmentObject(authViewModel)
         }
-        .navigationDestination(isPresented: $navigateToPlanView) {
-            PlanView()
-                .environmentObject(travelPlanViewModel)
-                .environmentObject(authViewModel)
-        }
+
         
+
     }
-private func categoryButton(title: String, systemName: String, index: Int) -> some View {
-    Button(action: {
-        self.index1 = index
-        if index == 4 {
-            navigateToLowCarbon = true
-        }else{
-            navigateToLowCarbon = false
-            switch index {
-            case 0:
-                mapViewModel.searchNearbyPlaces()
-            case 1:
-                mapViewModel.searchPlaces(query: "餐廳")
-            case 2:
-                mapViewModel.searchPlaces(query: "住宿")
-            case 3:
-                mapViewModel.searchPlaces(query: "超市")
-            default:
-                break
-            }
-        }}) {
-        HStack {
-            Image(systemName: systemName)
-                .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
-                .frame(width: 20, height: 20)
-            Text(title)
-                .font(.system(size: 15))
-                .foregroundColor(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0))
-        }
-        .frame(width: 80, height: 35)
-        .background(Color.white)
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(index1 == index ? .black : Color.init(hex: "999999", alpha: 1.0), lineWidth: 3)
-        )
-    }
-    .padding(.horizontal, 5)
-}
     
-// Helper function to display place card
-func placeCard(placeModel: PlaceModel) -> some View {
+
+    private func categoryButton(title: String, systemName: String, index: Int) -> some View {
+        Button(action: {
+            self.index1 = index
+            if index == 4 {
+                navigateToLowCarbon = true
+            } else {
+                navigateToLowCarbon = false
+                switch index {
+                case 0:
+                    mapViewModel.searchNearbyPlaces()
+                case 1:
+                    mapViewModel.searchPlaces(query: "餐廳")
+                case 2:
+                    mapViewModel.searchPlaces(query: "住宿")
+                case 3:
+                    mapViewModel.searchPlaces(query: "超市")
+                default:
+                    break
+                }
+            }
+        }) {
+            HStack {
+                Image(systemName: systemName)
+                    .foregroundColor(index1 == index ? .black : Color(hex: "999999"))
+                    .frame(width: 20, height: 20)
+                Text(title)
+                    .font(.system(size: 15))
+                    .foregroundColor(index1 == index ? .black : Color(hex: "999999"))
+            }
+            .frame(width: 80, height: 35)
+            .background(Color.white)
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(index1 == index ? .black : Color(hex: "999999"), lineWidth: 3)
+            )
+        }
+        .padding(.horizontal, 5)
+    }
+
+    // Helper function to display place card
+    func placeCard(placeModel: PlaceModel) -> some View {
         VStack(spacing: 0) {
-            ZStack(alignment:.top) {
+            ZStack(alignment: .top) {
                 HStack {
                     // Display lowCarbon icon if the place is low-carbon
                     if false {
                         ZStack {
-                            Circle()  // 白色圓形背景
+                            Circle() // 白色圓形背景
                                 .foregroundColor(.white)
                                 .frame(width: 30, height: 30)
-                            
+
                             Image(systemName: "leaf.circle")
                                 .resizable()
                                 .frame(width: 30, height: 30)
-                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                .foregroundColor(Color(hex: "5E845B"))
                         }
                         .padding(10)
                     }
                     Spacer()
-                    
+
                     // Heart button for favoriting a place
                     Button(action: {
                         // TODO: favorite
@@ -176,18 +187,18 @@ func placeCard(placeModel: PlaceModel) -> some View {
                                 .foregroundColor(.white)
                                 .frame(width: 40, height: 40)
                                 .padding(5)
-                            
-                            Image(systemName:"heart")
+
+                            Image(systemName: "heart")
                                 .resizable()
                                 .frame(width: 20, height: 20)
-                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                .foregroundColor(Color(hex: "5E845B"))
                                 .bold()
                         }
                     })
                 }
                 .frame(width: 280, height: 60)
                 .zIndex(1)
-                
+
                 // Place image with NavigationLink to SiteInfoView
                 NavigationLink(destination: SiteInfoView(placeModel: placeModel)) {
                     if let image = placeModel.image {
@@ -196,11 +207,15 @@ func placeCard(placeModel: PlaceModel) -> some View {
                             .scaledToFill()
                             .frame(width: 280, height: 130)
                             .clipped()
+                    } else {
+                        // Placeholder image or empty view
+                        Color.gray
+                            .frame(width: 280, height: 130)
                     }
                 }
             }
-            
-            HStack(spacing:0) {
+
+            HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(placeModel.name)
                         .font(.system(size: 20))
@@ -208,7 +223,7 @@ func placeCard(placeModel: PlaceModel) -> some View {
                         .padding(.top, 15)
                         .padding(.leading, 10)
                         .padding(.bottom, 3)
-                    
+
                     Text(placeModel.address)
                         .font(.system(size: 13))
                         .foregroundColor(.gray)
@@ -217,7 +232,7 @@ func placeCard(placeModel: PlaceModel) -> some View {
                         .frame(maxWidth: 200)
                 }
                 Spacer()
-                
+
                 Button(action: {
                     // Convert placeModel to Recommendation
                     let recommendation = Recommendation(
@@ -235,18 +250,15 @@ func placeCard(placeModel: PlaceModel) -> some View {
                         .frame(width: 18, height: 18)
                         .foregroundColor(.black)
                         .padding(.trailing, 15)
-
                 }
             }
             .frame(width: 280, height: 60, alignment: .leading)
             .background(Color.white)
             .navigationBarBackButtonHidden(true)
-
-
         }
         .cornerRadius(20)
         .shadow(radius: 5)
         .padding(20)
+
     }
 }
-

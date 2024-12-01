@@ -1,60 +1,43 @@
 import SwiftUI
 
-// Individual low-carbon place view
 struct LowCarbonView: View {
     var name: String
     var address: String
     var image: Image
-    @State private var showJPicker = false
-    @State private var selectedRecommendation: Recommendation?
-    @State private var navigateToPlanView = false
+    @Binding var showJPicker: Bool
+    @Binding var selectedRecommendation: Recommendation?
+    @Binding var navigateToPlanView: Bool
     
-    @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
+    @EnvironmentObject var travelPlanViewModel: TravelPlanViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .top) {
                 HStack {
                     // Display lowCarbon icon
                     ZStack {
-                        Circle()  // 白色圓形背景
+                        Circle()
                             .foregroundColor(.white)
                             .frame(width: 35, height: 35)
                         
                         Image(systemName: "leaf.circle")
                             .resizable()
                             .frame(width: 35, height: 35)
-                            .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-
+                            .foregroundColor(Color(hex: "5E845B", alpha: 1.0))
                     }
                     .padding(10)
                     
                     Spacer()
                     
                     // Heart button for favoriting a place
-                    Button(action: {
-                        // TODO: favorite
-                    }, label: {
-                        ZStack {
-                            Circle()
-                                .foregroundColor(.white)
-                                .frame(width: 30, height: 30)
-                                .padding(5)
-                            
-                            Image(systemName: "heart")
-                                .resizable()
-                                .frame(width: 15, height: 15)
-                                .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
-                                .bold()
-                        }
-                    })
+                    FavoriteButton()
                 }
                 .frame(width: 280, height: 60)
                 .zIndex(1)
                 
                 // Place image
                 NavigationLink(destination: LowCarbonSiteInfoView(name: name, address: address, image: image)) {
-                    
                     image
                         .resizable()
                         .scaledToFill()
@@ -102,31 +85,22 @@ struct LowCarbonView: View {
             }
             .frame(width: 280, height: 60, alignment: .leading)
             .background(Color.white)
-
         }
         .cornerRadius(20)
         .shadow(radius: 5)
         .padding(20)
-        .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
-            JourneyPicker(
-                showJPicker: $showJPicker,
-                chatContent: selectedRecommendation?.description ?? "",
-                recommendation: selectedRecommendation,
-                navigateToPlanView: $navigateToPlanView
-            )
-            .environmentObject(travelPlanViewModel)
-            .environmentObject(authViewModel)
-        }
-        .navigationDestination(isPresented: $navigateToPlanView) {
-            PlanView()
-                .environmentObject(travelPlanViewModel)
-                .environmentObject(authViewModel)
-        }
     }
 }
 
 // Main list view for displaying multiple low-carbon places
 struct LowCarbonListView: View {
+    @Binding var showJPicker: Bool
+    @Binding var selectedRecommendation: Recommendation?
+    @Binding var navigateToPlanView: Bool
+
+    @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
+
     let places = [
         (name: "Blue磚塊廚房", address: "106台北市大安區敦南街38號", image: Image("2")),
         (name: "陽明山國家公園", address: "台北市士林區竹子湖路1-20號", image: Image("3")),
@@ -145,9 +119,39 @@ struct LowCarbonListView: View {
     var body: some View {
         ScrollView {
             ForEach(places, id: \.name) { place in
-                LowCarbonView(name: place.name, address: place.address, image: place.image)
+                LowCarbonView(
+                    name: place.name,
+                    address: place.address,
+                    image: place.image,
+                    showJPicker: $showJPicker,
+                    selectedRecommendation: $selectedRecommendation,
+                    navigateToPlanView: $navigateToPlanView
+                )
+                .environmentObject(travelPlanViewModel)
+                .environmentObject(authViewModel)
             }
         }
+
     }
 }
 
+struct FavoriteButton: View {
+    var body: some View {
+        Button(action: {
+            // TODO: Implement favorite action
+        }, label: {
+            ZStack {
+                Circle()
+                    .foregroundColor(.white)
+                    .frame(width: 30, height: 30)
+                    .padding(5)
+                
+                Image(systemName: "heart")
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(Color(hex: "5E845B", alpha: 1.0))
+                    .bold()
+            }
+        })
+    }
+}

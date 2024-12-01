@@ -204,9 +204,9 @@ struct SiteInfoView: View {
                     Spacer()
                     
                 }
+
                 
             }
-            .navigationBarBackButtonHidden(true)
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(
                     showJPicker: $showJPicker,
@@ -223,6 +223,9 @@ struct SiteInfoView: View {
                     .environmentObject(authViewModel)
             }
         }
+        .navigationBarHidden(true)
+
+
     }
     private func getDomainPrefix(from urlString: String) -> String {
         guard let url = URL(string: urlString),
