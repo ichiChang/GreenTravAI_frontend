@@ -17,6 +17,8 @@ struct EditStopView: View {
     @State var minutes: Int = 0
     @State private var navigateToPlaceChoice = false
     @State private var selectedPlace: PlaceModel?
+    var accessToken: String
+    var reloadData: () -> Void
     
     private func calculateTimeDifference(start: String, end: String) {
         let dateFormatter = DateFormatter()
@@ -139,7 +141,27 @@ struct EditStopView: View {
                     .padding([.bottom], 30)
                     
                     Button(action: {
-                        print(stop)
+                        if let stop = travelPlanViewModel.stopBeEdited {
+                            // 計算總分鐘數作為 latency
+                            let totalMinutes = hours * 60 + minutes
+                            
+                            travelPlanViewModel.editStop(
+                                stopId: stop.id,
+                                name: selectedPlace?.name ?? stop.stopname,
+                                note: textInput,
+                                address: selectedPlace?.address ?? stop.Address,
+                                latency: totalMinutes,
+                                token: accessToken
+                            ) { success, error in
+                                if success {
+                                    reloadData()
+                                    dismiss()
+                                } else {
+                                    print("Error editing stop: \(error ?? "Unknown error")")
+                                    // 這裡可以加入錯誤處理，例如顯示警告訊息
+                                }
+                            }
+                        }
                     }, label: {
                         Text("確定")
                             .bold()
