@@ -20,6 +20,8 @@ struct NewTravelPlanView: View {
     @State private var indexd = 0
     @State private var planName: String = ""
     @Binding var showNewJourney: Bool
+    var reloadData: () -> Void
+    
 
 
     var body: some View {
@@ -209,11 +211,7 @@ struct NewTravelPlanView: View {
             if success {
                 // Handle success
                 showNewJourney = false
-                print("Travel plan created successfully")
-                if let token = authViewModel.accessToken {
-                    travelPlanViewModel.fetchTravelPlans(token: token)
-                }
-                
+                reloadData()
             } else {
                 // Handle failure
                 travelPlanViewModel.error = errorMessage ?? "Unknown error occurred"

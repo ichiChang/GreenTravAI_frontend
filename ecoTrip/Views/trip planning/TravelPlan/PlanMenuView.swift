@@ -56,11 +56,3 @@ struct PlanMenuView: View {
     }
 
 }
-
-struct PlanMenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlanMenuView()
-            .environmentObject(AuthViewModel())
-            .environmentObject(TravelPlanViewModel())
-    }
-}
