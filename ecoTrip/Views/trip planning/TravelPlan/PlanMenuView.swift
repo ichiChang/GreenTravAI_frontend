@@ -25,19 +25,19 @@ struct PlanMenuView: View {
                     .font(.system(size: 20))
                     .bold()
                     .foregroundColor(selectedTab == .myPlans ? Color.white : Color(hex: "D1CECE", alpha: 1.0))
-                    .underline(selectedTab == .myPlans)
+//                    .underline(selectedTab == .myPlans)
                     .onTapGesture {
                         selectedTab = .myPlans
                     }
-                Spacer()
-                Text("熱門旅行計畫")
-                    .font(.system(size: 20))
-                    .bold()
-                    .foregroundColor(selectedTab == .popularPlans ? Color.white : Color(hex: "D1CECE", alpha: 1.0))
-                    .underline(selectedTab == .popularPlans)
-                    .onTapGesture {
-                        selectedTab = .popularPlans
-                    }
+//                Spacer()
+//                Text("熱門旅行計畫")
+//                    .font(.system(size: 20))
+//                    .bold()
+//                    .foregroundColor(selectedTab == .popularPlans ? Color.white : Color(hex: "D1CECE", alpha: 1.0))
+//                    .underline(selectedTab == .popularPlans)
+//                    .onTapGesture {
+//                        selectedTab = .popularPlans
+//                    }
                 Spacer()
             }
             .frame(height: 50)

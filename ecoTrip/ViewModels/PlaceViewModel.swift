@@ -1,10 +1,3 @@
-//
-//  PlaceViewModel.swift
-//  ecoTrip
-//
-//  Created by Ichi Chang on 2024/6/28.
-//
-
 import Foundation
 import Combine
 
@@ -15,7 +8,7 @@ class PlaceViewModel: ObservableObject {
     @Published var favorites: [String: Bool] = [:]
 
     private var cancellables = Set<AnyCancellable>()
-    
+
     func fetchPlaces() {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/places/") else {
             self.errorMessage = "Invalid URL"
@@ -57,10 +50,57 @@ class PlaceViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    func toggleFavorite(for id: String) {
-            favorites[id]?.toggle()
-            favorites = favorites    // 重新賦值以觸發更新
 
-        
+    func addToFavorites(userId: String, placeId: String, token: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/favorplace/") else {
+            completion(false, "Invalid URL")
+            return
         }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") // Authorization Header
+
+        // 必須傳遞 UserId 和 PlaceId
+        let requestBody: [String: String] = [
+            "UserId": userId,
+            "PlaceId": placeId
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+            print("Request body: \(requestBody)")
+        } catch {
+            completion(false, "Failed to encode request body")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(false, "Invalid response")
+                    return
+                }
+
+                if httpResponse.statusCode == 201 {
+                    completion(true, nil) // 操作成功
+                } else {
+                    // 解析伺服器返回的錯誤訊息
+                    if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                        print("Response body: \(responseString)")
+                    }
+                    completion(false, "Server error: HTTP \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+
+
+
 }

@@ -12,14 +12,34 @@ struct SiteInfoView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var placeViewModel = PlaceViewModel()
     let placeModel: PlaceModel
-    
+
     // Add State Variables
     @State private var showJPicker = false
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToPlanView = false
-    
+    @State private var showMapView = false
+    @State private var coordinates: CLLocationCoordinate2D?
+
     @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
+    
+
+    func geocodeAddress() {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(placeModel.address) { placemarks, error in
+            if let error = error {
+                print("Geocoding error: \(error.localizedDescription)")
+            } else if let placemark = placemarks?.first,
+                      let location = placemark.location {
+                DispatchQueue.main.async {
+                    self.coordinates = location.coordinate
+                }
+            } else {
+                print("No coordinates found for the address.")
+            }
+        }
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -47,6 +67,8 @@ struct SiteInfoView: View {
                         Spacer()
                         Button(action: {
                             // 地圖
+                            showMapView.toggle()
+
                         }) {
                             ZStack {
                                 Circle()
@@ -60,22 +82,58 @@ struct SiteInfoView: View {
                                     .bold()
                             }
                         }
-                        
+                        .sheet(isPresented: $showMapView) {
+                            if let coordinates = coordinates {
+                                let stop = Stop(
+                                    id: UUID().uuidString,
+                                    Address: placeModel.address,
+                                    stopname: placeModel.name,
+                                    StartTime: "",
+                                    EndTime: "",
+                                    Note: "",
+                                    transportationToNext: nil,
+                                    coordinates: [coordinates.longitude, coordinates.latitude],
+                                    Isgreen: nil
+                                )
+                                MapView(stops: [stop])
+                            } else {
+                                Text("No valid coordinates available")
+                            }
+                        }
+
                         Button(action: {
-                            placeViewModel.toggleFavorite(for: placeModel.id)
+                            if let token = authViewModel.accessToken {
+                                placeViewModel.addToFavorites(userId: "66a6561a8246fa416f8e06e2",
+                                                               placeId: placeModel.id,
+                                                               token: token) { success, errorMessage in
+                                    if success {
+                                        DispatchQueue.main.async {
+                                            placeViewModel.favorites[placeModel.id] = true
+                                        }
+                                    } else if let errorMessage = errorMessage {
+                                        print("Error: \(errorMessage)")
+                                    }
+                                }
+                            }
                         }) {
                             ZStack {
                                 Circle()
                                     .foregroundColor(.white)
-                                    .frame(width:35,height: 35)
+                                    .frame(width: 35, height: 35)
                                     .padding(10)
                                 Image(systemName: placeViewModel.favorites[placeModel.id, default: false] ? "heart.fill" : "heart")
                                     .resizable()
-                                    .frame(width:20,height: 20)
-                                    .foregroundColor(Color.init(hex: "5E845B", alpha: 1.0))
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(Color(hex: "5E845B", alpha: 1.0))
                                     .bold()
                             }
                         }
+
+
+
+
+
+
                     }
                     
                     .padding()
@@ -206,6 +264,9 @@ struct SiteInfoView: View {
                 }
 
                 
+            }
+            .onAppear {
+                geocodeAddress()
             }
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(
