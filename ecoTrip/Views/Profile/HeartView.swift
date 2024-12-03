@@ -25,16 +25,16 @@ struct HeartView: View {
                     .onTapGesture {
                         selectedTab = .travelPlan
                     }
-                Spacer()
-                Text("｜")
-                Spacer()
-                Text("旅行計劃")
-                    .font(.system(size: 20))
-                    .bold()
-                    .foregroundColor(selectedTab == .itinerary ? Color.init(hex: "5E845B", alpha: 1.0) : Color.init(hex: "BFBFBF", alpha: 1.0))
-                    .onTapGesture {
-                        selectedTab = .itinerary
-                    }
+//                Spacer()
+//                Text("｜")
+//                Spacer()
+//                Text("旅行計劃")
+//                    .font(.system(size: 20))
+//                    .bold()
+//                    .foregroundColor(selectedTab == .itinerary ? Color.init(hex: "5E845B", alpha: 1.0) : Color.init(hex: "BFBFBF", alpha: 1.0))
+//                    .onTapGesture {
+//                        selectedTab = .itinerary
+//                    }
                 Spacer()
             }
             .frame(width: 280)

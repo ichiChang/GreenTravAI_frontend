@@ -131,29 +131,40 @@ struct GoogleMapView: UIViewRepresentable {
             let customIcon = imageWithText(text: "\(index + 1). \(stop.stopname)")
             let compositeIcon = createCompositeImage(baseImage: redMarkerImage, overlayImage: customIcon, spacing: 5)
 
-
             // Add the marker to the map
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             marker.map = mapView
             marker.icon = compositeIcon
 
-
             // Update the bounds to include this coordinate
             bounds = bounds.includingCoordinate(marker.position)
         }
 
         // Update the camera after all markers have been added
-        let update = GMSCameraUpdate.fit(bounds, withPadding: 100)
-        mapView.moveCamera(update)
+        if stops.count == 1 {
+            // For a single stop, set the camera to that stop's location with a zoom level
+            let singleStop = stops.first!
+            let latitude = singleStop.coordinates[1]
+            let longitude = singleStop.coordinates[0]
+            let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15)
+            mapView.camera = camera
+        } else {
+            let update = GMSCameraUpdate.fit(bounds, withPadding: 100)
+            mapView.moveCamera(update)
+        }
         print("All pins added and camera updated.")
     }
+
 
 
     // 獲取路線
     func fetchDirections(mapView: GMSMapView) {
         guard stops.count >= 2 else {
-            print("Not enough stops to create a route.")
+            print("Only one stop available. Adding pin without route.")
+            DispatchQueue.main.async {
+                self.addStopPins(mapView: mapView) // 只有一個 stop 時只添加 pin
+            }
             return
         }
 
@@ -201,6 +212,7 @@ struct GoogleMapView: UIViewRepresentable {
         }
         task.resume()
     }
+
 
     // 畫出多線段
     func drawPolyline(mapView: GMSMapView, encodedPath: String) {

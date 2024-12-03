@@ -17,18 +17,18 @@ struct MyPlansView: View {
 
     var body: some View {
         NavigationStack {
-            // Search bar
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .frame(width: 45, height: 45)
-                    .padding(.leading, 5)
-                TextField(" ", text: $textInput)
-                    .padding(.vertical, 10)
-            }
-            .frame(width: 300, height: 35)
-            .background(Color.init(hex: "E8E8E8", alpha: 1.0))
-            .cornerRadius(10)
-            .padding()
+//            // Search bar
+//            HStack {
+//                Image(systemName: "magnifyingglass")
+//                    .frame(width: 45, height: 45)
+//                    .padding(.leading, 5)
+//                TextField(" ", text: $textInput)
+//                    .padding(.vertical, 10)
+//            }
+//            .frame(width: 300, height: 35)
+//            .background(Color.init(hex: "E8E8E8", alpha: 1.0))
+//            .cornerRadius(10)
+//            .padding()
 
             // Travel plans list
             ScrollView {
@@ -41,6 +41,7 @@ struct MyPlansView: View {
                         Text("Error: \(error)")
                     } else if travelPlanViewModel.travelPlans.isEmpty {
                         Text("目前還沒有建立任何旅行計劃")
+                            .padding(50)
                     } else {
                         ForEach(travelPlanViewModel.travelPlans) { plan in
                             Button(action: {

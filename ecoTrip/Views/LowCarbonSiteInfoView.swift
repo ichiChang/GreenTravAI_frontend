@@ -8,6 +8,7 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
 
 struct LowCarbonSiteInfoView: View {
     @Environment(\.dismiss) var dismiss
@@ -17,9 +18,27 @@ struct LowCarbonSiteInfoView: View {
     @State private var showJPicker = false
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToPlanView = false
-    
+    @State private var showMapView = false
+    @State private var coordinates: CLLocationCoordinate2D?
+
     @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
+    
+    func geocodeAddress() {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            if let error = error {
+                print("Geocoding error: \(error.localizedDescription)")
+            } else if let placemark = placemarks?.first,
+                      let location = placemark.location {
+                DispatchQueue.main.async {
+                    self.coordinates = location.coordinate
+                }
+            } else {
+                print("No coordinates found for the address.")
+            }
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -47,6 +66,8 @@ struct LowCarbonSiteInfoView: View {
                         Spacer()
                         Button(action: {
                             // 地圖
+                            showMapView.toggle()
+
                         }) {
                             ZStack {
                                 Circle()
@@ -60,7 +81,25 @@ struct LowCarbonSiteInfoView: View {
                                     .bold()
                             }
                         }
-                        
+                        .sheet(isPresented: $showMapView) {
+                            if let coordinates = coordinates {
+                                let stop = Stop(
+                                    id: UUID().uuidString,
+                                    Address: address,
+                                    stopname: name,
+                                    StartTime: "",
+                                    EndTime: "",
+                                    Note: "",
+                                    transportationToNext: nil,
+                                    coordinates: [coordinates.longitude, coordinates.latitude],
+                                    Isgreen: nil
+                                )
+                                MapView(stops: [stop])
+                            } else {
+                                Text("No valid coordinates available")
+                            }
+                        }
+
                         Button(action: {
                         }) {
                             ZStack {
@@ -205,6 +244,9 @@ struct LowCarbonSiteInfoView: View {
                 }
                 
                 
+            }
+            .onAppear {
+                geocodeAddress()
             }
             .popupNavigationView(horizontalPadding: 40, show: $showJPicker) {
                 JourneyPicker(
