@@ -18,7 +18,8 @@ class UserViewModel: ObservableObject {
     @Published var user: User?
     @Published var error: String?
     @Published var isLoading = false
-    
+    @Published var isDataReady: Bool = false
+
     // Add new properties for eco contribution
     @Published var emissionReduction: Double = 0
     @Published var greenSpotRate: Double = 0
@@ -70,8 +71,8 @@ class UserViewModel: ObservableObject {
         
         isLoading = true
         error = nil
-        
-        
+        isDataReady = false // 開始請求時設置為 false
+
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -84,7 +85,6 @@ class UserViewModel: ObservableObject {
                 if httpResponse.statusCode != 200 {
                     throw URLError(.badServerResponse)
                 }
-                
                 return output.data
             }
             .decode(type: EcoContribution.self, decoder: JSONDecoder())
@@ -93,15 +93,17 @@ class UserViewModel: ObservableObject {
                 self.isLoading = false
                 if case .failure(let error) = completion {
                     self.error = error.localizedDescription
+                    self.isDataReady = false // 如果出現錯誤，仍保持 false
                 }
             } receiveValue: { [weak self] contribution in
                 self?.emissionReduction = contribution.emission_reduction
-                self?.greenSpotRate = CGFloat(contribution.green_spot_rate)
-                self?.greenTransRate = CGFloat(contribution.green_trans_rate)
-                self?.greenPercentile = CGFloat(contribution.green_percentile)
-
+                self?.greenSpotRate = contribution.green_spot_rate
+                self?.greenTransRate = contribution.green_trans_rate
+                self?.greenPercentile = contribution.green_percentile
+                self?.isDataReady = true // 數據加載完成後設置為 true
             }
             .store(in: &cancellables)
     }
+
 }
 

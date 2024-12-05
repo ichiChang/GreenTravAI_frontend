@@ -15,7 +15,7 @@ struct LeafView: View {
                     .foregroundColor(.red)
                     .font(.system(size: 15))
                     .padding()
-            } else {
+            }  else if userViewModel.isDataReady {
                 // 資料加載完成後顯示主要內容
                 ScrollView {
                     VStack(alignment: .center) {
@@ -102,13 +102,23 @@ struct LeafView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            if let token = authViewModel.accessToken {
-                userViewModel.fetchEcoContribution(token: token)
+            else {
+                // Data is not ready
+                Text("Loading data...")
+                    .foregroundColor(.gray)
             }
         }
+        .onAppear {
+            if !userViewModel.isDataReady {
+                if let token = authViewModel.accessToken {
+                    userViewModel.fetchEcoContribution(token: token)
+                }
+            }
+        }
+
+
     }
+    
     
     // ItemRow 為每個減少碳排放的相等項目
     struct ItemRow: View {

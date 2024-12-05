@@ -17,35 +17,33 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        VStack(alignment:.center) {
-            
+        VStack(alignment: .center) {
             HStack {
-                Image("olivia")
+                Image("David")
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())
-                     .overlay(
-                          Circle()
-                              .stroke(Color.black, lineWidth: 3) // 設定外框為黑色，並調整線寬
-                      )
-                     .frame(width:90,height:90)
-                     .padding(.horizontal)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.black, lineWidth: 3)
+                    )
+                    .frame(width: 90, height: 90)
+                    .padding(.horizontal)
 
                 if userViewModel.isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
-
                 } else if let error = userViewModel.error {
                     Text(error)
                         .foregroundColor(.red)
                 } else if userViewModel.user != nil {
-                    VStack(alignment:.leading,spacing: 10){
-                        Text("Olivia Lin")
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("David Hung")
                             .bold()
                             .font(.system(size: 25))
                             .foregroundColor(.black)
                         
-                        Text("olivia1839")
+                        Text("hunghung")
                             .foregroundColor(.gray)
                             .font(.system(size: 15))
                         + Text("@gmail.com")
@@ -60,8 +58,6 @@ struct ProfileView: View {
             }
             .padding()
 
-
-
             HStack(spacing: 0) {
                 IconView(icon: .suitcase, isSelected: selectedIcon == .suitcase) {
                     selectedIcon = .suitcase
@@ -73,24 +69,24 @@ struct ProfileView: View {
                     selectedIcon = .heart
                 }
             }
-            // Displaying the appropriate view based on the selected icon
-           Group {
-               if selectedIcon == .suitcase {
-                   SuitcaseView()
-               } else if selectedIcon == .leaf {
-                   LeafView(userViewModel: userViewModel)
-               } else if selectedIcon == .heart {
-                   HeartView()
-               }
-           }
+
+            Group {
+                if selectedIcon == .suitcase {
+                    SuitcaseView()
+                } else if selectedIcon == .leaf {
+                    LeafView(userViewModel: userViewModel)
+                } else if selectedIcon == .heart {
+                    HeartView()
+                }
+            }
             Spacer()
         }
         .onAppear {
             if let token = authViewModel.accessToken {
                 userViewModel.fetchUserInfo(token: token)
+                userViewModel.fetchEcoContribution(token: token)
             }
         }
-
     }
 }
 

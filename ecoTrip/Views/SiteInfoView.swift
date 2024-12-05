@@ -202,40 +202,54 @@ struct SiteInfoView: View {
                         .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                         .padding(.vertical)
                     
-                    Link(destination: URL(string: placeModel.website!) ?? URL(string: "https://www.example.com")!) {
+                    if let websiteString = placeModel.website, !websiteString.isEmpty,
+                       let websiteURL = URL(string: websiteString) {
+                        Link(destination: websiteURL) {
+                            HStack {
+                                Image(systemName: "globe")
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                                    .padding(.horizontal)
+                                    .foregroundColor(Color(hex: "444444"))
+                                Text(getDomainPrefix(from: websiteString))
+                                    .font(.system(size: 15))
+                                Spacer()
+                            }
+                        }
+                        .padding(.horizontal)
+                    } else {
+                        // Optionally handle the case where the website is not available
+                        Text("網站資訊不可用")
+                            .padding(.horizontal)
+                            .foregroundColor(.gray)
+                    }
+
+                    
+                    Divider()
+                        .frame(minHeight: 2)
+                        .frame(width: 330)
+                        .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
+                        .padding()
+                    
+                    if let phoneNumber = placeModel.phoneNumber, !phoneNumber.isEmpty {
                         HStack {
-                            Image(systemName: "globe")
+                            Image(systemName: "phone.fill")
                                 .resizable()
                                 .frame(width: 25, height: 25)
-                                .padding(.horizontal)                     .foregroundColor(Color(hex: "444444"))
-                            Text(getDomainPrefix(from: placeModel.website!))
+                                .padding(.horizontal)
+                                .foregroundColor(Color(hex: "444444"))
+                            Text(phoneNumber)
+                                .foregroundColor(Color(hex: "444444"))
                                 .font(.system(size: 15))
-                            
                             Spacer()
                         }
-                    }
-                    .padding(.horizontal)
-                    
-                    Divider()
-                        .frame(minHeight: 2)
-                        .frame(width: 330)
-                        .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
-                        .padding()
-                    
-                    HStack {
-                        Image(systemName: "phone.fill")
-                            .resizable()
-                            .frame(width: 25, height: 25)
+                        .padding(.horizontal)
+                    } else {
+                        Text("電話資訊不可用")
                             .padding(.horizontal)
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                        Text(placeModel.phoneNumber!) // TODO: 電話
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                            .font(.system(size: 15))
-                        
-                        Spacer()
+                            .foregroundColor(.gray)
                     }
-                    
-                    .padding(.horizontal)
+
                     
                     Divider()
                         .frame(minHeight: 2)
@@ -244,19 +258,25 @@ struct SiteInfoView: View {
                         .padding()
                     
                     
-                    HStack {
-                        Image(systemName: "clock")
-                            .resizable()
-                            .frame(width: 25, height: 25)
+                    if let openingHours = placeModel.currentOpeningHours, !openingHours.isEmpty {
+                        HStack {
+                            Image(systemName: "clock")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                                .padding(.horizontal)
+                                .foregroundColor(Color(hex: "444444"))
+                            Text(openingHours)
+                                .foregroundColor(Color(hex: "444444"))
+                                .font(.system(size: 15))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    } else {
+                        Text("營業時間資訊不可用")
                             .padding(.horizontal)
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                        Text(placeModel.currentOpeningHours ?? "未有營業時間資訊")
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                            .font(.system(size: 15))
-                        
-                        Spacer()
+                            .foregroundColor(.gray)
                     }
-                    .padding(.horizontal)
+
                     
                     
                     Spacer()
@@ -289,12 +309,12 @@ struct SiteInfoView: View {
 
     }
     private func getDomainPrefix(from urlString: String) -> String {
-        guard let url = URL(string: urlString),
-              let host = url.host else {
-            return urlString
+        guard let url = URL(string: urlString), let host = url.host else {
+            return "未知網站"
         }
         return host
     }
+
 
     
 }
