@@ -23,7 +23,7 @@ struct PlanView: View {
     @State private var selectedDate: Date = Date()
     @State private var showMapView = false
     @EnvironmentObject var transportationViewModel: TransportationViewModel
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -41,17 +41,17 @@ struct PlanView: View {
                     .padding(.bottom,5)
                     
                     Button(action: {
-             
+                        
                     }, label: {
                         Image("agent")
                             .resizable()
                             .frame(width: 22, height: 22)
                             .cornerRadius(20)
-                       
+                        
                     })
                     .opacity(0)
                     .padding(.trailing,10)
-
+                    
                     Spacer()
                     
                     Text(travelPlanViewModel.selectedTravelPlan!.planname)
@@ -60,42 +60,31 @@ struct PlanView: View {
                         .bold()
                         .padding(.bottom,5)
                         .frame(alignment: .center)
-
-                    Spacer()
                     
-
-                
-//                    Button(action: {
-//                        showDemo.toggle()
-//                    }, label: {
-//                        Image(systemName: "questionmark.circle")
-//                            .foregroundStyle(.white)
-//                            .font(.system(size: 30))
-//
-//                    })
+                    Spacer()
                     
                     // 地圖 button
                     Button(action: {
-                       
+                        
                         showMapView.toggle()
                     }, label: {
-                       
-                            Image(systemName: "map.fill")
-                                .resizable()
-                                .foregroundStyle(.white)
-                                .frame(width: 25, height: 25)
-
+                        
+                        Image(systemName: "map.fill")
+                            .resizable()
+                            .foregroundStyle(.white)
+                            .frame(width: 25, height: 25)
+                        
                         
                     })
                     .padding(.trailing,5)
                     .padding(.bottom,5)
-                  .sheet(isPresented: $showMapView) {
-                    if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
-                        MapView(stops: dayStops.stops)
+                    .sheet(isPresented: $showMapView) {
+                        if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
+                            MapView(stops: dayStops.stops)
+                            
+                        }
                         
                     }
-
-                  }
                     
                     Button(action: {
                         showChatView.toggle()
@@ -104,12 +93,12 @@ struct PlanView: View {
                             .resizable()
                             .frame(width: 30, height: 30)
                             .cornerRadius(20)
-                       
+                        
                     })
                     .padding(.trailing,10)
                     .padding(.bottom,5)
-
-
+                    
+                    
                     
                     
                 }
@@ -146,7 +135,7 @@ struct PlanView: View {
                 if travelPlanViewModel.isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.init(hex: "5E845B", alpha: 1.0)))
-
+                    
                 } else if let error = travelPlanViewModel.error {
                     Text("Error: \(error)")
                 } else if let dayStops = travelPlanViewModel.dayStops, !dayStops.stops.isEmpty {
@@ -220,7 +209,7 @@ struct PlanView: View {
             return dateString
         }
     }
-
+    
     private func formatTime(_ timeString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -237,7 +226,7 @@ struct PlanView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = TimeZone(secondsFromGMT: 0)  // 使用 GMT
-
+        
         return formatter.date(from: dateString)
     }
     func reloadData() {

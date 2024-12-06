@@ -12,7 +12,10 @@ struct ChatView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = ChatViewModel()
     @State private var scrollProxy: ScrollViewProxy?
-
+    @State private var showMultiDayPlanSetup = false
+    @State private var selectedMultiDayPlan: MultiDayPlan?
+    @State private var navigateToMyPlans = false  // 原本就有了
+    
     @State private var newMessage: String = ""
     let buttons = ["行程規劃", "交通查詢", "票價查詢", "住宿推薦"]
     @State private var isEnabled = false
@@ -21,13 +24,12 @@ struct ChatView: View {
     @State private var showAlert = false
     @State private var showPlanMenuView = false
     @State private var selectedRecommendation: Recommendation?
-
+    
     // Four PopUps
     @State private var showChatPlan = false
     @State private var showChatTransport = false
     @State private var showChatTicket = false
     @State private var showChatAccom = false
-    @State private var navigateToMyPlans = false
     
     @State private var navigateToPlanView = false
     @State private var selectedPlanId: String?
@@ -35,7 +37,7 @@ struct ChatView: View {
     @EnvironmentObject var colorManager: ColorManager
     @ObservedObject var travelPlanViewModel = TravelPlanViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -113,15 +115,22 @@ struct ChatView: View {
                         } else {
                             LazyVStack {
                                 ForEach(viewModel.messages) { message in
-                                    MessageView(currentMessage: message, onRecommendationTap: { recommendation in
-                                        self.selectedRecommendation = recommendation
-                                        self.showJPicker.toggle()
-                                    })
+                                    MessageView(
+                                        currentMessage: message,
+                                        onRecommendationTap: { recommendation in
+                                            self.selectedRecommendation = recommendation
+                                            self.showJPicker.toggle()
+                                        },
+                                        onMultiDayPlanTap: { plan in
+                                            self.selectedMultiDayPlan = plan
+                                            self.showMultiDayPlanSetup.toggle()
+                                        }
+                                    )
                                     .id(message.id)
                                 }
-
-
-
+                                
+                                
+                                
                                 
                                 // Loading indicator
                                 if viewModel.isLoading {
@@ -230,7 +239,19 @@ struct ChatView: View {
                     isChatView = true
                 })
             }
+            .popupNavigationView(horizontalPadding: 40, show: $showMultiDayPlanSetup) {
+                if let plan = selectedMultiDayPlan {
+                    MultiDayPlanSetupView(
+                        isShowing: $showMultiDayPlanSetup,
+                        multiDayPlan: plan
+                    )
+                    .environmentObject(travelPlanViewModel)
+                    .environmentObject(authViewModel)
+                }
+            }
         }
+        .environmentObject(travelPlanViewModel)
+        .environmentObject(authViewModel)
     }
     
     func sendMessage() {
@@ -251,7 +272,7 @@ struct ChatView: View {
                 viewModel.sendMessage(query: messageToSend, token: token)
             }
             newMessage = ""
-        
+            
             
             // Scroll to the latest message after it is added
             DispatchQueue.main.async {
@@ -263,9 +284,9 @@ struct ChatView: View {
             }
         }
     }
-
-
-
+    
+    
+    
     
     func handleButtonTap(buttonLabel: String) {
         switch buttonLabel {
@@ -286,7 +307,8 @@ struct ChatView: View {
 struct MessageView: View {
     var currentMessage: Message
     var onRecommendationTap: ((Recommendation) -> Void)?
-
+    var onMultiDayPlanTap: ((MultiDayPlan) -> Void)?  // 新增
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 10) {
@@ -296,7 +318,7 @@ struct MessageView: View {
                         .frame(width: 30, height: 30)
                         .cornerRadius(20)
                         .padding(.leading, 20)
-
+                    
                     MessageCell(contentMessage: currentMessage.content, isCurrentUser: currentMessage.isCurrentUser)
                         .frame(width: 270, alignment: .leading)
                     Spacer()
@@ -308,12 +330,34 @@ struct MessageView: View {
                 }
             }
             .padding(.top, 12)
-
+            
             // Display recommendations if any
-            if !currentMessage.recommendations.isEmpty {
+            
+            if let multiDayPlan = currentMessage.multiDayPlan {
+                // 顯示多天行程按鈕
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        onMultiDayPlanTap?(multiDayPlan)
+                    }) {
+                        HStack {
+                            Text("將這個旅遊計畫新增到我的帳號")
+                                .bold()
+                        }
+                        .foregroundColor(.white)
+                        .font(.system(size: 15))
+                        .frame(width: 240)
+                        .padding(10)
+                        .background(Color(hex: "8F785C"))
+                        .cornerRadius(15)
+                        .multilineTextAlignment(.center)
+                    }
+                }
+                .frame(width: 330)
+            } else if !currentMessage.recommendations.isEmpty {
                 HStack{
                     Spacer()
-
+                    
                     VStack(spacing: 10) {
                         ForEach(currentMessage.recommendations, id: \.Location) { recommendation in
                             
@@ -342,7 +386,7 @@ struct MessageView: View {
                     }
                 }
                 .frame(width: 330)
-
+                
             }
         }
     }
@@ -429,15 +473,5 @@ extension Color {
             blue:  Double(b) / 255,
             opacity: Double(alpha)
         )
-    }
-}
-
-// Preview provider for ChatView
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView()
-            .environmentObject(AuthViewModel())
-            .environmentObject(TravelPlanViewModel())
-            .environmentObject(ColorManager())
     }
 }

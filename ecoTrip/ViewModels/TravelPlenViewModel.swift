@@ -16,9 +16,9 @@ class TravelPlanViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var error: String?
     @Published var stopBeEdited: Stop?
-
+    
     private var cancellables: Set<AnyCancellable> = []
-
+    
     func fetchTravelPlans(token: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/") else {
             self.error = "Invalid URL"
@@ -27,11 +27,11 @@ class TravelPlanViewModel: ObservableObject {
         
         isLoading = true
         error = nil
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
+        
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { output in
                 guard let httpResponse = output.response as? HTTPURLResponse else {
@@ -58,7 +58,7 @@ class TravelPlanViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func fetchDaysForPlan(planId: String, token: String, completion: (() -> Void)? = nil) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/days/day-in-plan") else {
             self.error = "Invalid URL"
@@ -88,7 +88,7 @@ class TravelPlanViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     
     func fetchStopsForDay(dayId: String, token: String) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/StopinDay") else {
@@ -120,7 +120,7 @@ class TravelPlanViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func createTravelPlan(planName: String, startDate: Date, endDate: Date, accessToken: String?, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/") else {
             completion(false, "Invalid URL")
@@ -248,37 +248,37 @@ class TravelPlanViewModel: ObservableObject {
     }
     
     func copyPlan(token: String, completion: @escaping (Bool, String?) -> Void) {
-          guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/CreateAll_demo") else {
-              completion(false, "Invalid URL")
-              return
-          }
-          
-          var request = URLRequest(url: url)
-          request.httpMethod = "POST"
-          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-          
-          URLSession.shared.dataTask(with: request) { data, response, error in
-              if let error = error {
-                  DispatchQueue.main.async {
-                      completion(false, "Network error: \(error.localizedDescription)")
-                  }
-                  return
-              }
-              
-              guard let httpResponse = response as? HTTPURLResponse,
-                    (200...299).contains(httpResponse.statusCode) else {
-                  DispatchQueue.main.async {
-                      completion(false, "Server error")
-                  }
-                  return
-              }
-              
-              DispatchQueue.main.async {
-                  completion(true, nil)
-              }
-          }.resume()
-      }
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/CreateAll_demo") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(false, "Network error: \(error.localizedDescription)")
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                DispatchQueue.main.async {
+                    completion(false, "Server error")
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(true, nil)
+            }
+        }.resume()
+    }
     
     func reorderStops(stops: [Stop], token: String, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/stops/EditStop") else {
@@ -381,6 +381,46 @@ class TravelPlanViewModel: ObservableObject {
                 }
             }
         }.resume()
+    }
+    func createMultiDayPlan(plan: MultiDayPlan, token: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "https://eco-trip-bbhvbvmgsq-uc.a.run.app/travel_plans/CreateAll") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(plan)
+            request.httpBody = jsonData
+            
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        completion(false, "Network error: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                        completion(false, "Invalid response")
+                        return
+                    }
+                    
+                    if (200...299).contains(httpResponse.statusCode) {
+                        // 刷新行程列表
+                        self?.fetchTravelPlans(token: token)
+                        completion(true, nil)
+                    } else {
+                        completion(false, "Server error: HTTP \(httpResponse.statusCode)")
+                    }
+                }
+            }.resume()
+        } catch {
+            completion(false, "Encoding error: \(error.localizedDescription)")
+        }
     }
     func refreshTravelPlans(token: String) {
         fetchTravelPlans(token: token)

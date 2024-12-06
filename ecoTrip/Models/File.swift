@@ -12,15 +12,21 @@ struct Message: Identifiable {
     var content: String
     var isCurrentUser: Bool
     var recommendations: [Recommendation] = []
+    var multiDayPlan: MultiDayPlan? 
     
-    init(id: UUID = UUID(), content: String, isCurrentUser: Bool, recommendations: [Recommendation] = []) {
+    init(id: UUID = UUID(),
+         content: String,
+         isCurrentUser: Bool,
+         recommendations: [Recommendation] = [],
+         multiDayPlan: MultiDayPlan? = nil) {  //
         self.id = id
         self.content = content
         self.isCurrentUser = isCurrentUser
         self.recommendations = recommendations
+        self.multiDayPlan = multiDayPlan
     }
 }
+
 struct DataSource {
     static let messages: [Message] = []
 }
-

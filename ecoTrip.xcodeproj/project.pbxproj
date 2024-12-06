@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		101B04592D03324C002A2C50 /* MultiDayPlanSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101B04582D03324C002A2C50 /* MultiDayPlanSetupView.swift */; };
 		102BC7602CA93BDA00B4CBF8 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 102BC75F2CA93BDA00B4CBF8 /* GooglePlaces */; };
 		102BC7622CA93BDA00B4CBF8 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 102BC7612CA93BDA00B4CBF8 /* GoogleMaps */; };
 		10410B5B2C9BFC170016662D /* DayStops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10410B5A2C9BFC170016662D /* DayStops.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		101B04582D03324C002A2C50 /* MultiDayPlanSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDayPlanSetupView.swift; sourceTree = "<group>"; };
 		10410B5A2C9BFC170016662D /* DayStops.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayStops.swift; sourceTree = "<group>"; };
 		10410B5C2C9C04840016662D /* TransportationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportationView.swift; sourceTree = "<group>"; };
 		105385902CCE19FF00593B86 /* APIkey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIkey.plist; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 		FD3F3C7D2C56856800879509 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				101B04582D03324C002A2C50 /* MultiDayPlanSetupView.swift */,
 				FD8C9E4B2C03278B00C5BBF0 /* ChatView.swift */,
 				FD3F3C7E2C5685B100879509 /* ChatPlan.swift */,
 				FDC1728E2C58C9E000706856 /* ChatTransport.swift */,
@@ -564,6 +567,7 @@
 				FDA587832C3190F1000EFB2C /* SearchView.swift in Sources */,
 				FDE297742C1F1A9500FE09FC /* LoginView.swift in Sources */,
 				FDE297782C26646800FE09FC /* MenuView.swift in Sources */,
+				101B04592D03324C002A2C50 /* MultiDayPlanSetupView.swift in Sources */,
 				FDE297762C1F1AA300FE09FC /* SignupView.swift in Sources */,
 				FD6189D42C626138004ED264 /* Demo.swift in Sources */,
 				FDC1728F2C58C9E000706856 /* ChatTransport.swift in Sources */,
