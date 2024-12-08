@@ -15,6 +15,9 @@ struct LowCarbonSiteInfoView: View {
     var name: String
     var address: String
     var image: Image
+    var websiteURL: String
+    var phoneNumber: String
+    var openingHours: String
     @State private var showJPicker = false
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToPlanView = false
@@ -182,15 +185,15 @@ struct LowCarbonSiteInfoView: View {
                         .overlay(Color.init(hex: "D9D9D9", alpha: 1.0))
                         .padding(.vertical)
                     
-                    Link(destination: URL(string: "https://www.zoo.gov.taipei/") ?? URL(string: "https://www.example.com")!) {
+                    Link(destination: URL(string: websiteURL) ?? URL(string: "https://www.example.com")!) {
                         HStack {
                             Image(systemName: "globe")
                                 .resizable()
                                 .frame(width: 25, height: 25)
-                                .padding(.horizontal)                     .foregroundColor(Color(hex: "444444"))
-                            Text("https://www.zoo.gov.taipei/")
+                                .padding(.horizontal)
+                                .foregroundColor(Color(hex: "444444"))
+                            Text(websiteURL)
                                 .font(.system(size: 15))
-                            
                             Spacer()
                         }
                     }
@@ -207,13 +210,13 @@ struct LowCarbonSiteInfoView: View {
                             .resizable()
                             .frame(width: 25, height: 25)
                             .padding(.horizontal)
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                        Text("02 2938 2300") // TODO: 電話
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                            .foregroundColor(Color(hex: "444444"))
+                        Text(phoneNumber)
+                            .foregroundColor(Color(hex: "444444"))
                             .font(.system(size: 15))
-                        
                         Spacer()
                     }
+                    .padding(.horizontal)
                     
                     .padding(.horizontal)
                     
@@ -229,11 +232,10 @@ struct LowCarbonSiteInfoView: View {
                             .resizable()
                             .frame(width: 25, height: 25)
                             .padding(.horizontal)
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
-                        Text("星期一: 09:00–17:00\n星期二: 09:00–17:00\n星期三: 09:00–17:00\n星期四: 09:00–17:00\n星期五: 09:00–17:00\n星期六: 09:00–17:00\n星期日: 09:00–17:00")
-                            .foregroundColor(Color.init(hex: "444444", alpha: 1.0))
+                            .foregroundColor(Color(hex: "444444"))
+                        Text(openingHours)
+                            .foregroundColor(Color(hex: "444444"))
                             .font(.system(size: 15))
-                        
                         Spacer()
                     }
                     .padding(.horizontal)

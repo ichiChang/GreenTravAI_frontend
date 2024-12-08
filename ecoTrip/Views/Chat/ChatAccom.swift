@@ -123,34 +123,34 @@ struct ChatAccom: View {
                 
                 
                 
-                Text("住宿類型")
-                    .bold()
-                    .foregroundStyle(.black)
-                    .font(.system(size: 15))
-                
-                Button(action: {
-                    showAccomPicker.toggle()
-                }, label: {
-                    HStack {
-                        Text(selectedAccom.isEmpty ? "民宿" : selectedAccom)
-                            .foregroundColor(.black)
-                            .font(.system(size: 15))
-                            .padding()
-                        
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                            .foregroundStyle(colorManager.mainColor)
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding()
-                    }
-                    .frame(width: 280, height: 32)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(colorManager.mainColor, lineWidth: 2)
-                    )
-                    .padding(.bottom)
-                })
+//                Text("住宿類型")
+//                    .bold()
+//                    .foregroundStyle(.black)
+//                    .font(.system(size: 15))
+//                
+//                Button(action: {
+//                    showAccomPicker.toggle()
+//                }, label: {
+//                    HStack {
+//                        Text(selectedAccom.isEmpty ? "民宿" : selectedAccom)
+//                            .foregroundColor(.black)
+//                            .font(.system(size: 15))
+//                            .padding()
+//                        
+//                        Spacer()
+//                        Image(systemName: "chevron.down")
+//                            .foregroundStyle(colorManager.mainColor)
+//                            .bold()
+//                            .font(.system(size: 25))
+//                            .padding()
+//                    }
+//                    .frame(width: 280, height: 32)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 5)
+//                            .stroke(colorManager.mainColor, lineWidth: 2)
+//                    )
+//                    .padding(.bottom)
+//                })
                 
                 Text("入住人數")
                     .bold()
