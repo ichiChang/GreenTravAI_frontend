@@ -129,8 +129,7 @@ struct ChatView: View {
                                     .id(message.id)
                                 }
                                 
-                                
-                                
+                        
                                 
                                 // Loading indicator
                                 if viewModel.isLoading {
@@ -341,7 +340,7 @@ struct MessageView: View {
                         onMultiDayPlanTap?(multiDayPlan)
                     }) {
                         HStack {
-                            Text("將這個旅遊計畫新增到我的帳號")
+                            Text("複製整套旅行計劃")
                                 .bold()
                         }
                         .foregroundColor(.white)
