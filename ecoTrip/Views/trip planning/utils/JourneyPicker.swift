@@ -122,30 +122,45 @@ struct JourneyPicker: View {
             return
         }
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let startTime = dateFormatter.string(from: Date())
-
         viewModel.getLastStopForDay(dayId: dayId, token: token) { lastStop in
-            let prevStop = lastStop?.id ?? ""
+            // 創建日期格式器
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            // 從 dayId 獲取日期字符串
+            if let day = viewModel.days.first(where: { $0.id == dayId }) {
+                // 設定該天的 09:00 為開始時間
+                let dateString = day.date
+                if let date = dateFormatter.date(from: dateString) {
+                    // 添加時間部分
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                    let calendar = Calendar.current
+                    let startTime = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: date) ?? date
+                    let startTimeString = dateFormatter.string(from: startTime)
+                    
+                    // 處理 prev_stop：如果有 lastStop 且 id 不為空則使用該 id，否則為 nil
+                    let prevStop: Any = lastStop?.id.isEmpty ?? true ? NSNull() : lastStop?.id ?? NSNull()
+                    
+                    // 創建請求體
+                    let requestBody: [String: Any] = [
+                        "Name": recommendation.Location,
+                        "StartTime": startTimeString,
+                        "note": recommendation.description,
+                        "DayId": dayId,
+                        "latency": recommendation.latency,
+                        "address": recommendation.Address,
+                        "prev_stop": prevStop
+                    ]
 
-            let requestBody: [String: Any] = [
-                "Name": recommendation.Location,
-                "StartTime": startTime,
-                "note": recommendation.description,
-                "DayId": dayId,
-                "latency": recommendation.latency,
-                "address": recommendation.Address,
-                "prev_stop": prevStop
-            ]
-
-            viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
-                if success {
-                    alertTitle = "行程增加成功"
-                    alertMessage = "您的行程已成功新增至旅行計劃中。\n是否查看該行程？"
-                    showCustomAlert = true
-                } else {
-                    showAlert(title: "行程增加失敗", message: "添加失敗：\(error ?? "未知錯誤")")
+                    viewModel.addStopToDay(requestBody: requestBody, token: token) { success, error in
+                        if success {
+                            alertTitle = "行程增加成功"
+                            alertMessage = "您的行程已成功新增至旅行計劃中。\n是否查看該行程？"
+                            showCustomAlert = true
+                        } else {
+                            showAlert(title: "行程增加失敗", message: "添加失敗：\(error ?? "未知錯誤")")
+                        }
+                    }
                 }
             }
         }
