@@ -45,6 +45,7 @@ struct NewTravelPlanView: View {
                     .frame(width: 280)
                     .padding()
                     
+                    Spacer()
          
                     VStack(alignment: .leading) {
                         
@@ -121,37 +122,38 @@ struct NewTravelPlanView: View {
                             .padding(.bottom)
                         })
                         
-                        HStack {
-                            Text("主要交通方式")
-                                .bold()
-                                .foregroundStyle(.white)
-                                .font(.system(size: 20))
-                            Spacer()
-                                .frame(width: 150)
-                        }
-                        Button(action: {
-                            showRidePicker.toggle()
-                        }, label: {
-                            HStack {
-                                Text(selectedRide.isEmpty ? "自行安排" : selectedRide)
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 15))
-                                    .padding()
-                                
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                    .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding()
-                            }
-                            .frame(width: 280, height: 36)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom)
-                        })
+//                        HStack {
+//                            Text("主要交通方式")
+//                                .bold()
+//                                .foregroundStyle(.white)
+//                                .font(.system(size: 20))
+//                            Spacer()
+//                                .frame(width: 150)
+//                        }
+//                        Button(action: {
+//                            showRidePicker.toggle()
+//                        }, label: {
+//                            HStack {
+//                                Text(selectedRide.isEmpty ? "自行安排" : selectedRide)
+//                                    .foregroundColor(.black)
+//                                    .font(.system(size: 15))
+//                                    .padding()
+//                                
+//                                Spacer()
+//                                Image(systemName: "chevron.down")
+//                                    .foregroundStyle(Color.init(hex: "5E845B", alpha: 1.0))
+//                                    .bold()
+//                                    .font(.system(size: 25))
+//                                    .padding()
+//                            }
+//                            .frame(width: 280, height: 36)
+//                            .background(.white)
+//                            .cornerRadius(10)
+//                            .padding(.bottom)
+//                        })
                     }
-                   
+                    Spacer()
+
                     Button(action: {
                         showNewJourney = false
                         createNewTravelPlan()
@@ -209,15 +211,16 @@ struct NewTravelPlanView: View {
         
         travelPlanViewModel.createTravelPlan(planName: planName, startDate: startDate, endDate: endDate, accessToken: authViewModel.accessToken) { success, errorMessage in
             if success {
-                // Handle success
-                showNewJourney = false
+                // 重新載入資料
                 reloadData()
+                showNewJourney = false
             } else {
-                // Handle failure
+                // 錯誤處理
                 travelPlanViewModel.error = errorMessage ?? "Unknown error occurred"
             }
         }
     }
+
     
     private func formatSelectedDates(_ dates: Set<DateComponents>) -> String {
         let dateFormatter = DateFormatter()

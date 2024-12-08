@@ -94,6 +94,9 @@ struct MyPlansView: View {
             NewTravelPlanView(showNewJourney: $showNewJourney, reloadData: reloadData)
                 .environmentObject(travelPlanViewModel)
                 .environmentObject(authViewModel)
+                .onDisappear {
+                    reloadData() // 確保關閉時更新資料
+                }
         }
     }
     func reloadData() {
