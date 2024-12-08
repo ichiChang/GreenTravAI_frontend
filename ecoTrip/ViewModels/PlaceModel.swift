@@ -22,4 +22,5 @@ struct PlaceModel: Identifiable {
     var image: Image?
     var userRatingsTotal: Int?
     var currentOpeningHours: String?
+    var types: [String]?  // 新增地點類型屬性
 }
