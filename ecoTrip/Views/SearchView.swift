@@ -119,20 +119,36 @@ struct SearchView: View {
 
     private func categoryButton(title: String, systemName: String, index: Int) -> some View {
         Button(action: {
+            // 先重置搜尋文字
+            searchText = ""
+            
+            // 更新選中的索引
             self.index1 = index
+            
+            // 處理低碳類別
             if index == 4 {
                 navigateToLowCarbon = true
-            } else {
-                navigateToLowCarbon = false
+                return  // 如果是低碳類別，直接返回不執行搜尋
+            }
+            
+            // 切換到其他類別
+            navigateToLowCarbon = false
+            
+            // 執行對應的搜尋
+            DispatchQueue.main.async {
                 switch index {
                 case 0:
+                    // 搜尋附近
                     mapViewModel.searchNearbyPlaces()
                 case 1:
-                    mapViewModel.searchPlaces(query: "餐廳")
+                    // 搜尋餐廳
+                    mapViewModel.searchNearbyPlaces(placeTypes: ["restaurant", "cafe", "meal_takeaway", "bakery", "food"])
                 case 2:
-                    mapViewModel.searchPlaces(query: "住宿")
+                    // 搜尋住宿
+                    mapViewModel.searchNearbyPlaces(placeTypes: ["lodging", "hotel", "guest_house"])
                 case 3:
-                    mapViewModel.searchPlaces(query: "超市")
+                    // 搜尋超市
+                    mapViewModel.searchNearbyPlaces(placeTypes: ["supermarket", "convenience_store", "grocery_or_supermarket", "store"])
                 default:
                     break
                 }
